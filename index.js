@@ -1,9 +1,10 @@
 //Removes extra characters from output
-TelemetryConfiguration.Active.DisableTelemetry = true;
+try{
+    TelemetryConfiguration.Active.DisableTelemetry = true;
+}catch(e){}
 
 var http = require('http');
 var pages = require('./pages');
-
 
 var server = http.createServer(function(request, response) {
     console.log(request.method + " - " + request.url);
