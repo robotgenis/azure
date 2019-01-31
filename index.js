@@ -1,24 +1,15 @@
 //Removes extra characters from output
 TelemetryConfiguration.Active.DisableTelemetry = true;
 
-// var http = require('http');
+var http = require('http');
 
-// var server = http.createServer(function(request, response) {
-//     response.end('<!doctype html><html><head><title>PowerStackers 5029</title></head><body><h1>Scouting Coming Soon</h1><p>Go powerstackers!.</p></body></html>');
-// });
-
-var port = process.env.PORT || 1337;
-// server.listen(port);
-
-
-const express = require('express');
-const app = express();
-
-app.get('/', (req, res) => {
-    res.send('<!doctype html><html><head><title>PowerStackers 5029</title></head><body><h1>Scouting Coming Soon</h1><p>Go powerstackers!.</p></body></html>');
+var server = http.createServer(function(request, response) {
+    response.end('<!doctype html><html><head><title>PowerStackers 5029</title></head><body><h1>Scouting Coming Soon</h1><p>Go powerstackers!.</p></body></html>');
 });
 
-app.listen(port, () => console.log('Started!'));
+var port = process.env.PORT || 1337;
+server.listen(port);
+
 
 
 // var Connection = require('tedious').Connection;
