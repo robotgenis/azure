@@ -7,7 +7,7 @@ var http = require('http');
 var pages = require('./pages');
 
 var server = http.createServer(function(request, response) {
-    console.log(request.method + " - " + request.url);
+    //console.log(request.method + " - " + request.url);
     send = false;
     // response.end('nothing');
     for(name in pages.pages){
@@ -26,7 +26,7 @@ var server = http.createServer(function(request, response) {
 var port = process.env.PORT || 1337;
 server.listen(port);
 
-console.log(port);
+//console.log(port);
 
 
 // var Connection = require('tedious').Connection;
