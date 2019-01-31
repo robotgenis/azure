@@ -1,7 +1,7 @@
 var http = require('http');
 
 var server = http.createServer(function(request, response) {
-    response.end('<!DOCTYPE html><html><head><title>PowerStackers 5029</title></head><body><h1>Scouting Coming Soon</h1><p>Go powerstackers!.</p></body></html>');
+    response.end('<!doctype html><html><head><title>PowerStackers 5029</title></head><body><h1>Scouting Coming Soon</h1><p>Go powerstackers!.</p></body></html>');
 });
 
 var port = process.env.PORT || 1337;
