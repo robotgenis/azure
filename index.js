@@ -9,6 +9,7 @@ var server = http.createServer(function(request, response) {
     send = false
     for(name in pages.pages){
         if(pages.pages[name].url == request.url && send == false){
+            response.writeHead(200, {'Content-Type': 'text/html'});
             response.end(pages.pages[name].src(request));
             send = true;
         }
