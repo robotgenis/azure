@@ -6,17 +6,18 @@ var pages = require('./JSlibs/pages');
 
 var server = http.createServer(function(request, response) {
     console.log(request.method + " - " + request.url);
-    send = false
-    for(name in pages.pages){
-        if(pages.pages[name].url == request.url && send == false){
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.end(pages.pages[name].src(request));
-            send = true;
-        }
-    }
-    if(send == false){
-        response.end();
-    }
+    send = false;
+    response.end('nothing');
+    // for(name in pages.pages){
+    //     if(pages.pages[name].url == request.url && send == false){
+    //         response.writeHead(200, {'Content-Type': 'text/html'});
+    //         response.end(pages.pages[name].src(request));
+    //         send = true;
+    //     }
+    // }
+    // if(send == false){
+    //     response.end();
+    // }
 });
 
 
