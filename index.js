@@ -7,19 +7,18 @@ TelemetryConfiguration.Active.DisableTelemetry = true;
 //     response.end('<!doctype html><html><head><title>PowerStackers 5029</title></head><body><h1>Scouting Coming Soon</h1><p>Go powerstackers!.</p></body></html>');
 // });
 
-//var port = process.env.PORT || 1337;
+var port = process.env.PORT || 1337;
 // server.listen(port);
 
 
 const express = require('express');
 const app = express();
 
-app.set('port', process.env.PORT || 1337)
 app.get('/', (req, res) => {
     res.send('<!doctype html><html><head><title>PowerStackers 5029</title></head><body><h1>Scouting Coming Soon</h1><p>Go powerstackers!.</p></body></html>');
 });
 
-//app.listen(port, () => console.log('Started!'));
+app.listen(port, () => console.log('Started!'));
 
 
 // var Connection = require('tedious').Connection;
