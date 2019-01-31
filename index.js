@@ -1,5 +1,6 @@
 //Removes extra characters from output
-//TelemetryConfiguration.Active.DisableTelemetry = true;
+TelemetryConfiguration.Active.DisableTelemetry = true;
+
 var http = require('http');
 var pages = require('./pages');
 
