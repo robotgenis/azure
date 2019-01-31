@@ -1,3 +1,5 @@
+TelemetryConfiguration.Active.DisableTelemetry = true;
+
 var http = require('http');
 
 var server = http.createServer(function(request, response) {
