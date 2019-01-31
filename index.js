@@ -1,16 +1,28 @@
 //Removes extra characters from output
-// TelemetryConfiguration.Active.DisableTelemetry = true;
-
+//TelemetryConfiguration.Active.DisableTelemetry = true;
 var http = require('http');
+var pages = require('./JSlibs/pages');
+
 
 var server = http.createServer(function(request, response) {
-    response.end('<!doctype html><html><head><title>PowerStackers 5029</title></head><body><h1>Scouting Coming Soon</h1><p>Go powerstackers!.</p></body></html>');
+    console.log(request.method + " - " + request.url);
+    send = false
+    for(name in pages.pages){
+        if(pages.pages[name].url == request.url && send == false){
+            response.end(pages.pages[name].src(request));
+            send = true;
+        }
+    }
+    if(send == false){
+        response.end();
+    }
 });
+
 
 var port = process.env.PORT || 1337;
 server.listen(port);
 
-//console.log("Server running at http://localhost:%d", port);
+
 
 
 // var Connection = require('tedious').Connection;
