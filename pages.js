@@ -19,7 +19,7 @@ function loadPages(){
     var files = fs.readdirSync('html/');
     for(i in files){
         var name = files[i];
-        console.log(name);
+        //console.log(name);
         exports.pages[name] = {'path' : 'html/' + name, 'url': '/' + name, src: null};
         loadPage(name)
     }
