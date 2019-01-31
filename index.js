@@ -1,30 +1,30 @@
 //Removes extra characters from output
 //TelemetryConfiguration.Active.DisableTelemetry = true;
 var http = require('http');
-var pages = require('./JSlibs/pages');
+var pages = require('./pages');
 
 
 var server = http.createServer(function(request, response) {
     console.log(request.method + " - " + request.url);
     send = false;
-    response.end('nothing');
-    // for(name in pages.pages){
-    //     if(pages.pages[name].url == request.url && send == false){
-    //         response.writeHead(200, {'Content-Type': 'text/html'});
-    //         response.end(pages.pages[name].src(request));
-    //         send = true;
-    //     }
-    // }
-    // if(send == false){
-    //     response.end();
-    // }
+    // response.end('nothing');
+    for(name in pages.pages){
+        if(pages.pages[name].url == request.url && send == false){
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.end(pages.pages[name].src(request));
+            send = true;
+        }
+    }
+    if(send == false){
+        response.end();
+    }
 });
 
 
 var port = process.env.PORT || 1337;
 server.listen(port);
 
-
+console.log(port);
 
 
 // var Connection = require('tedious').Connection;
