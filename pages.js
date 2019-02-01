@@ -32,6 +32,5 @@ function loadPage(page){
     });
 }
 
-loadPages();
 
 exports.reloadPages = loadPages;

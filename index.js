@@ -26,7 +26,7 @@ var server = http.createServer(function(request, response) {
     }
 });
 
-
+pages.reloadPages();
 var port = process.env.PORT || 1337;
 server.listen(port);
 
