@@ -1,13 +1,13 @@
 //Removes extra characters from output
 baseDir = __dirname;
-TelemetryConfiguration.Active.DisableTelemetry = true;
-// try{
-//     TelemetryConfiguration.Active.DisableTelemetry = true;
-// }catch(e){}
 
 var http = require('http');
 console.log(baseDir);
 var pages = require(baseDir + '/pages');
+
+try{
+    TelemetryConfiguration.Active.DisableTelemetry = true;
+}catch(e){}
 
 var server = http.createServer(function(request, response) {
     //console.log(request.method + " - " + request.url);
