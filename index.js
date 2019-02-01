@@ -1,10 +1,9 @@
 //Removes extra characters from output
 baseDir = __dirname;
-
-try{
-
-    TelemetryConfiguration.Active.DisableTelemetry = true;
-}catch(e){}
+TelemetryConfiguration.Active.DisableTelemetry = true;
+// try{
+//     TelemetryConfiguration.Active.DisableTelemetry = true;
+// }catch(e){}
 
 var http = require('http');
 console.log(baseDir);
