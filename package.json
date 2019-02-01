@@ -8,5 +8,7 @@
     "scripts": {
         "start": "node index.js"
     },
-    "dependencies": {}
+    "dependencies": {
+        "mysql": "^2.16.0"
+    }
 }
