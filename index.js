@@ -16,8 +16,14 @@ var server = http.createServer(function(request, response) {
     // response.end('nothing');
     for(name in pages.pages){
         if(pages.pages[name].url == request.url && send == false){
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.end(pages.pages[name].src(request));
+            if(typeof pages.pages[name].src === 'function'){
+                response.writeHead(200, {'Content-Type': 'text/html'});
+                response.end(pages.pages[name].src(request));
+            }else{
+                pages.reloadPages();
+                response.writeHead(200, {'Content-Type': 'text/html'});
+                response.end('Website is loading, please refresh in a little.');
+            }
             send = true;
         }
     }
@@ -25,9 +31,6 @@ var server = http.createServer(function(request, response) {
         response.end();
     }
 });
-
-pages.sql = sql;
-pages.reloadPages();
 
 var port = process.env.PORT || 1337;
 
