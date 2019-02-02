@@ -19,7 +19,7 @@ function loadPages(){
         var name = files[i];
         //console.log(name);
         exports.pages[name] = {'path' : '/html/' + name, 'url': '/' + name, src: null};
-        loadPage(name)
+        loadPage(name);
     }
     exports.pages.reload.src = function(request) {loadPages();};
     exports.pages.sql.src = function(request) {exports.sql.runCommand('SELECT username, team from dbo.users', function(results){console.log(results);})};
@@ -32,4 +32,4 @@ function loadPage(page){
 }
 
 
-exports.reloadPages = loadPages;
+exports.reloadPages = function(){loadPages();};
