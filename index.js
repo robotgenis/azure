@@ -2,8 +2,9 @@
 baseDir = __dirname;
 
 var http = require('http');
-console.log(baseDir);
 var pages = require(baseDir + '/pages');
+var sql = require(baseDir + '/sqlconn');
+sql.connect();
 
 try{
     TelemetryConfiguration.Active.DisableTelemetry = true;
@@ -25,68 +26,9 @@ var server = http.createServer(function(request, response) {
     }
 });
 
+pages.sql = sql;
 pages.reloadPages();
+
 var port = process.env.PORT || 1337;
+
 server.listen(port);
-
-
-
-
-
-//console.log(port);
-
-
-// var Connection = require('tedious').Connection;
-// var Request = require('tedious').Request;
-
-// // Create connection to database
-// var config =
-// {
-//     userName: 'powerstacker', // update me
-//     password: '701039By', // update me
-//     server: 'powerstackers.database.windows.net', // update me
-//     options:
-//     {
-//         database: 'Scouting', //update me
-//         encrypt: true
-//     }
-// }
-// var connection = new Connection(config);
-
-// // Attempt to connect and execute queries if connection goes through
-// connection.on('connect', function(err)
-//     {
-//         if (err)
-//         {
-//             console.log(err)
-//         }
-//         else
-//         {
-//             queryDatabase()
-//         }
-//     }
-// );
-
-// function queryDatabase()
-// {
-//     console.log('Reading rows from the Table...');
-
-//     // Read all rows from table
-//     var request = new Request(
-//         "INSERT INTO dbo.teams VALUES ('The NUTS!', 6133)",
-//         //"SELECT username, team from dbo.users",
-//         function(err, rowCount, rows)
-//         {
-//             console.log(rowCount + ' row(s) returned');
-//             process.exit();
-//         }
-//     );
-
-//     request.on('row', function(columns) {
-//         columns.forEach(function(column) {
-//             console.log("%s\t%s", column.metadata.colName, column.value);
-
-//         });
-//     });
-//     connection.execSql(request);
-// }

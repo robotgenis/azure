@@ -4,11 +4,9 @@ var fs = require('fs');
 
 exports.pages = {
     'root' : {'path': '/main.html','url':'/','src': null},
-    // 'login' : {'path': 'html/login.html','url':'/login','src': null},
-    // 'web.js' : {'path' : 'html/web.js', 'url': '/web.js','src':null},
-    'reload' : {'path' : null, 'url': '/reload','src':null}
+    'reload' : {'path' : null, 'url': '/reload','src':null},
+    'sql' : {'path' : null, 'url': '/sql','src':null}
 };
-
 
 function loadPages(){
     for(name in exports.pages){
@@ -24,6 +22,7 @@ function loadPages(){
         loadPage(name)
     }
     exports.pages.reload.src = function(request) {loadPages();};
+    exports.pages.sql.src = function(request) {exports.sql.runCommand('SELECT username, team from dbo.users', function(results){console.log(results);})};
 }
 
 function loadPage(page){
