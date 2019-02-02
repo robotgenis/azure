@@ -1,6 +1,7 @@
+var tedious = require('tedious');
 
 exports.connect = function(){
-    var Connection = require('tedious').Connection;
+    var Connection = tedious.Connection;
 
     var config = {
       server: "powerstackers.database.windows.net",
@@ -25,7 +26,7 @@ exports.connect = function(){
       }
     );
   
-    var Request = require('tedious').Request;  
+    var Request = tedious.Request;  
 
 
     exports.runCommand = function(str, func){
@@ -41,7 +42,7 @@ exports.connect = function(){
             for(i in columns){
                 add.push(columns[i].value);
             }
-            result.push(add)
+            result.push(columns)
             console.log(result);  
         });  
     
