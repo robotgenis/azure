@@ -1,3 +1,6 @@
+$(document).ready(function() {
+  setTab("login");
+});
 
 function setTab(name){
     var tabcontent
