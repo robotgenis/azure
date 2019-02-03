@@ -11,14 +11,18 @@ try{
 }catch(e){}
 
 var server = http.createServer(function(request, response) {
-    //console.log(request.method + " - " + request.url);
+    console.log(request.method + " - " + request.url);
     send = false;
+    url = request.url;
+    if(url.includes("?")){
+        url = request.url.split("?")[0];
+    }
     // response.end('nothing');
     for(name in pages.pages){
-        if(pages.pages[name].url == request.url && send == false){
+        if(pages.pages[name].url == url && send == false){
             if(typeof pages.pages[name].src === 'function'){
-                response.writeHead(200, {'Content-Type': 'text/html'});
-                response.end(pages.pages[name].src(request));
+                response.writeHead(200, {'Content-Type': pages.pages[name].type});
+                response.end(pages.pages[name].src(request, response));
             }else{
                 pages.reloadPages();
                 response.writeHead(200, {'Content-Type': 'text/html'});
@@ -31,6 +35,8 @@ var server = http.createServer(function(request, response) {
         response.end();
     }
 });
+
+pages.sql = sql;
 
 var port = process.env.PORT || 1337;
 

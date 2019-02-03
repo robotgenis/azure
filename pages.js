@@ -1,11 +1,12 @@
 var fs = require('fs');
 
+var users;
 
 function resetPages(){
     exports.pages = {
-        'root' : {'path': '/main.html','url':'/','src': null},
-        'reload' : {'path' : null, 'url': '/reload','src':null},
-        'sql' : {'path' : null, 'url': '/sql','src':null}
+        'root' : {'path': '/main.html', 'type' : 'text/html', 'url':'/','src': null},
+        'reload' : {'path' : null, 'type' : 'text/html', 'url': '/reload','src':null},
+        'sql' : {'path' : null, 'type' : 'text/html', 'url': '/sql','src':null}
     };
 }
 
@@ -19,8 +20,17 @@ function loadPages(){
         }
     }
     loadFolder('/html/');
-    exports.pages.reload.src = function(request) {loadPages();return "<a href='/'>return</a>"};
-    exports.pages.sql.src = function(request) {exports.sql.runCommand('SELECT username, team from dbo.users', function(results){console.log(results);})};
+    exports.pages.reload.src = function(request, response) {loadPages();return "<a href='/'>return</a>"};
+    exports.pages.sql.src = function(request, response) {
+        var cmd = request.url.split("?")[1].split("=")[1];
+        var cmds = {"users": users};
+        console.log(cmds);
+        if(cmd in cmds){
+            return JSON.stringify(cmds[cmd]);
+        }
+    };
+
+    refreshSQL();
 }
 
 function loadFolder(path){
@@ -29,7 +39,7 @@ function loadFolder(path){
         var name = files[i];
         //console.log(baseDir + path + name);
         if(name.includes(".")){
-            exports.pages[name] = {'path' : baseDir + path + name, 'url': '/' + name, src: null};
+            exports.pages[name] = {'path' : baseDir + path + name, 'type' : 'text/html', 'url': '/' + name, src: null};
             loadPage(name);
         }else{
             loadFolder(path + name + '/');
@@ -39,7 +49,13 @@ function loadFolder(path){
 
 function loadPage(page){
     fs.readFile(exports.pages[page].path, function(err, data) {
-        exports.pages[page].src = function(request) {return data};
+        exports.pages[page].src = function(request, response) {return data};
+    });
+}
+
+function refreshSQL(){
+    exports.sql.runCommand('SELECT username, team, score from dbo.users', function(results){
+        users = results;
     });
 }
 

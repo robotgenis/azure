@@ -42,12 +42,12 @@ exports.connect = function(){
             for(i in columns){
                 add.push(columns[i].value);
             }
-            result.push(columns)
-            console.log(result);  
+            result.push(add)
+            // console.log(result);  
         });  
     
         request.on('requestCompleted', function() {  
-            console.log('complete');
+            // console.log('complete');
             func(result);  
         });   
         connection.execSql(request);  
