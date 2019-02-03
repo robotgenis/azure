@@ -11,7 +11,7 @@ function loginSubmit(){
     var teamnum = document.getElementById("loginTeam").value;
     var login = false;
     for(i in users){
-        if(users[i] == [username, teamnum]){
+        if(users[i][0] == username && users[i][1] == teamnum]){
             login = true;
         }
     }
