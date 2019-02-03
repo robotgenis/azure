@@ -14,6 +14,7 @@ function loginSubmit(){
         if(users[i] == [username, teamnum]){
             login = true;
         }
+    }
     alert(login);
     return false;
 }
