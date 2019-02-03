@@ -1,12 +1,19 @@
+var users;
+
 $(document).ready(function() {
     $.get(' sql', { cmd: 'users' }, function(data) {
-        alert(data);
+        users = JSON.parse(data);
     });
 });
 
 function loginSubmit(){
     var username = document.getElementById("loginUsername").value;
     var teamnum = document.getElementById("loginTeam").value;
-    alert(username + "," + teamnum);
+    var login = false;
+    for(i in users){
+        if(users[i] == [username, teamnum]){
+            login = true;
+        }
+    alert(login);
     return false;
 }
