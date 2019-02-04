@@ -7,7 +7,6 @@ $(document).ready(function() {
 });
 
 function loadElement(element){
-    console.log(element.src);
     $.get(element.innerHTML, function(data, status){
         element.innerHTML = data;
     });
