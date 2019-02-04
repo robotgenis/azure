@@ -1,5 +1,9 @@
 # Node.js WATERS by PowerStackers FTC #5029
 
+### database requests
+teams
+matches
+
 ### javascript functions
 setTab(tabName)
 loadElement()
@@ -9,6 +13,8 @@ loginSubmit()
 loginUsers
 loginUsername
 loginTeam
+matches
+teams
 
 ### div names
 login

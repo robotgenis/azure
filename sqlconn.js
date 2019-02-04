@@ -20,9 +20,22 @@ exports.connect = function(){
   
     connection.on('connect', function(err) {
       // If no error, then good to go...
-      if (err) {  
+        if (err) {  
             console.log(err); 
-        } 
+        } else{
+            exports.runCommand('SELECT username, team, score from dbo.users', function(results){
+                exports.users = results;
+                console.log("Users loaded");
+                exports.runCommand('SELECT number, red1, red2, blue1, blue2 from dbo.matches', function(results){
+                    exports.matches = results;
+                    console.log("Matches loaded");
+                    exports.runCommand('SELECT teamnumber, teamname from dbo.teams', function(results){
+                        exports.teams = results;
+                        console.log("Teams loaded");
+                    });
+                });
+            });
+        }
       }
     );
   

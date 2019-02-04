@@ -4,13 +4,13 @@ baseDir = __dirname;
 var http = require('http');
 var pages = require(baseDir + '/pages');
 var sql = require(baseDir + '/sqlconn');
-sql.connect();
 
 try{
     TelemetryConfiguration.Active.DisableTelemetry = true;
 }catch(e){}
 
 var server = http.createServer(function(request, response) {
+    pages.sql = sql;
     console.log(request.method + " - " + request.url);
     send = false;
     url = request.url;
@@ -36,8 +36,8 @@ var server = http.createServer(function(request, response) {
     }
 });
 
-pages.sql = sql;
-
 var port = process.env.PORT || 1337;
 
 server.listen(port);
+
+sql.connect();
