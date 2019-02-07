@@ -1,5 +1,7 @@
 var matches = null;
 var teams = null;
+var matchNumber = null;
+var matchTeam = null;
 
 $(document).ready(function() {
     $.get(' sql', { cmd: 'matches' }, function(data) {
@@ -36,4 +38,12 @@ function matchLoad(){
         outHtml += add;
     }
     document.getElementById("matchList").innerHTML = outHtml;
+}
+
+function matchSelectMatch(match){
+    matchNumber = match;
+
+
+
+    setTab('match-1');
 }

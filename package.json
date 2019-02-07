@@ -1,15 +1,24 @@
 {
-    "name": "scouting",
-    "description": "Simple Hello World Node.js sample for Azure App Service",
-    "version": "0.4.2",
-    "private": true,
-    "license": "MIT",
-    "author": "Microsoft",
-    "scripts": {
-        "start": "node index.js"
-    },
-    "dependencies": {
-        "mysql": "^2.16.0",
-        "tedious": "^4.1.3"
-    }
+  "name": "scouting",
+  "description": "Simple Hello World Node.js sample for Azure App Service",
+  "version": "0.4.2",
+  "private": true,
+  "license": "MIT",
+  "author": "Microsoft",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mysql": "^2.16.0",
+    "tedious": "^4.1.3"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robotgenis/azure.git"
+  },
+  "bugs": {
+    "url": "https://github.com/robotgenis/azure/issues"
+  },
+  "homepage": "https://github.com/robotgenis/azure#readme"
 }
