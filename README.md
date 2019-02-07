@@ -1,4 +1,4 @@
-# Node.js WATERS by PowerStackers FTC #5029
+# Node.js PowerScout by PowerStackers FTC #5029
 
 ### database requests
 teams
