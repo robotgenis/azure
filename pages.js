@@ -35,7 +35,15 @@ function loadFolder(path){
         var name = files[i];
         //console.log(baseDir + path + name);
         if(name.includes(".")){
-            exports.pages[name] = {'path' : baseDir + path + name, 'type' : 'text/html', 'url': '/' + name, src: null};
+            var types = {"html" : 'text/html', "css" : 'text/css', "js" : 'text/javascript', 'default' : "text/html", 'png': 'image/png'};
+            var arr = name.split('.');
+            var typ = arr[arr.length - 1];
+            if(typ in types){
+                typ = types[typ];
+            }else{
+                type = types['default'];
+            }
+            exports.pages[name] = {'path' : baseDir + path + name, 'type' : typ, 'url': '/' + name, src: null};
             loadPage(name);
         }else{
             loadFolder(path + name + '/');
