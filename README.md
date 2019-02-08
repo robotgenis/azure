@@ -8,13 +8,18 @@ matches
 setTab(tabName)
 loadElement()
 loginSubmit()
+getTeamName(number)
+matchSelectMatch(matchNumber)
+matchLoad()
 
 ### javascript public variables
 loginUsers
 loginUsername
 loginTeam
-matches
-teams
+matches - roundNumber, red1, red2, blue1, blue2
+teams - teamnumber, teamname
+matchNumber
+matchTeam
 
 ### div names
 login

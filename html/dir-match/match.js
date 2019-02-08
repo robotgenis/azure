@@ -15,6 +15,16 @@ $(document).ready(function() {
     });
 });
 
+function getTeamName(number){
+    out = null;
+    for(i = 0; i < teams.length; i++){
+        if(teams[i][0] == number){
+            out = teams[i][1]
+        }
+    }
+    return out;
+}
+
 function matchLoad(){
     var max = matches.length;
     for(i = 0; i < max - 1; i ++){
@@ -30,11 +40,11 @@ function matchLoad(){
     var outHtml = "";
     for(match in matches){
         add = html;
-        add = add.replace("99", matches[match][0]);
-        add = add.replace("00001", matches[match][1]);
-        add = add.replace("00002", matches[match][2]);
-        add = add.replace("00003", matches[match][3]);
-        add = add.replace("00004", matches[match][4]);
+        add = add.replace(/99/g, matches[match][0]);
+        add = add.replace(/00001/g, matches[match][1]);
+        add = add.replace(/00002/g, matches[match][2]);
+        add = add.replace(/00003/g, matches[match][3]);
+        add = add.replace(/00004/g, matches[match][4]);
         outHtml += add;
     }
     document.getElementById("matchList").innerHTML = outHtml;
@@ -42,8 +52,17 @@ function matchLoad(){
 
 function matchSelectMatch(match){
     matchNumber = match;
+    var html = document.getElementById("matchTeams").innerHTML;
 
+    html = html.replace(/00001/g, matches[matchNumber][1]);
+    html = html.replace(/name1/g, getTeamName(matches[matchNumber][1]));
+    html = html.replace(/00002/g, matches[matchNumber][2]);
+    html = html.replace(/name2/g, getTeamName(matches[matchNumber][2]));
+    html = html.replace(/00003/g, matches[matchNumber][3]);
+    html = html.replace(/name3/g, getTeamName(matches[matchNumber][3]));
+    html = html.replace(/00004/g, matches[matchNumber][4]);
+    html = html.replace(/name4/g, getTeamName(matches[matchNumber][4]));
 
-
+    document.getElementById("matchTeams").innerHTML = html;
     setTab('match-1');
 }
