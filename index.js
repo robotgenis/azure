@@ -15,7 +15,7 @@ var server = http.createServer(function(request, response) {
     send = false;
     url = request.url;
     if(url.includes("?")){
-        url = request.url.split("?")[0];
+        url = request.url.split("?")[0];5
     }
     // response.end('nothing');
     for(name in pages.pages){

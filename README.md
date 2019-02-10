@@ -11,6 +11,7 @@ loginSubmit()
 getTeamName(number)
 matchSelectMatch(matchNumber)
 matchLoad()
+getMatch(matchNumber) - [matchNumber, red1, red2, blue1, blue2]
 
 ### javascript public variables
 loginUsers

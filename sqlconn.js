@@ -40,6 +40,7 @@ exports.connect = function(){
                 exports.runCommand('SELECT teamnumber, teamname from dbo.teams', function(results){
                     exports.teams = results;
                     console.log("Teams loaded");
+                    connection.close();
                 });
             });
         });

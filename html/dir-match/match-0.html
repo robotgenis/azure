@@ -1,11 +1,22 @@
-<table id="matchList" class="table table-hover">
-    <tr class="table" onclick="matchSelectMatch(99);">
-        <th scope="row"><button type="button" class="btn btn-primary" style="width: 100%"><h1 style="font-size: 40vw">99</h1></button></th>
-        <td>
-            <h2 style="font-size: 10vw">00001</h2>
-            <h2 style="font-size: 10vw">00002</h2>
-            <h2 style="font-size: 10vw">00003</h2>
-            <h2 style="font-size: 10vw">00004</h2>
-        </td>
-    </tr>
-</table>
+<div class="container-fluid bg-light">
+    <div class="row" style="height: 8vh">
+        <div class="col-sm-3">
+            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 6vw;" onclick="setTab('menu');">Back</button>
+        </div>
+    </div>
+    <div class="scrollbar scrollbar-success">
+        <div class="force-overflow"  style="width: 100%">
+            <table id="matchList" class="table table-hover">
+                <tr class="table" onclick="matchSelectMatch(99);">
+                    <th scope="row"><button type="button" class="btn btn-primary" style="width: 100%"><h1 style="font-size: 40vw">99</h1></button></th>
+                    <td>
+                        <h2 style="font-size: 10vw">00001</h2>
+                        <h2 style="font-size: 10vw">00002</h2>
+                        <h2 style="font-size: 10vw">00003</h2>
+                        <h2 style="font-size: 10vw">00004</h2>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
