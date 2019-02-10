@@ -8,6 +8,7 @@ matches
 setTab(tabName)
 loadElement()
 loginSubmit()
+loginSubmitUser(username, teamnum)
 getTeamName(number)
 matchSelectMatch(matchNumber)
 matchLoad()

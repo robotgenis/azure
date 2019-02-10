@@ -57,15 +57,6 @@ function matchLoad(){
         add = add.replace(/00004/g, matches[match][4]);
         outHtml += add;
     }
-    for(match in matches){
-        add = html;
-        add = add.replace(/99/g, matches[match][0]);
-        add = add.replace(/00001/g, matches[match][1]);
-        add = add.replace(/00002/g, matches[match][2]);
-        add = add.replace(/00003/g, matches[match][3]);
-        add = add.replace(/00004/g, matches[match][4]);
-        outHtml += add;
-    }
     document.getElementById("matchList").innerHTML = outHtml;
 }
 
