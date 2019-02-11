@@ -57,3 +57,17 @@ tournament
 2 not confirmed account
 5 confirmed account
 10 admin
+
+### Match JSON Format
+        match: 99
+        team: 5029
+        scouter: {username: Brandon, teamnum: 5029}
+
+
+
+
+
+        
+         
+        auto:{land:[false,time], sample:[false,time], claim: [false,time], park:[false,time]},
+        teleop:{count:[]}
