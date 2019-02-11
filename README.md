@@ -3,6 +3,10 @@
 ### match inputs
 matchInputHanging
 matchInputPrediction
+matchInputAutoLand
+matchInputAutoSample
+matchInputAutoClaim
+matchInputAutoPark
 
 ### database requests
 teams

@@ -86,6 +86,10 @@ function matchSelectTeam(team){
     document.getElementById("matchTeamName-2").innerHTML = getTeamName(matchTeam);
     document.getElementById("matchTeamNumber-2").innerHTML = String(matchTeam);
 
+    document.getElementById("matchNumber-3").innerHTML = String(matchNumber);
+    document.getElementById("matchTeamName-3").innerHTML = getTeamName(matchTeam);
+    document.getElementById("matchTeamNumber-3").innerHTML = String(matchTeam);
+
     document.getElementById("matchInputHanging").checked = "";
 
     setTab('match-2');
@@ -93,4 +97,10 @@ function matchSelectTeam(team){
 
 function matchStart(){
 
+    document.getElementById("matchInputAutoLand").checked = "";
+    document.getElementById("matchInputAutoSample").checked = "";
+    document.getElementById("matchInputAutoClaim").checked = "";
+    document.getElementById("matchInputAutoPark").checked = "";
+
+    setTab('match-3');
 }

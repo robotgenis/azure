@@ -34,10 +34,10 @@
     background-color: #eee;
   }
   
-  /* On mouse-over, add a grey background color */
+  /* On mouse-over, add a grey background color 
   .checkboxcontainer:hover input ~ .checkmark {
     background-color: #ccc;
-  }
+  } */
   
   /* When the checkbox is checked, add a blue background */
   .checkboxcontainer input:checked ~ .checkmark {
@@ -67,4 +67,9 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+
+  .right{
+      position: absolute;
+      right: 0vw;
   }
