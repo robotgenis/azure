@@ -11,6 +11,7 @@ matchInputAutoPark
 ### database requests
 teams
 matches
+users
 
 ### javascript functions
 setTab(tabName)
@@ -23,6 +24,10 @@ matchSelectMatch(matchNumber)
 matchLoad()
 getMatch(matchNumber) - [matchNumber, red1, red2, blue1, blue2]
 matchStart()
+matchAutoInput(id)
+matchTele()
+matchTimerAdd()
+matchFinish()
 
 ### javascript public variables
 loginUsers
@@ -32,6 +37,9 @@ matches - roundNumber, red1, red2, blue1, blue2
 teams - teamnumber, teamname
 matchNumber
 matchTeam
+matchTime
+matchTimer
+matchData
 
 ### div names
 login
@@ -45,8 +53,7 @@ pit-0
 pit-1
 tournament
 
-### HTML sources
-
+### HTML javascript sources
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -59,15 +66,29 @@ tournament
 10 admin
 
 ### Match JSON Format
-        match: 99
-        team: 5029
-        scouter: {username: Brandon, teamnum: 5029}
+        number: 99
+        team: 6133
+        scouter: {username: Brandon, teamnum: 5029, prediction: 50}
+        auto:{land:{value:false,time:00.0}, sample:{value:false,time:00.0}, claim:{value:false,time:00.0}, park:{value:false,time:00.0}}
+        teleop:{count:{depot:0,lander:0},cycles:[{start:00.0,end:00.0,length:00.0,type:LANDER},{start:00.0,end:00.0,length:00.0,type:'lander'}]}
+        post:{park:'hang',ratings:{blocks:0,balls:0,pick:0}}
+        match:{times:{length:0.0,auto:0.0,teleop:0.0},score:50,inactive:00.0}
 
+### Cycle formats
+depot, lander
 
+### park
+hang, park, parkcomplete
 
+### ratings
+blocks
+balls
+pick
+ value 1 to 5
 
-
-        
-         
-        auto:{land:[false,time], sample:[false,time], claim: [false,time], park:[false,time]},
-        teleop:{count:[]}
+### Menu Button ID
+menuMatch
+menuPit
+menuTournament
+menuLogout
+menuDashboard

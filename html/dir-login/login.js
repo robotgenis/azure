@@ -8,7 +8,7 @@ $(document).ready(function() {
     $.get('sql', { cmd: 'users' }, function(data) {
         users = JSON.parse(data);
         //auto login for testing
-        loginSubmitUser("Brandon", 5029);
+        //loginSubmitUser("Brandon", 5029);
     });
 });
 
@@ -30,6 +30,21 @@ function loginSubmitUser(username, teamnum){
         }
     }
     if(login == true){
+        if(loginSecurity < 2){
+            var element = document.getElementById("menuMatch");
+            element.classList.add("disabled");
+            element.disabled = true;
+            var element = document.getElementById("menuPit");
+            element.classList.add("disabled");
+            element.disabled = true;
+        }else{
+            var element = document.getElementById("menuMatch");
+            element.classList.remove("disabled");
+            element.disabled = false;
+            var element = document.getElementById("menuPit");
+            element.classList.remove("disabled");
+            element.disabled = false;
+        }
         setTab('menu');
     }
     document.getElementById("loginUsername").value = "";

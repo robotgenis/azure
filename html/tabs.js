@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  setTab("login");
+    setTab("login");
 });
 
 function setTab(name){

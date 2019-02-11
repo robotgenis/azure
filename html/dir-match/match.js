@@ -2,6 +2,9 @@ var matches = null;
 var teams = null;
 var matchNumber = null;
 var matchTeam = null;
+var matchTime = null;
+var matchTimer = null;
+var matchData = null;
 
 $(document).ready(function() {
     $.get(' sql', { cmd: 'matches' }, function(data) {
@@ -90,6 +93,10 @@ function matchSelectTeam(team){
     document.getElementById("matchTeamName-3").innerHTML = getTeamName(matchTeam);
     document.getElementById("matchTeamNumber-3").innerHTML = String(matchTeam);
 
+    document.getElementById("matchNumber-4").innerHTML = String(matchNumber);
+    document.getElementById("matchTeamName-4").innerHTML = getTeamName(matchTeam);
+    document.getElementById("matchTeamNumber-4").innerHTML = String(matchTeam);
+
     document.getElementById("matchInputHanging").checked = "";
 
     setTab('match-2');
@@ -102,5 +109,54 @@ function matchStart(){
     document.getElementById("matchInputAutoClaim").checked = "";
     document.getElementById("matchInputAutoPark").checked = "";
 
+    matchTime = 0.0;
+    matchTimer = setInterval(matchTimerAdd, 100);
+
+    matchData = {};
+    matchData.number = matchNumber;
+    matchData.team = matchTeam;
+    matchData.scouter = {'username': loginUsername, 'teamnum': loginTeam, 'prediction': Number(document.getElementById("matchInputPrediction").innerText)};
+    matchData.auto = {
+        land:{value:false,time:0.0}, 
+        sample:{value:false,time:0.0}, 
+        claim:{value:false,time:0.0}, 
+        park:{value:false,time:0.0}
+    };
+
     setTab('match-3');
+}
+
+function matchAutoInput(id){
+    var value = document.getElementById(id).checked;
+    var time = matchTime;
+    if(value == false){
+        time = 0.0;
+    }
+    if(id == "matchInputAutoLand"){
+        matchData.auto.land.value = value;
+        matchData.auto.land.time = time;
+    }else if(id == "matchInputAutoSample"){
+        matchData.auto.sample.value = value;
+        matchData.auto.sample.time = time;
+    }else if(id == "matchInputAutoClaim"){
+        matchData.auto.claim.value = value;
+        matchData.auto.claim.time = time;
+    }else if(id == "matchInputAutoPark"){
+        matchData.auto.park.value = value;
+        matchData.auto.park.time = time;
+    }
+}
+
+function matchTele(){
+
+    setTab('match-4');
+}
+
+function matchTimerAdd(){
+    matchTime += 0.1;
+    matchTime = Math.round(matchTime * 10) / 10;
+}
+
+function matchFinish(){
+    clearTimeout(matchTimer);
 }

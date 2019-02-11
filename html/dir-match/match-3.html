@@ -1,7 +1,7 @@
 <div class="container-fluid bg-light" style="height: 8vh; ">
     <div class="row" style="height: 8vh">
         <div class="col-sm-3">
-            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 3vh;" onclick="setTab('match-0');">TeleOp</button>
+            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 3vh;" onclick="matchTele();">TeleOp</button>
         </div>
         <div class="col-sm-1"></div>
         <div class="col-sm-4">
@@ -14,7 +14,7 @@
         </div>
     </div>
 </div>
-<div class="container-fluid">
+<div class="container-fluid" style="height: 92vh;">
     <div class="row" style="height: 20vh">
         <div class="col-sm-7">
             <div class="row" style="height: 5vh;"></div>
@@ -22,7 +22,7 @@
         </div>
         <div class="col-sm-5">
             <label class="checkboxcontainer">
-                <input id="matchInputAutoLand" type="checkbox" checked="">
+                <input id="matchInputAutoLand" type="checkbox" checked="" onclick="matchAutoInput('matchInputAutoLand');">
                 <span class="checkmark"></span>
             </label>
         </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="col-sm-5">
             <label class="checkboxcontainer">
-                <input id="matchInputAutoSample" type="checkbox" checked="">
+                <input id="matchInputAutoSample" type="checkbox" checked="" onclick="matchAutoInput('matchInputAutoSample');">
                 <span class="checkmark"></span>
             </label>
         </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="col-sm-5">
             <label class="checkboxcontainer">
-                <input id="matchInputAutoClaim" type="checkbox" checked="">
+                <input id="matchInputAutoClaim" type="checkbox" checked="" onclick="matchAutoInput('matchInputAutoClaim');">
                 <span class="checkmark"></span>
             </label>
         </div>
@@ -58,7 +58,7 @@
         </div>
         <div class="col-sm-5">
             <label class="checkboxcontainer">
-                <input id="matchInputAutoPark" type="checkbox" checked="">
+                <input id="matchInputAutoPark" type="checkbox" checked="" onclick="matchAutoInput('matchInputAutoPark');">
                 <span class="checkmark"></span>
             </label>
         </div>
