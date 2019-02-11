@@ -1,5 +1,9 @@
 # Node.js PowerScout by PowerStackers FTC #5029
 
+### match inputs
+matchInputHanging
+matchInputPrediction
+
 ### database requests
 teams
 matches
@@ -13,6 +17,7 @@ getTeamName(number)
 matchSelectMatch(matchNumber)
 matchLoad()
 getMatch(matchNumber) - [matchNumber, red1, red2, blue1, blue2]
+matchStart()
 
 ### javascript public variables
 loginUsers

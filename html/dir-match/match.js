@@ -85,5 +85,12 @@ function matchSelectTeam(team){
     document.getElementById("matchNumber-2").innerHTML = String(matchNumber);
     document.getElementById("matchTeamName-2").innerHTML = getTeamName(matchTeam);
     document.getElementById("matchTeamNumber-2").innerHTML = String(matchTeam);
+
+    document.getElementById("matchInputHanging").checked = "";
+
     setTab('match-2');
+}
+
+function matchStart(){
+
 }
