@@ -31,7 +31,7 @@ exports.connect = function(){
     var Request = tedious.Request;  
 
     exports.refresh = function(){
-        exports.runCommand('SELECT username, team, score from dbo.users', function(results){
+        exports.runCommand('SELECT username, team, score, security from dbo.users', function(results){
             exports.users = results;
             console.log("Users loaded");
             exports.runCommand('SELECT number, red1, red2, blue1, blue2 from dbo.matches', function(results){
@@ -40,9 +40,31 @@ exports.connect = function(){
                 exports.runCommand('SELECT teamnumber, teamname from dbo.teams', function(results){
                     exports.teams = results;
                     console.log("Teams loaded");
-                    connection.close();
+                    //turn on for mobile version
+                    //connection.close();
                 });
             });
+        });
+    }
+
+    exports.refreshUsers = function(){
+        exports.runCommand('SELECT username, team, score, security from dbo.users', function(results){
+            exports.users = results;
+            console.log("Users loaded");
+        });
+    }
+
+    exports.refreshMatches = function(){
+        exports.runCommand('SELECT number, red1, red2, blue1, blue2 from dbo.matches', function(results){
+            exports.matches = results;
+            console.log("Matches loaded");
+        });
+    }
+
+    exports.refreshTeams = function(){
+        exports.runCommand('SELECT teamnumber, teamname from dbo.teams', function(results){
+            exports.teams = results;
+            console.log("Teams loaded");
         });
     }
 

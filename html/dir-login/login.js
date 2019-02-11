@@ -1,9 +1,11 @@
 var loginUsers = null;
 var loginUsername = null;
 var loginTeam = null;
+var loginScore = null;
+var loginSecurity = null;
 
 $(document).ready(function() {
-    $.get(' sql', { cmd: 'users' }, function(data) {
+    $.get('sql', { cmd: 'users' }, function(data) {
         users = JSON.parse(data);
         //auto login for testing
         //loginSubmitUser("Brandon", 5029);
@@ -23,6 +25,8 @@ function loginSubmitUser(username, teamnum){
             login = true;
             loginUsername = username;
             loginTeam = teamnum;
+            loginScore = users[i][2];
+            loginSecurity = users[i][3];
         }
     }
     if(login == true){
@@ -33,3 +37,10 @@ function loginSubmitUser(username, teamnum){
     return false;
 }
 
+function loginCreate(){
+    var username = document.getElementById("loginCreateUsername").value;
+    username = username.trim();
+    var teamnum = String(document.getElementById("loginCreateTeam").value);
+    $.get('createuser', { cmd: username + '-' + teamnum }, function(data) {});
+    return true;
+}

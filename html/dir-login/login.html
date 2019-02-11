@@ -37,15 +37,15 @@
     <div class="card mb-4"><!--Create Account-->
         <h3 class="card-header" style="font-size: 8vh">Create</h3>
         <div class="card-body">
-            <form>
+            <form action="/accountcreated.html"  onsubmit="loginCreate();">
                 <fieldset>
                     <div class="form-group">
-                        <label for="loginUsername" style="font-size: 6vh">Username</label>
-                        <input type="text" class="form-control" id="loginUsername" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
+                        <label for="loginCreateUsername" style="font-size: 6vh">Username</label>
+                        <input type="text" class="form-control" id="loginCreateUsername" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
                     </div>
                     <div class="form-group">
-                        <label for="loginTeam" style="font-size: 6vh">Team number</label>
-                        <input type="number" class="form-control" id="loginTeam" min="1" max="30000" style="font-size: 4vh">
+                        <label for="loginCreateTeam" style="font-size: 6vh">Team number</label>
+                        <input type="number" class="form-control" id="loginCreateTeam" min="1" max="30000" style="font-size: 4vh">
                     </div>
                 </fieldset>
                 <fieldset>

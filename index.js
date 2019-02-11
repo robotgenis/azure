@@ -26,7 +26,7 @@ var server = http.createServer(function(request, response) {
             }else{
                 pages.reloadPages();
                 response.writeHead(200, {'Content-Type': 'text/html'});
-                response.end('Website is loading, please refresh in a little. <a href="https://roverrukus.azurewebsites.net" style="font-size: 5vh;">refresh</a>');
+                response.end("<h1 style='font-size: 3vh;'>Website is loading. </h1><a href='/' style='font-size: 4vh;'>continue</a>");
             }
             send = true;
         }
