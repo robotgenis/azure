@@ -8,7 +8,7 @@ $(document).ready(function() {
     $.get('sql', { cmd: 'users' }, function(data) {
         users = JSON.parse(data);
         //auto login for testing
-        //loginSubmitUser("Brandon", 5029);
+        loginSubmitUser("Brandon", 5029);
     });
 });
 
