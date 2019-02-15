@@ -52,7 +52,7 @@ function loadPages(){
                 if(format[i].type == "match"){
                     cmd += "INSERT INTO dbo.matchData (data) VALUES ('" + JSON.stringify(format[i]) + "');";
                 }else if(format[i].type == "score"){
-                    cmd += "UPDATE dbo.users SET score=score + " + format[i].score + " WHERE username='" + format[i].scouter.username + "' AND team=" + format[i].scouter.teamnum + ";"
+                    cmd += "UPDATE dbo.users SET score=score + " + format[i].score + " WHERE username='" + format[i].scouter.username + "' AND team=" + format[i].scouter.teamnum + ";";
                 }
             }
             console.log(cmd);
