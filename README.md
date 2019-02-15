@@ -28,6 +28,13 @@ matchAutoInput(id)
 matchTele()
 matchTimerAdd()
 matchFinish()
+saveData(jsonData)
+submitCheck()
+submitSend()
+matchMineralClick()
+matchMineralTimerCount()
+matchRadioClick(section)
+matchSubmit()
 
 ### javascript public variables
 loginUsers
@@ -39,7 +46,15 @@ matchNumber
 matchTeam
 matchTime
 matchTimer
+matchTimerStart
 matchData
+submitTimer
+matchMineralCount
+matchMineralStart1
+matchMineralStart2
+matchAutoTime
+cookieName
+matchStartHang
 
 ### div names
 login
@@ -66,13 +81,19 @@ tournament
 10 admin
 
 ### Match JSON Format
+        type: "match"
         number: 99
         team: 6133
         scouter: {username: Brandon, teamnum: 5029, prediction: 50}
         auto:{land:{value:false,time:00.0}, sample:{value:false,time:00.0}, claim:{value:false,time:00.0}, park:{value:false,time:00.0}}
-        teleop:{count:{depot:0,lander:0},cycles:[{start:00.0,end:00.0,length:00.0,type:LANDER},{start:00.0,end:00.0,length:00.0,type:'lander'}]}
+        teleop:{count:{depot:0,lander:0,drop:0},cycles:[{start:00.0,end:00.0,length:00.0,type:'depot'},{start:00.0,end:00.0,length:00.0,type:'lander'}]}
         post:{park:'hang',ratings:{blocks:0,balls:0,pick:0}}
-        match:{times:{length:0.0,auto:0.0,teleop:0.0},score:50,inactive:00.0}
+        match:{times:{length:0.0,auto:0.0},score:{auto:0,tele:0,end:0,total:0}}
+
+### Score JSON Format
+        type: "score"
+        score: 100
+        scouter: {username: Brandon, teamnum: 5029}
 
 ### Cycle formats
 depot, lander
@@ -92,3 +113,10 @@ menuPit
 menuTournament
 menuLogout
 menuDashboard
+
+
+### Mineral actions
+pick
+scoredepot
+scorelander
+drop

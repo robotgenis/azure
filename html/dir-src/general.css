@@ -6,6 +6,16 @@ html, body {
 .tab{
     display: none;
 }
+
+.hidehoverwhiteblue:hover{
+background-color: white;
+color: #007bff;
+}
+
+.hidehoverwhitegray:hover{
+  background-color: white;
+  color: #868e96; 
+}
 /* checkbox */
 .checkboxcontainer {
     display: block;

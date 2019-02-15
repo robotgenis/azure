@@ -1,0 +1,104 @@
+<div class="container-fluid bg-light" style="height: 8vh; ">
+    <div class="row" style="height: 8vh">
+        <div class="col-sm-3">
+    
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4">
+            <h1 style="font-size: 2vh; text-align: center;">round</h1>
+            <h1 id="matchNumber-5" style="font-size: 4vh; text-align: center;"></h1>
+        </div>
+        <div class="col-sm-4">
+            <h1 id="matchTeamName-5" style="font-size: 2vh; text-align: right;"></h1>
+            <h1 id="matchTeamNumber-5" style="font-size: 4vh; text-align: right;"></h1>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row" style="height: 2vh"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-12 btn-group btn-group-toggle" data-toggle="buttons">
+                <label id="matchFinishPark-1" class="col-sm-4 btn btn-outline-primary hidehoverwhiteblue" style="font-size: 12vw;" onclick="matchRadioClick('matchFinishPark-1');">
+                    <input type="checkbox" autocomplete="off">Park
+                </label>
+                <label id="matchFinishPark-2" class="col-sm-4 btn btn-outline-primary hidehoverwhiteblue"  style="font-size: 6vw;"  onclick="matchRadioClick('matchFinishPark-2');">
+                    <input type="checkbox" autocomplete="off">Complete<br/>Park
+                </label>
+                <label id="matchFinishPark-3" class="col-sm-4 btn btn-outline-primary hidehoverwhiteblue" style="font-size: 12vw;" onclick="matchRadioClick('matchFinishPark-3');">
+                    <input type="checkbox" autocomplete="off">Hang
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height: 5vh"></div>
+    <div class="row" style="height: 10vh">
+        <h1 style="width: 100%; font-size: 10vw; text-align: center;">Robot Rating</h1>
+    </div>
+    <div class="row" style="height: 17vw; width: 100vw;">
+        <div style="width: 40vw">
+            <h1 style="font-size: 6vw;">Ball Rating</h1>
+        </div>
+        <div  style="width: 60vw;">
+            <div class="col-sm-12 btn-group btn-group-toggle" data-toggle="buttons">
+                <label id="matchRating1-1" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating1-1');">
+                    <input type="checkbox" autocomplete="off">1
+                </label>
+                <label id="matchRating1-2" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating1-2');">
+                    <input type="checkbox" autocomplete="off">2
+                </label>
+                <label id="matchRating1-3" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating1-3');">
+                    <input type="checkbox" autocomplete="off">3
+                </label>
+                <label id="matchRating1-4" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating1-4');">
+                    <input type="checkbox" autocomplete="off">4
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height: 17vw; width: 100vw;">
+        <div style="width: 40vw">
+            <h1 style="font-size: 6vw;">Block Rating</h1>
+        </div>
+        <div  style="width: 60vw;">
+            <div class="col-sm-12 btn-group btn-group-toggle" data-toggle="buttons">
+                <label id="matchRating2-1" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating2-1');">
+                    <input type="checkbox" autocomplete="off">1
+                </label>
+                <label id="matchRating2-2" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating2-2');">
+                    <input type="checkbox" autocomplete="off">2
+                </label>
+                <label id="matchRating2-3" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating2-3');">
+                    <input type="checkbox" autocomplete="off">3
+                </label>
+                <label id="matchRating2-4" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating2-4');">
+                    <input type="checkbox" autocomplete="off">4
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height: 17vw; width: 100vw;">
+        <div style="width: 40vw">
+            <h1 style="font-size: 6vw;">Good Alliance</h1>
+        </div>
+        <div  style="width: 60vw;">
+            <div class="col-sm-12 btn-group btn-group-toggle" data-toggle="buttons">
+                <label id="matchRating3-1" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating3-1');">
+                    <input type="checkbox" autocomplete="off">1
+                </label>
+                <label id="matchRating3-2" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating3-2');">
+                    <input type="checkbox" autocomplete="off">2
+                </label>
+                <label id="matchRating3-3" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating3-3');">
+                    <input type="checkbox" autocomplete="off">3
+                </label>
+                <label id="matchRating3-4" class="col-sm-4 btn btn-outline-secondary hidehoverwhitegray" style="width: 15vw; height: 15vw; font-size: 8vw" onclick="matchRadioClick('matchRating3-4');">
+                    <input type="checkbox" autocomplete="off">4
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height: 4vh"></div>
+    <!-- button type="button" class="btn btn-danger" style="height: 100%; width: 25vw; font-size: 12vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="">X</button -->
+    <button type="button" class="btn btn-success" style="height: 100%; width: 95vw; font-size: 24vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="matchSubmit();">Save</button>
+</div>

@@ -3,16 +3,21 @@ var teams = null;
 var matchNumber = null;
 var matchTeam = null;
 var matchTime = null;
+var matchAutoTime = null;
 var matchTimer = null;
+var matchTimerStart = null;
 var matchData = null;
+var matchMineralCount = null;
+var matchMineralStart1 = null;
+var matchMineralStart2 = null;
+var matchTeamsHTML = null;
+var matchStartHang = null;
 
 $(document).ready(function() {
     $.get(' sql', { cmd: 'matches' }, function(data) {
         matches = JSON.parse(data);
         $.get(' sql', { cmd: 'teams' }, function(data) {
             teams = JSON.parse(data);
-            //console.log(teams);
-            //console.log(matches);
             matchLoad();
         });
     });
@@ -65,7 +70,11 @@ function matchLoad(){
 
 function matchSelectMatch(match){
     matchNumber = match;
-    var html = document.getElementById("matchTeams").innerHTML;
+    if(matchTeamsHTML == null){
+        matchTeamsHTML = document.getElementById("matchTeams").innerHTML;
+    }
+
+    var html = matchTeamsHTML;
 
     html = html.replace(/00001/g, getMatch(matchNumber)[1]);
     html = html.replace(/name1/g, getTeamName(getMatch(matchNumber)[1]));
@@ -97,6 +106,10 @@ function matchSelectTeam(team){
     document.getElementById("matchTeamName-4").innerHTML = getTeamName(matchTeam);
     document.getElementById("matchTeamNumber-4").innerHTML = String(matchTeam);
 
+    document.getElementById("matchNumber-5").innerHTML = String(matchNumber);
+    document.getElementById("matchTeamName-5").innerHTML = getTeamName(matchTeam);
+    document.getElementById("matchTeamNumber-5").innerHTML = String(matchTeam);
+
     document.getElementById("matchInputHanging").checked = "";
 
     setTab('match-2');
@@ -109,10 +122,19 @@ function matchStart(){
     document.getElementById("matchInputAutoClaim").checked = "";
     document.getElementById("matchInputAutoPark").checked = "";
 
+    document.getElementById("matchMineralTimer1").style.display = "none";
+    document.getElementById("matchMineralTimerPic1").style.display = "none";
+    document.getElementById("matchMineralTimer2").style.display = "none";
+    document.getElementById("matchMineralTimerPic2").style.display = "none";
+
+    matchMineralCount = 0;
+
     matchTime = 0.0;
+    matchTimerStart = Date.now();
     matchTimer = setInterval(matchTimerAdd, 100);
 
     matchData = {};
+    matchData.type = "match";
     matchData.number = matchNumber;
     matchData.team = matchTeam;
     matchData.scouter = {'username': loginUsername, 'teamnum': loginTeam, 'prediction': Number(document.getElementById("matchInputPrediction").innerText)};
@@ -122,6 +144,11 @@ function matchStart(){
         claim:{value:false,time:0.0}, 
         park:{value:false,time:0.0}
     };
+    matchData.teleop = {};
+    matchData.teleop.cycles = [];
+    matchData.teleop.count = {depot:0,lander:0};
+
+    matchStartHang = document.getElementById("matchInputHanging").checked;
 
     setTab('match-3');
 }
@@ -131,6 +158,10 @@ function matchAutoInput(id){
     var time = matchTime;
     if(value == false){
         time = 0.0;
+    }
+    if(id == "matchInputAutoLand" && matchStartHang == false){
+        document.getElementById(id).checked = false;
+        id = "";
     }
     if(id == "matchInputAutoLand"){
         matchData.auto.land.value = value;
@@ -148,22 +179,164 @@ function matchAutoInput(id){
 }
 
 function matchTele(){
+    matchAutoTime = matchTime;
 
     setTab('match-4');
-
-    $.ajax("/submit", {
-        data : JSON.stringify([matchData]),
-        contentType : 'application/json',
-        type : 'POST'}, function(ret){
-            alert("sent!");
-        });
 }
 
 function matchTimerAdd(){
-    matchTime += 0.1;
-    matchTime = Math.round(matchTime * 10) / 10;
+    matchTime = Date.now() - matchTimerStart; // milliseconds elapsed since start
+
+    if(matchMineralCount >= 1){
+        var t = (matchTime - matchMineralStart1) / 1000;
+        document.getElementById("matchMineralTimer1").innerText = t.toFixed(1);
+    }
+    if(matchMineralCount >= 2){
+        var t = (matchTime - matchMineralStart2) / 1000;
+        document.getElementById("matchMineralTimer2").innerText = t.toFixed(1);
+    }
+}
+
+function matchMineralClick(action){
+    if(action == "pick"){
+        if(matchMineralCount < 2){
+            matchMineralCount += 1;
+            if(matchMineralCount == 1){
+                document.getElementById("matchMineralTimer1").innerText = "0.0";
+                document.getElementById("matchMineralTimer1").style.display = "block";
+                document.getElementById("matchMineralTimerPic1").style.display = "block";
+                
+                matchMineralStart1 = matchTime;
+            }else if(matchMineralCount == 2){
+                document.getElementById("matchMineralTimer2").innerText = "0.0";
+                document.getElementById("matchMineralTimer2").style.display = "block";
+                document.getElementById("matchMineralTimerPic2").style.display = "block";
+
+                matchMineralStart2 = matchTime;
+            }
+        }
+    }else if(action == "scoredepot"){
+        if(matchMineralCount > 0){
+            var start = 0;
+            var end = 0;
+            var len = 0;
+            if(matchMineralCount == 2){
+                start = Math.round(matchMineralStart1 / 100) / 10;
+                end = Math.round((matchTime) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
+
+                matchMineralStart1 = matchMineralStart2;
+
+                document.getElementById("matchMineralTimer2").style.display = "none";
+                document.getElementById("matchMineralTimerPic2").style.display = "none";
+                var t = (matchTime - matchMineralStart1) / 1000;
+                document.getElementById("matchMineralTimer1").innerText = t.toFixed(1);
+            }else if(matchMineralCount == 1){
+                start = Math.round(matchMineralStart1 / 100) / 10;
+                end = Math.round((matchTime) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
+
+                document.getElementById("matchMineralTimer1").style.display = "none";
+                document.getElementById("matchMineralTimerPic1").style.display = "none";
+            }
+            matchData.teleop.cycles[matchData.teleop.cycles.length] = {start: start,end: end,length: len,type:'depot'};
+            
+            matchData.teleop.count.depot += 1;
+
+            matchMineralCount -= 1;
+        }
+    }else if(action == "scorelander"){
+        if(matchMineralCount > 0){
+            var start = 0;
+            var end = 0;
+            var len = 0;
+            if(matchMineralCount == 2){
+                start = Math.round(matchMineralStart1 / 100) / 10;
+                end = Math.round((matchTime) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
+
+                matchMineralStart1 = matchMineralStart2;
+
+                document.getElementById("matchMineralTimer2").style.display = "none";
+                document.getElementById("matchMineralTimerPic2").style.display = "none";
+                var t = (matchTime - matchMineralStart1) / 1000;
+                document.getElementById("matchMineralTimer1").innerText = t.toFixed(1);
+            }else if(matchMineralCount == 1){
+                start = Math.round(matchMineralStart1 / 100) / 10;
+                end = Math.round((matchTime) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
+
+                document.getElementById("matchMineralTimer1").style.display = "none";
+                document.getElementById("matchMineralTimerPic1").style.display = "none";
+            }
+            matchData.teleop.cycles[matchData.teleop.cycles.length] = {start: start,end: end,length: len,type:'lander'};
+            
+            matchData.teleop.count.lander += 1;
+
+            matchMineralCount -= 1;
+        }
+    }else if(action == "drop"){
+        if(match > 0){
+            if(matchMineralCount == 1){
+                document.getElementById("matchMineralTimer1").style.display = "none";
+                document.getElementById("matchMineralTimerPic1").style.display = "none";
+            }else if(matchMineralCount == 2){
+                document.getElementById("matchMineralTimer2").style.display = "none";
+                document.getElementById("matchMineralTimerPic2").style.display = "none";
+            }
+            matchMineralCount -= 1;
+        }
+    }
+}
+
+function matchMineralTimerCount(){
+    if(document.getElementById("matchMineralTimer1").style.display == "block"){
+        var input = document.getElementById("matchMineralTimer1").innerText;
+        input = Number(input);
+        document.getElementById("matchMineralTimer1").innerText = (input + .1).toFixed(1);
+    }
 }
 
 function matchFinish(){
     clearTimeout(matchTimer);
+
+
+
+    setTab('match-5');
+}
+
+function matchRadioClick(item){
+    var section = String(item).split('-')[0];
+    count = 4;
+    if(section == "matchFinishPark"){
+        count = 3;
+    }
+    for(i = 1; i <= count; i++){
+        if(section + '-' + String(i) != item || section != "matchFinishPark"){
+            document.getElementById(section + '-' + String(i)).classList.remove("active");
+        }
+    }
+}
+
+function matchSubmit(){
+    var park = (document.getElementById("matchFinishPark-1").classList.contains("active")) ? "park" : (document.getElementById("matchFinishPark-2").classList.contains("active")) ? "parkcomplete" : (document.getElementById("matchFinishPark-3").classList.contains("active")) ? "hang" : ""; 
+    var balls = (document.getElementById("matchRating1-1").classList.contains("active")) ? 1 : (document.getElementById("matchRating1-2").classList.contains("active")) ? 2 : (document.getElementById("matchRating1-3").classList.contains("active")) ? 3 : (document.getElementById("matchRating1-4").classList.contains("active")) ? 4 :  0;
+    var blocks = (document.getElementById("matchRating2-1").classList.contains("active")) ? 1 : (document.getElementById("matchRating2-2").classList.contains("active")) ? 2 : (document.getElementById("matchRating2-3").classList.contains("active")) ? 3 : (document.getElementById("matchRating2-4").classList.contains("active")) ? 4 :  0;
+    var pick = (document.getElementById("matchRating3-1").classList.contains("active")) ? 1 : (document.getElementById("matchRating3-2").classList.contains("active")) ? 2 : (document.getElementById("matchRating3-3").classList.contains("active")) ? 3 : (document.getElementById("matchRating3-4").classList.contains("active")) ? 4 :  0;
+    matchData.post = {park:park,ratings:{balls:balls,block:blocks,pick:pick}};
+    var autoScore = 0;
+    autoScore += (matchData.auto.land) ? 30 : 0;
+    autoScore += (matchData.auto.sample) ? 25 : 0;
+    autoScore += (matchData.auto.claim) ? 15 : 0;
+    autoScore += (matchData.auto.park) ? 10 : 0;
+    var teleScore = 0;
+    teleScore += (matchData.teleop.count.lander) * 5;
+    teleScore += (matchData.teleop.count.depot) * 2;
+    var endScore = 0;
+    endScore += (matchData.park == "park") ? 10 : (matchData.park == "parkcomplete") ? 25 : (matchData.park == "hang") ? 50 : 0;
+    
+    matchData.match = {times:{length:matchTime,auto:matchAutoTime},score:{auto:autoScore,tele:teleScore,end:endScore,total:autoScore + teleScore + endScore}};
+    saveData(matchData);
+
+    setTab("menu");
 }

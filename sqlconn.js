@@ -40,8 +40,12 @@ exports.connect = function(){
                 exports.runCommand('SELECT teamnumber, teamname from dbo.teams', function(results){
                     exports.teams = results;
                     console.log("Teams loaded");
-                    //turn on for mobile version
-                    //connection.close();
+                    exports.runCommand('SELECT data from dbo.matchData', function(results){
+                        exports.data = results;
+                        console.log("Data loaded");
+                        //turn on for mobile version
+                        //connection.close();
+                    });
                 });
             });
         });
@@ -69,7 +73,7 @@ exports.connect = function(){
     }
 
     exports.refreshData = function(){
-        exports.runCommand('SELECT json from dbo.matchData', function(results){
+        exports.runCommand('SELECT data from dbo.matchData', function(results){
             exports.data = results;
             console.log("Data loaded");
         });

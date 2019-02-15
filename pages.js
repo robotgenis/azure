@@ -7,7 +7,8 @@ function resetPages(){
         'sql' : {'path' : null, 'type' : 'text/html', 'url': '/sql','src':null},
         'createuser' : {'path' : null, 'type' : 'text/html', 'url': '/createuser','src':null},
         'submit' : {'path' : null, 'type' : 'text/html', 'url': '/submit','src':null},
-        'get' : {'path' : null, 'type' : 'text/html', 'url': '/submit','src':null}
+        'get' : {'path' : null, 'type' : 'text/html', 'url': '/submit','src':null},
+        'check' : {'path' : null, 'type' : 'text/html', 'url': '/check','src':null},
     };
 }
 
@@ -48,15 +49,26 @@ function loadPages(){
             var format = JSON.parse(body);
             var cmd = "";  /// "INSERT INTO dbo.matchData (json) VALUES ('" + format + "');"
             for(i = 0; i < format.length; i++){
-                cmd += "INSERT INTO dbo.matchData (json) VALUES ('" + format[i] + "');";
+                if(format[i].type == "match"){
+                    cmd += "INSERT INTO dbo.matchData (data) VALUES ('" + JSON.stringify(format[i]) + "');";
+                }else if(format[i].type == "score"){
+                    cmd += "UPDATE dbo.users SET score=score + " + format[i].score + " WHERE username='" + format[i].scouter.username + "' AND team=" + format[i].scouter.teamnum + ";"
+                }
             }
-
+            console.log(cmd);
             exports.sql.runCommand(cmd, function(results){
-                //exports.sql.refreshData();
+                exports.sql.runCommand('SELECT username, team, score, security from dbo.users', function(results){
+                    exports.sql.users = results;
+                    console.log("Users loaded");
+                    exports.sql.runCommand('SELECT data from dbo.matchData', function(results){
+                        exports.sql.data = results;
+                        console.log("Data loaded");
+                    });
+                });
             });
         });
-        
     }
+    exports.pages.check.src = function(request, response) {return "CONNECTED!"};
 }
 
 function loadFolder(path){

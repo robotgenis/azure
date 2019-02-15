@@ -45,6 +45,16 @@ function loginSubmitUser(username, teamnum){
             element.classList.remove("disabled");
             element.disabled = false;
         }
+        var element = document.getElementById("menuTournament");
+        //element.classList.add("disabled");
+        element.disabled = true;
+        var element = document.getElementById("menuDashboard");
+        //element.classList.add("disabled");
+        element.disabled = true;
+        var element = document.getElementById("menuPit");
+        //element.classList.add("disabled");
+        element.disabled = true;
+
         setTab('menu');
     }
     document.getElementById("loginUsername").value = "";
