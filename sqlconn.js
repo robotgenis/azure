@@ -62,9 +62,16 @@ exports.connect = function(){
     }
 
     exports.refreshTeams = function(){
-        exports.runCommand('SELECT teamnumber, teamname from dbo.teams', function(results){
+        exports.runCommand('SELECT teamnumber, teamname, score, security from dbo.teams', function(results){
             exports.teams = results;
             console.log("Teams loaded");
+        });
+    }
+
+    exports.refreshData = function(){
+        exports.runCommand('SELECT json from dbo.matchData', function(results){
+            exports.data = results;
+            console.log("Data loaded");
         });
     }
 

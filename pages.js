@@ -5,7 +5,9 @@ function resetPages(){
         'root' : {'path': '/main.html', 'type' : 'text/html', 'url':'/','src': null},
         'reload' : {'path' : null, 'type' : 'text/html', 'url': '/reload','src':null},
         'sql' : {'path' : null, 'type' : 'text/html', 'url': '/sql','src':null},
-        'createuser' : {'path' : null, 'type' : 'text/html', 'url': '/createuser','src':null}
+        'createuser' : {'path' : null, 'type' : 'text/html', 'url': '/createuser','src':null},
+        'submit' : {'path' : null, 'type' : 'text/html', 'url': '/submit','src':null},
+        'get' : {'path' : null, 'type' : 'text/html', 'url': '/submit','src':null}
     };
 }
 
@@ -35,6 +37,25 @@ function loadPages(){
         exports.sql.runCommand("INSERT INTO dbo.users (username, team, score, security) VALUES ('" + username + "', " + teamnum + ", 0, 2);", function(results){
             exports.sql.refreshUsers();
         });
+    }
+    exports.pages.submit.src = function(request, response){
+        var body = '';
+        request.on('data', function (data) {
+            body += data;
+        });
+        request.on('end', function () {
+            console.log("Submit: " + body);
+            var format = JSON.parse(body);
+            var cmd = "";  /// "INSERT INTO dbo.matchData (json) VALUES ('" + format + "');"
+            for(i = 0; i < format.length; i++){
+                cmd += "INSERT INTO dbo.matchData (json) VALUES ('" + format[i] + "');";
+            }
+
+            exports.sql.runCommand(cmd, function(results){
+                //exports.sql.refreshData();
+            });
+        });
+        
     }
 }
 

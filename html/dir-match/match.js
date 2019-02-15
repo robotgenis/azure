@@ -150,6 +150,13 @@ function matchAutoInput(id){
 function matchTele(){
 
     setTab('match-4');
+
+    $.ajax("/submit", {
+        data : JSON.stringify([matchData]),
+        contentType : 'application/json',
+        type : 'POST'}, function(ret){
+            alert("sent!");
+        });
 }
 
 function matchTimerAdd(){
