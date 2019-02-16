@@ -28,7 +28,7 @@ function submitCheck(){
 }
 
 function submitSend(){
-    var data = JSON.stringify(localStorage.getItem(cookieName));
+    var data = localStorage.getItem(cookieName);
     $.ajax("/submit", {
         data : data,
         contentType : 'application/json',

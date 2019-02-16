@@ -35,6 +35,7 @@ matchMineralClick()
 matchMineralTimerCount()
 matchRadioClick(section)
 matchSubmit()
+matchNextMatch()
 
 ### javascript public variables
 loginUsers

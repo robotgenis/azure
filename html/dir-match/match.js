@@ -127,6 +127,27 @@ function matchStart(){
     document.getElementById("matchMineralTimer2").style.display = "none";
     document.getElementById("matchMineralTimerPic2").style.display = "none";
 
+    document.getElementById("matchFinishPark-1").classList.remove("active");
+    document.getElementById("matchFinishPark-2").classList.remove("active");
+    document.getElementById("matchFinishPark-3").classList.remove("active");
+
+    document.getElementById("matchRating1-1").classList.remove("active");
+    document.getElementById("matchRating1-2").classList.remove("active");
+    document.getElementById("matchRating1-3").classList.remove("active");
+    document.getElementById("matchRating1-4").classList.remove("active");
+
+    document.getElementById("matchRating2-1").classList.remove("active");
+    document.getElementById("matchRating2-2").classList.remove("active");
+    document.getElementById("matchRating2-3").classList.remove("active");
+    document.getElementById("matchRating2-4").classList.remove("active");
+
+    document.getElementById("matchRating3-1").classList.remove("active");
+    document.getElementById("matchRating3-2").classList.remove("active");
+    document.getElementById("matchRating3-3").classList.remove("active");
+    document.getElementById("matchRating3-4").classList.remove("active");
+
+    document
+
     matchMineralCount = 0;
 
     matchTime = 0.0;
@@ -300,8 +321,6 @@ function matchMineralTimerCount(){
 function matchFinish(){
     clearTimeout(matchTimer);
 
-
-
     setTab('match-5');
 }
 
@@ -325,18 +344,35 @@ function matchSubmit(){
     var pick = (document.getElementById("matchRating3-1").classList.contains("active")) ? 1 : (document.getElementById("matchRating3-2").classList.contains("active")) ? 2 : (document.getElementById("matchRating3-3").classList.contains("active")) ? 3 : (document.getElementById("matchRating3-4").classList.contains("active")) ? 4 :  0;
     matchData.post = {park:park,ratings:{balls:balls,block:blocks,pick:pick}};
     var autoScore = 0;
-    autoScore += (matchData.auto.land) ? 30 : 0;
-    autoScore += (matchData.auto.sample) ? 25 : 0;
-    autoScore += (matchData.auto.claim) ? 15 : 0;
-    autoScore += (matchData.auto.park) ? 10 : 0;
+    autoScore += (matchData.auto.land.value) ? 30 : 0;
+    autoScore += (matchData.auto.sample.value) ? 25 : 0;
+    autoScore += (matchData.auto.claim.value) ? 15 : 0;
+    autoScore += (matchData.auto.park.value) ? 10 : 0;
     var teleScore = 0;
     teleScore += (matchData.teleop.count.lander) * 5;
     teleScore += (matchData.teleop.count.depot) * 2;
     var endScore = 0;
-    endScore += (matchData.park == "park") ? 10 : (matchData.park == "parkcomplete") ? 25 : (matchData.park == "hang") ? 50 : 0;
+    endScore += (matchData.post.park == "park") ? 10 : (matchData.post.park == "parkcomplete") ? 25 : (matchData.post.park == "hang") ? 50 : 0;
     
     matchData.match = {times:{length:matchTime,auto:matchAutoTime},score:{auto:autoScore,tele:teleScore,end:endScore,total:autoScore + teleScore + endScore}};
     saveData(matchData);
 
-    setTab("menu");
+    document.getElementById("matchOutputPredicted").innerText = String(matchData.scouter.prediction);
+    document.getElementById("matchOutputCalculated").innerText = String(matchData.match.score.total);
+    var offby = Math.abs(matchData.match.score.total - matchData.scouter.prediction);
+    var points = 0;
+    if(offby < 50) points = 2;
+    if(offby < 25) points = 5;
+    if(offby < 15) points = 8;
+    if(offby < 5) points = 10;
+    var score = Math.round(3 + points);
+    document.getElementById("matchOutputScouting").innerText = String(score);
+    
+    saveData({type: "score", score: score, scouter: {username: loginUsername, teamnum: loginTeam}});
+
+    setTab("match-6");
+}
+
+function matchNextMatch(){
+    matchSelectMatch(matchNumber + 1);
 }
