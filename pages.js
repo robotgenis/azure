@@ -15,6 +15,8 @@ function resetPages(){
 function loadPages(){
     resetPages();
 
+    exports.sql.refresh();
+
     for(name in exports.pages){
         if(exports.pages[name].path != null){
             exports.pages[name].path = baseDir + exports.pages[name].path;
@@ -35,8 +37,10 @@ function loadPages(){
         var cmd = request.url.split("?")[1].split("=")[1].split("-");
         var username = cmd[0];
         var teamnum = cmd[1];
-        exports.sql.runCommand("INSERT INTO dbo.users (username, team, score, security) VALUES ('" + username + "', " + teamnum + ", 0, 2);", function(results){
-            exports.sql.refreshUsers();
+        exports.sql.connectAndSend("INSERT INTO dbo.users (username, team, score, security) VALUES ('" + username + "', " + teamnum + ", 0, 2);", function(results, connection){
+            exports.sql.refreshUsers(connection, function(connection){
+                connection.close();
+            });
         });
     }
     exports.pages.submit.src = function(request, response){
@@ -56,13 +60,14 @@ function loadPages(){
                 }
             }
             console.log(cmd);
-            exports.sql.runCommand(cmd, function(results){
-                exports.sql.runCommand('SELECT username, team, score, security from dbo.users', function(results){
+            exports.sql.connectAndSend(cmd, function(results, connection){
+                exports.sql.send('SELECT username, team, score, security from dbo.users', connection, function(results, connection){
                     exports.sql.users = results;
                     console.log("Users loaded");
-                    exports.sql.runCommand('SELECT data from dbo.matchData', function(results){
+                    exports.sql.send('SELECT data from dbo.matchData', connection, function(results, connection){
                         exports.sql.data = results;
                         console.log("Data loaded");
+                        connection.close();
                     });
                 });
             });
