@@ -216,6 +216,7 @@ function drawChart() {
     }
 
     var cycleCount = 0;
+    var cycleCount2 = 0;
     var totalMinerals = 0;
     var totalLength1 = 0;
     var totalLength2 = 0;
@@ -225,6 +226,9 @@ function drawChart() {
         totalMinerals += arr[i][3];
         totalLength1 += arr[i][4];
         totalLength2 += arr[i][5];
+        if(arr[i][5] != null){
+            cycleCount2++;
+        }
     }
 
 
@@ -232,7 +236,7 @@ function drawChart() {
     for(i = len - 1; i >= 0; i--){
         arr[i + 1] = arr[i];
     }
-    arr[0] = ['Average', , ,totalMinerals/cycleCount, totalLength1/cycleCount, totalLength2/cycleCount]
+    arr[0] = ['Average', , ,totalMinerals/cycleCount, totalLength1/cycleCount, totalLength2/cycleCount2]
 
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Match');
