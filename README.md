@@ -36,6 +36,11 @@ matchMineralTimerCount()
 matchRadioClick(section)
 matchSubmit()
 matchNextMatch()
+openDashboard()
+refreshDashboard()
+dashSelectTeam()
+dashSetTab()
+loadDashboard()
 
 ### javascript public variables
 loginUsers
@@ -56,6 +61,9 @@ matchMineralStart2
 matchAutoTime
 cookieName
 matchStartHang
+dashMatchesHTML
+dashData
+dashSel
 
 ### div names
 login
@@ -68,6 +76,7 @@ match-4
 pit-0
 pit-1
 tournament
+dashboard
 
 ### HTML javascript sources
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">

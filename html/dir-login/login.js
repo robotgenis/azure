@@ -48,9 +48,6 @@ function loginSubmitUser(username, teamnum){
         var element = document.getElementById("menuTournament");
         //element.classList.add("disabled");
         element.disabled = true;
-        var element = document.getElementById("menuDashboard");
-        //element.classList.add("disabled");
-        element.disabled = true;
         var element = document.getElementById("menuPit");
         //element.classList.add("disabled");
         element.disabled = true;

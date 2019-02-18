@@ -19,6 +19,7 @@ $(document).ready(function() {
         $.get(' sql', { cmd: 'teams' }, function(data) {
             teams = JSON.parse(data);
             matchLoad();
+            loadDashboard();
         });
     });
 });

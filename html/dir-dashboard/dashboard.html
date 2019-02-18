@@ -1,0 +1,105 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 10vh">
+    <a class="navbar-brand" style="font-size: 6vh; color: white;">PowerScout</a> 
+</nav>
+
+<button class="btn btn-warning" onclick="dashSetTab('dashTeamTab');"><h1>Team Analysis</h1></button>
+<button class="btn btn-primary" onclick="dashSetTab('dashMatchesTab');"><h1>Matches Scouted</h1></button>
+<div style="float: right">
+    <button class="btn btn-success" onclick="setTab('menu');"><h1>Main Menu</h1></button>
+    <button class="btn btn-success" onclick="refreshDashboard();"><h1>refresh</h1></button>
+</div>
+<div class="container-fluid">
+    <div id="dashMatchesTab" class="jumbotron dashtab bg-primary">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr class="table">
+                        <th scope="row"><h3>Match</h3></th>
+                        <td><h3>Red 1</h3></td>
+                        <td><h3>Red 2</h3></td>
+                        <td><h3>Blue 1</h3></td>
+                        <td><h3>Blue 2</h3></td>
+                    </tr>
+                </thead>
+                <tbody id="dashboardMatches">
+                    <tr class="table">
+                        <th scope="row"><h1>99</h1></th>
+                        <td><h2 class="text1">00001</h2></td>
+                        <td><h2 class="text2">00002</h2></td>
+                        <td><h2 class="text3">00003</h2></td>
+                        <td><h2 class="text4">00004</h2></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Team Analysis starts here --------------------------------------------------------------------------------------------->
+    <div id="dashTeamTab" class="jumbotron dashtab">
+        <div class="row">
+            <h1>Team Analysis</h1>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                
+                <select class="form-control" id="dashTeams">
+                    <option value="00001">00001</option>
+                </select>
+                <label for="dashTeams">Select a Team to view</label>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <h3>Info</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Number Matches Scouted</h5>
+                    <h5 style="text-align: center;" id="dashNumMatches"></h5>
+                </div>
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Matches Scouted</h5>
+                    <h5 style="text-align: center;" id="dashMatchesScouted"></h5>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <h1>Auto</h1>
+            </div>
+            <div class="row">
+                <h3>Percentage Completion</h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr class="table">
+                        <td><h3>Land</h3></th>
+                        <td><h3>Sample</h3></td>
+                        <td><h3>Claim</h3></td>
+                        <td><h3>Park</h3></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table">
+                        <td><h2 id="dashLandPer"></h2></td>
+                        <td><h2 id="dashSamplePer"></h2></td>
+                        <td><h2 id="dashClaimPer"></h2></td>
+                        <td><h2 id="dashParkPer"></h2></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="row">
+                <h1>TeleOp</h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="dashChartCycleTimes"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div id="dashChartCycles"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

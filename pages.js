@@ -7,7 +7,7 @@ function resetPages(){
         'sql' : {'path' : null, 'type' : 'text/html', 'url': '/sql','src':null},
         'createuser' : {'path' : null, 'type' : 'text/html', 'url': '/createuser','src':null},
         'submit' : {'path' : null, 'type' : 'text/html', 'url': '/submit','src':null},
-        'get' : {'path' : null, 'type' : 'text/html', 'url': '/submit','src':null},
+        'get' : {'path' : null, 'type' : 'text/html', 'url': '/get','src':null},
         'check' : {'path' : null, 'type' : 'text/html', 'url': '/check','src':null},
     };
 }
@@ -74,6 +74,9 @@ function loadPages(){
         });
     }
     exports.pages.check.src = function(request, response) {return "CONNECTED!"};
+    exports.pages.get.src = function(request, response){
+        return JSON.stringify(exports.sql.data);
+    };
 }
 
 function loadFolder(path){

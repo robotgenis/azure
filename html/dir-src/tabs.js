@@ -8,4 +8,6 @@ function setTab(name){
       tabcontent[i].style.display = "none";
     }
     document.getElementById(name).style.display = "block";
+
+    document.body.scrollTop = 0;
 }
