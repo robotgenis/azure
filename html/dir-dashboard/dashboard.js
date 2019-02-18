@@ -251,7 +251,7 @@ function drawChart() {
     for(i = 0; i < arr.length; i++){
         var s = Math.abs(Math.round(arr[i][4] * 255 / 30));
         data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
-        var s = arr[i][3] * 255 / 2;
+        var s = (arr[i][3] - 1) * 255 / 1;
         data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
         if(arr[i][5] != null){
             var s = Math.round(arr[i][5] * 255 / 30);
