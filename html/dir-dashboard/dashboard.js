@@ -249,12 +249,12 @@ function drawChart() {
 
     data.addRows(arr);
     for(i = 0; i < arr.length; i++){
-        var s = Math.round(arr[i][4] * 200 / 30);
+        var s = Math.abs(Math.round(arr[i][4] * 255 / 30));
         data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
-        var s = (arr[i][3] == 1) ? 200 : 50;
-        data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
+        var s = arr[i][3] * 255 / 2;
+        data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
         if(arr[i][5] != null){
-            var s = Math.round(arr[i][5] * 200 / 30);
+            var s = Math.round(arr[i][5] * 255 / 30);
             data.setProperty(i, 5, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
         }
     }
