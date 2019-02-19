@@ -177,20 +177,21 @@ exports.send = function(cmd, connection, func){
 // }
 
 
-exports.refresh = function(){
+exports.refresh = function(complete){
     exports.connectAndSend('SELECT username, team, score, security from dbo.users', function(results, connection){
         exports.users = results;
-        console.log("Users loaded");
+        console.log("SQL - Users loaded");
         exports.send('SELECT number, red1, red2, blue1, blue2 from dbo.matches', connection, function(results, connection){
             exports.matches = results;
-            console.log("Matches loaded");
+            console.log("SQL - Matches loaded");
             exports.send('SELECT teamnumber, teamname from dbo.teams', connection, function(results, connection){
                 exports.teams = results;
-                console.log("Teams loaded");
+                console.log("SQL - Teams loaded");
                 exports.send('SELECT data from dbo.matchData', connection, function(results, connection){
                     exports.data = results;
-                    console.log("Data loaded");
+                    console.log("SQL - Data loaded");
                     connection.close();
+                    complete();
                 });
             });
         });
@@ -200,7 +201,7 @@ exports.refresh = function(){
 exports.refreshUsers = function(connection, func){
     exports.send('SELECT username, team, score, security from dbo.users', connection, function(results, connection){
         exports.users = results;
-        console.log("Users loaded");
+        console.log("SQL - Users loaded");
         func(connection);
     });
 }
@@ -208,7 +209,7 @@ exports.refreshUsers = function(connection, func){
 exports.refreshMatches = function(connection, func){
     exports.send('SELECT number, red1, red2, blue1, blue2 from dbo.matches', connection, function(results, connection){
         exports.matches = results;
-        console.log("Matches loaded");
+        console.log("SQL - Matches loaded");
         func(connection);
     });
 }
@@ -216,7 +217,7 @@ exports.refreshMatches = function(connection, func){
 exports.refreshTeams = function(connection, func){
     exports.send('SELECT teamnumber, teamname, score, security from dbo.teams', connection, function(results, connection){
         exports.teams = results;
-        console.log("Teams loaded");
+        console.log("SQL - Teams loaded");
         func(connection);
     });
 }
@@ -224,7 +225,7 @@ exports.refreshTeams = function(connection, func){
 exports.refreshData = function(connection, func){
     exports.send('SELECT data from dbo.matchData', connection, function(results, connection){
         exports.data = results;
-        console.log("Data loaded");
+        console.log("SQL - Data loaded");
         func(connection);
     });
 }

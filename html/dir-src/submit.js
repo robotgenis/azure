@@ -20,7 +20,7 @@ function saveData(arr){
 function submitCheck(){
     if(JSON.parse(localStorage.getItem(cookieName)).length > 0){
         $.get( "/check", function( data ) {
-            if(data == "CONNECTED!"){
+            if(data == "SUCCESS!"){
                 submitSend();
             }    
         });

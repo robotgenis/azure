@@ -12,71 +12,74 @@ function resetPages(){
     };
 }
 
-function loadPages(){
+function loadPages(loadComplete){
     resetPages();
 
-    exports.sql.refresh();
-
-    for(name in exports.pages){
-        if(exports.pages[name].path != null){
-            exports.pages[name].path = baseDir + exports.pages[name].path;
-            loadPage(name);
-        }
-    }
-    loadFolder('/html/');
-    exports.pages.reload.src = function(request, response) {loadPages();return "<a href='/' style='font-size: 5vh;'>continue</a>"};
-    exports.pages.sql.src = function(request, response) {
-        var cmd = request.url.split("?")[1].split("=")[1];
-        var cmds = {"users": exports.sql.users, "matches" : exports.sql.matches, "teams" : exports.sql.teams};
-        //console.log(cmds);
-        if(cmd in cmds){
-            return JSON.stringify(cmds[cmd]);
-        }
-    };
-    exports.pages.createuser.src = function(request, response){
-        var cmd = request.url.split("?")[1].split("=")[1].split("-");
-        var username = cmd[0];
-        var teamnum = cmd[1];
-        exports.sql.connectAndSend("INSERT INTO dbo.users (username, team, score, security) VALUES ('" + username + "', " + teamnum + ", 0, 2);", function(results, connection){
-            exports.sql.refreshUsers(connection, function(connection){
-                connection.close();
-            });
-        });
-    }
-    exports.pages.submit.src = function(request, response){
-        var body = '';
-        request.on('data', function (data) {
-            body += data;
-        });
-        request.on('end', function () {
-            console.log("Submit: " + body);
-            var format = JSON.parse(body);
-            var cmd = "";  /// "INSERT INTO dbo.matchData (json) VALUES ('" + format + "');"
-            for(i = 0; i < format.length; i++){
-                if(format[i].type == "match"){
-                    cmd += "INSERT INTO dbo.matchData (data) VALUES ('" + JSON.stringify(format[i]) + "');";
-                }else if(format[i].type == "score"){
-                    cmd += "UPDATE dbo.users SET score=score + " + format[i].score + " WHERE username='" + format[i].scouter.username + "' AND team=" + format[i].scouter.teamnum + ";";
-                }
+    exports.sql.refresh(function(args){
+        for(name in exports.pages){
+            if(exports.pages[name].path != null){
+                exports.pages[name].path = baseDir + exports.pages[name].path;
+                loadPage(name);
             }
-            console.log(cmd);
-            exports.sql.connectAndSend(cmd, function(results, connection){
-                exports.sql.send('SELECT username, team, score, security from dbo.users', connection, function(results, connection){
-                    exports.sql.users = results;
-                    console.log("Users loaded");
-                    exports.sql.send('SELECT data from dbo.matchData', connection, function(results, connection){
-                        exports.sql.data = results;
-                        console.log("Data loaded");
-                        connection.close();
+        }
+        loadFolder('/html/');
+        exports.pages.reload.src = function(request, response, end){
+            loadPages(function(){
+                end("<a href='/' style='font-size: 5vh;'>Successfully Reloaded, click to contiune</a>");
+            });
+        };
+        exports.pages.sql.src = function(request, response, end) {
+            var cmd = request.url.split("?")[1].split("=")[1];
+            var cmds = {"users": exports.sql.users, "matches" : exports.sql.matches, "teams" : exports.sql.teams};
+            //console.log(cmds);
+            if(cmd in cmds){
+                end(JSON.stringify(cmds[cmd]));
+            }
+        };
+        exports.pages.createuser.src = function(request, response, end){
+            var cmd = request.url.split("?")[1].split("=")[1].split("-");
+            var username = cmd[0];
+            var teamnum = cmd[1];
+            exports.sql.connectAndSend("INSERT INTO dbo.users (username, team, score, security) VALUES ('" + username + "', " + teamnum + ", 0, 2);", function(results, connection){
+                exports.sql.refreshUsers(connection, function(connection){
+                    connection.close();
+                    end("SUCCESS!");
+                });
+            });
+        }
+        exports.pages.submit.src = function(request, response, end){
+            var body = '';
+            request.on('data', function (data) {
+                body += data;
+            });
+            request.on('end', function () {
+                var format = JSON.parse(body);
+                var cmd = "";  /// "INSERT INTO dbo.matchData (json) VALUES ('" + format + "');"
+                for(i = 0; i < format.length; i++){
+                    if(format[i].type == "match"){
+                        cmd += "INSERT INTO dbo.matchData (data) VALUES ('" + JSON.stringify(format[i]) + "');";
+                    }else if(format[i].type == "score"){
+                        cmd += "UPDATE dbo.users SET score=score + " + format[i].score + " WHERE username='" + format[i].scouter.username + "' AND team=" + format[i].scouter.teamnum + ";";
+                    }
+                }
+                exports.sql.connectAndSend(cmd, function(results, connection){
+                    exports.sql.send('SELECT username, team, score, security from dbo.users', connection, function(results, connection){
+                        exports.sql.users = results;
+                        console.log("Users loaded");
+                        exports.sql.send('SELECT data from dbo.matchData', connection, function(results, connection){
+                            exports.sql.data = results;
+                            console.log("Data loaded");
+                            connection.close();
+                            end("SUCCESS!");
+                        });
                     });
                 });
             });
-        });
-    }
-    exports.pages.check.src = function(request, response) {return "CONNECTED!"};
-    exports.pages.get.src = function(request, response){
-        return JSON.stringify(exports.sql.data);
-    };
+        }
+        exports.pages.check.src = function(request, response, end) {end("SUCCESS!");};
+        exports.pages.get.src = function(request, response, end){end(JSON.stringify(exports.sql.data));};
+        loadComplete();
+    });
 }
 
 function loadFolder(path){
@@ -102,10 +105,9 @@ function loadFolder(path){
 }
 
 function loadPage(page){
-    fs.readFile(exports.pages[page].path, function(err, data) {
-        exports.pages[page].src = function(request, response) {return data};
-    });
+    var data = fs.readFileSync(exports.pages[page].path);
+    exports.pages[page].src = function(request, response, end) {end(data);};
 }
 
 resetPages();
-exports.reloadPages = function(){loadPages();};
+exports.reloadPages = function(loadComplete){loadPages(loadComplete);};
