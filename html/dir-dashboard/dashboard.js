@@ -106,21 +106,33 @@ function refreshDashboard(){
         });
 
         var sel = document.getElementById('dashTeams').value;
-        dashSelectTeam(sel.split(' - ')[0]);
-        
+        //dashSelectTeam(sel.split(' - ')[0]);
+        dashSelectTeam('5029');
     });
 }
 
 function dashSelectTeam(teamnum){
     dashSel = [];
-    mat = "";
     for(i in dashData){
         if(dashData[i].team == teamnum){
             dashSel[dashSel.length] = dashData[i];
-            if(mat != "") mat += " ,";
-            mat += dashSel[dashSel.length - 1].number;
         }
     }
+    for(i = 0; i < dashSel.length - 1; i++){
+        for(s = i + 1; s < dashSel.length; s++){
+            if(dashSel[s].number < dashSel[i].number){
+                var temp = dashSel[s];
+                dashSel[s] = dashSel[i];
+                dashSel[i] = temp;
+            }
+        }
+    }
+    mat = "";
+    for(i in dashSel){
+        if(mat != "") mat += " ,";
+        mat += dashSel[i].number;
+    }
+
     //info
 
     document.getElementById('dashNumMatches').innerText = String(dashSel.length);
@@ -155,49 +167,18 @@ function dashSelectTeam(teamnum){
 }
 
 function drawChart() {
-    //Cycle times
-    var arr = [["Round", "Cycle Time", { role: "style" } ]];
-    var color = 0;
-    for(i = 0; i < dashSel.length; i++){
-        var landerCycles = false;
-        for(c = 0; c < dashSel[i].teleop.cycles.length; c++){
-            if(dashSel[i].teleop.cycles[c].type == "lander"){
-                arr[arr.length] = [String(dashSel[i].number), dashSel[i].teleop.cycles[c].length, (color == 0) ? "#FFD827" : "#FFAD27"];
-                landerCycles = true;
-            }
-        }
-        if(landerCycles)
-            color = (color == 0) ? 1 : 0;
-        // console.log(color);
-    }
-    var data = google.visualization.arrayToDataTable(arr);
-    var view = new google.visualization.DataView(data);
-        view.setColumns([0, 1,
-        { calc: "stringify",
-        sourceColumn: 1,
-        type: "string",
-        role: "annotation" },
-        2]);
-    var options = {
-        title: "Lander Cycles - One mineral at a time",
-        width: "100%",
-        height: 400,
-        bar: {groupWidth: "95%"},
-        legend: { position: "none" },
-        vAxes: {
-            0: {title: 'Cycle Times (seconds)'},
-        },
-        hAxes: {
-            0: {title: 'Round Number'},
-        }
-    };
-    var chart = new google.visualization.ColumnChart(document.getElementById("dashChartCycleTimes"));
-    chart.draw(view, options);
-
+    //cycles
     var arr = [];
+    var averageCycles = [["Round", {type: 'string', role: 'tooltip'} , "Cycle Time", { role: "style" } ]];
 
     for(i = 0; i < dashSel.length; i++){
         var cycleCount = 1;
+
+        var cycleCountPlace = 0;
+        var cycleCountPick = 0;
+        var totalMinerals = 0;
+        var totalLengthPlace = 0;
+        var totalLengthPick = 0;
         for(c = 0; c < dashSel[i].teleop.cycles.length; c++){
             cycles = dashSel[i].teleop.cycles;
             arr[arr.length] = [String(dashSel[i].number), String(cycleCount), cycles[c].type, 1, cycles[c].length, null];
@@ -212,22 +193,34 @@ function drawChart() {
                 }
             }
             cycleCount++;
+
+            cycleCountPlace++;
+            totalMinerals += arr[arr.length - 1][3];
+            totalLengthPlace += arr[arr.length - 1][4];
+            totalLengthPick += arr[arr.length - 1][5];
+            if(arr[arr.length - 1][5] != null){
+                cycleCountPick++;
+            }
         }
+        arr[arr.length] = [String(dashSel[i].number), 'Average', ,totalMinerals/cycleCountPlace, totalLengthPlace/cycleCountPlace, totalLengthPick/cycleCountPick];
+        averageCycles[averageCycles.length] = [String(dashSel[i].number), 'Match' + String(dashSel[i].number), totalLengthPick/cycleCountPick, "#FF0000"];
     }
 
-    var cycleCount = 0;
-    var cycleCount2 = 0;
+    var cycleCountPlace = 0;
+    var cycleCountPick = 0;
     var totalMinerals = 0;
-    var totalLength1 = 0;
-    var totalLength2 = 0;
+    var totalLengthPlace = 0;
+    var totalLengthPick = 0;
 
     for(i = 0; i < arr.length; i++){
-        cycleCount++;
-        totalMinerals += arr[i][3];
-        totalLength1 += arr[i][4];
-        totalLength2 += arr[i][5];
-        if(arr[i][5] != null){
-            cycleCount2++;
+        if(arr[i][2] != 'Average'){
+            cycleCountPlace++;
+            totalMinerals += arr[i][3];
+            totalLengthPlace += arr[i][4];
+            totalLengthPick += arr[i][5];
+            if(arr[i][5] != null){
+                cycleCountPick++;
+            }
         }
     }
 
@@ -236,7 +229,7 @@ function drawChart() {
     for(i = len - 1; i >= 0; i--){
         arr[i + 1] = arr[i];
     }
-    arr[0] = ['Average', , ,totalMinerals/cycleCount, totalLength1/cycleCount, totalLength2/cycleCount2]
+    arr[0] = ['All Match', 'Average', ,totalMinerals/cycleCountPlace, totalLengthPlace/cycleCountPlace, totalLengthPick/cycleCountPick]
 
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Match');
@@ -249,18 +242,76 @@ function drawChart() {
 
     data.addRows(arr);
     for(i = 0; i < arr.length; i++){
+        var s = (arr[i][3] - 1) * 100 / 1 + 155;
+        data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
         var s = Math.abs(Math.round(arr[i][4] * 255 / 30));
         data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
-        var s = (arr[i][3] - 1) * 255 / 1;
-        data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
+
         if(arr[i][5] != null){
             var s = Math.round(arr[i][5] * 255 / 30);
             data.setProperty(i, 5, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
         }
     }
     
-
     var table = new google.visualization.Table(document.getElementById('dashChartCycles'));
 
     table.draw(data, {allowHtml: true, showRowNumber: false, width: '100%', height: '100%'});
+
+
+    var data = google.visualization.arrayToDataTable(averageCycles);
+    var view = new google.visualization.DataView(data);
+
+    var options = {
+        title: "Average Cycle Times - Pickup to next cycle pickup",
+        width: "95%",
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+        vAxes: {
+            0: {
+                title: 'Cycle Times (seconds)',
+                viewWindow: {
+                    min: 0,
+                    max: 30
+                }
+            }   
+        },
+        hAxes: {
+            0: {title: 'Round Number'},
+        }
+    };
+    var chart = new google.visualization.ColumnChart(document.getElementById("dashChartCycleTimes"));
+    chart.draw(view, options);
+
+    var minerals = [["Round", {type: 'string', role: 'tooltip'} , "Mineral Count", { role: "style" } ]];
+
+    for(i in dashSel){
+        minerals[minerals.length] = [String(dashSel[i].number), 'Match' + String(dashSel[i].number), dashSel[i].teleop.count.lander, "#00FF00"];
+    }
+
+
+    var data = google.visualization.arrayToDataTable(minerals);
+    var view = new google.visualization.DataView(data);
+
+    var options = {
+        title: "Minerals in Lander",
+        width: "95%",
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+        vAxes: {
+            0: {
+                title: 'Number of Minerals',
+                viewWindow: {
+                    min: 0,
+                    max: 30
+                }
+            }   
+        },
+        hAxes: {
+            0: {title: 'Round Number'},
+        }
+    };
+    var chart = new google.visualization.ColumnChart(document.getElementById("dashChartMinerals"));
+    chart.draw(view, options);
 }
