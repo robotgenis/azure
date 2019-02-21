@@ -33,6 +33,9 @@
             </table>
         </div>
     </div>
+    <div class="row">
+        <h3 class="text-danger">Warning! Data only represents what scouters could track.</h1>
+    </div>
     <!-- Team Analysis starts here --------------------------------------------------------------------------------------------->
     <div id="dashTeamTab" class="jumbotron dashtab">
         <div class="row">
@@ -64,10 +67,39 @@
         </div>
         <div>
             <div class="row">
+                <h1>Score</h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Average Points Scored</h5>
+                    <h5 style="text-align: center;" id="dashAverageScore"></h5>
+                </div>
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Highest Points Scored</h5>
+                    <h5 style="text-align: center;" id="dashMaxScore"></h5>
+                </div>
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Theoretical Maximum Points</h5>
+                    <h5 style="text-align: center;" id="dashTheoryMaxScore"></h5>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
                 <h1>Auto</h1>
             </div>
             <div class="row">
                 <h3>Percentage Completion</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Average Auto Points</h5>
+                    <h5 style="text-align: center;" id="dashAutoPoints"></h5>
+                </div>
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Maximum Points</h5>
+                    <h5 style="text-align: center;" id="dashAutoPointsMax"></h5>
+                </div>
             </div>
             <table class="table">
                 <thead>
@@ -93,7 +125,38 @@
                 <h1>TeleOp</h1>
             </div>
             <div class="row">
-                <h3>Cycle Times</h3>
+                <h3>Minerals</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Average Minerals Scored</h5>
+                    <h5 style="text-align: center;" id="dashMineralsAverage"></h5>
+                    <h5 style="text-align: center;">Average Points Scored</h5>
+                    <h5 style="text-align: center;" id="dashMineralsAveragePoints"></h5>
+                </div>
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Max Minerals Scored</h5>
+                    <h5 style="text-align: center;" id="dashMaxMineralsAverage"></h5>
+                    <h5 style="text-align: center;">Max Points Scored</h5>
+                    <h5 style="text-align: center;" id="dashMaxMineralsAveragePoints"></h5>
+                </div>
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Average Cycle Time</h5>
+                    <h5 style="text-align: center;" id="dashAverageCycleTime"></h5>
+                    <h5 style="text-align: center;">Theoretical Minerals Scored</h5>
+                    <h5 style="text-align: center;" id="dashTheoryMineralsScore"></h5>
+                </div>
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Best Match Average Cycle Time</h5>
+                    <h5 style="text-align: center;" id="dashBestAverageCycleTime"></h5>
+                    <h5 style="text-align: center;">Theoretical Max Minerals Scored</h5>
+                    <h5 style="text-align: center;" id="dashTheoryMaxMineralsScore"></h5>
+                </div>
+            </div>
+            <div class="row">
+                <p>
+                    Theoretical scores are based on how many minerals could be scored in 1:40(20 seconds of transition and end game tasks). If they drop a lot of minerals theoretical values will be exaggerated,
+                </p>
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -101,6 +164,7 @@
                     <div id="dashChartMinerals"></div>
                 </div>
                 <div class="col-sm-6">
+                    <h3>Cycle Times</h3>
                     <div id="dashChartCycles"></div>
                 </div>
             </div>
@@ -113,8 +177,18 @@
                 <h3>Hanging</h3>
             </div>
             <div class="row">
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Average End Game Points</h5>
+                    <h5 style="text-align: center;" id="dashEndPoints"></h5>
+                </div>
+                <div class="col-sm-3">
+                    <h5 style="text-align: center;">Maximum Points</h5>
+                    <h5 style="text-align: center;" id="dashEndPointsMax"></h5>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-6">
-                    <div id=""></div>
+                    <div id="dashChartHang"></div>
                 </div>
             </div>
         </div>
