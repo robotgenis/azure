@@ -18,8 +18,6 @@ $(document).ready(function() {
         matches = JSON.parse(data);
         $.get(' sql', { cmd: 'teams' }, function(data) {
             teams = JSON.parse(data);
-            matchLoad();
-            loadDashboard();
         });
     });
 });
@@ -57,6 +55,24 @@ function matchLoad(){
     }
     var html = document.getElementById("matchList").innerHTML;
     var outHtml = "";
+    if(loginSecurity < 3){
+        newMatches = [];
+        for(match in matches){
+            if(matches[match][0] < 1){
+                newMatches[newMatches.length] = matches[match];
+            }
+        }
+        matches = newMatches;
+    }else{
+        newMatches = [];
+        for(match in matches){
+            if(matches[match][0] != 0){
+                newMatches[newMatches.length] = matches[match];
+            }
+        }
+        matches = newMatches;
+    }
+
     for(match in matches){
         add = html;
         add = add.replace(/99/g, matches[match][0]);
@@ -168,7 +184,7 @@ function matchStart(){
     };
     matchData.teleop = {};
     matchData.teleop.cycles = [];
-    matchData.teleop.count = {depot:0,lander:0};
+    matchData.teleop.count = {depot:0,lander:0,drop:0};
 
     matchStartHang = document.getElementById("matchInputHanging").checked;
 
@@ -298,14 +314,42 @@ function matchMineralClick(action){
             matchMineralCount -= 1;
         }
     }else if(action == "drop"){
-        if(match > 0){
-            if(matchMineralCount == 1){
-                document.getElementById("matchMineralTimer1").style.display = "none";
-                document.getElementById("matchMineralTimerPic1").style.display = "none";
-            }else if(matchMineralCount == 2){
+        if(matchMineralCount > 0){
+            // if(matchMineralCount == 1){
+            //     document.getElementById("matchMineralTimer1").style.display = "none";
+            //     document.getElementById("matchMineralTimerPic1").style.display = "none";
+            // }else if(matchMineralCount == 2){
+            //     document.getElementById("matchMineralTimer2").style.display = "none";
+            //     document.getElementById("matchMineralTimerPic2").style.display = "none";
+            // }
+            // matchMineralCount -= 1;
+
+            var start = 0;
+            var end = 0;
+            var len = 0;
+            if(matchMineralCount == 2){
+                start = Math.round(matchMineralStart1 / 100) / 10;
+                end = Math.round((matchTime) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
+
+                matchMineralStart1 = matchMineralStart2;
+
                 document.getElementById("matchMineralTimer2").style.display = "none";
                 document.getElementById("matchMineralTimerPic2").style.display = "none";
+                var t = (matchTime - matchMineralStart1) / 1000;
+                document.getElementById("matchMineralTimer1").innerText = t.toFixed(1);
+            }else if(matchMineralCount == 1){
+                start = Math.round(matchMineralStart1 / 100) / 10;
+                end = Math.round((matchTime) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
+
+                document.getElementById("matchMineralTimer1").style.display = "none";
+                document.getElementById("matchMineralTimerPic1").style.display = "none";
             }
+            matchData.teleop.cycles[matchData.teleop.cycles.length] = {start: start,end: end,length: len,type:'drop'};
+            
+            matchData.teleop.count.drop += 1;
+
             matchMineralCount -= 1;
         }
     }
@@ -371,7 +415,33 @@ function matchSubmit(){
     
     saveData({type: "score", score: score, scouter: {username: loginUsername, teamnum: loginTeam}});
 
-    setTab("match-6");
+    if(Number(matchNumber) == 0){
+        var pass = true; 
+        
+        if(!matchData.auto.land.value || !matchData.auto.sample.value || !matchData.auto.claim.value || !matchData.auto.park.value) pass = false;
+        if(matchData.teleop.count.lander > 25 || matchData.teleop.count.lander < 19) pass = false;
+        var total = 0;
+        var count = 0;
+        for(c in matchData.teleop.cycles){
+	        if(matchData.teleop.cycles[c].type == "lander"){
+		        total += matchData.teleop.cycles[c].length;
+                count++;
+            }
+        }
+        if(total/count < 2.5 || total/count > 7.0) pass = false;
+        if(matchData.post.park != "hang") pass = false;
+        
+        if(pass){
+            saveData({type: "cert", scouter: {username: loginUsername, teamnum: loginTeam}});
+            document.getElementById('trainingComplete').innerText = 'Completed Successfully';
+        }else{
+            document.getElementById('trainingComplete').innerText = 'Try again!';
+        }
+
+        setTab("match-7");
+    }else{
+        setTab("match-6");
+    }
 }
 
 function matchNextMatch(){

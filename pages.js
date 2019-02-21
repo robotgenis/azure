@@ -60,6 +60,9 @@ function loadPages(loadComplete){
                         cmd += "INSERT INTO dbo.matchData (data) VALUES ('" + JSON.stringify(format[i]) + "');";
                     }else if(format[i].type == "score"){
                         cmd += "UPDATE dbo.users SET score=score + " + format[i].score + " WHERE username='" + format[i].scouter.username + "' AND team=" + format[i].scouter.teamnum + ";";
+                    }else if(format[i].type == "cert"){
+                        console.log(format);
+                        cmd += "UPDATE dbo.users SET security=4 WHERE username='" + format[i].scouter.username + "' AND team=" + format[i].scouter.teamnum + ";";
                     }
                 }
                 exports.sql.connectAndSend(cmd, function(results, connection){

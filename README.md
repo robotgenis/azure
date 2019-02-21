@@ -106,7 +106,7 @@ dashboard
         scouter: {username: Brandon, teamnum: 5029}
 
 ### Cycle formats
-depot, lander
+depot, lander, drop
 
 ### park
 hang, park, parkcomplete
@@ -130,3 +130,8 @@ pick
 scoredepot
 scorelander
 drop
+
+### Correct Match Data
+{"type":"match","number":0,"team":"14615","scouter":{"username":"Brandon","teamnum":"5029","prediction":50},"auto":{"land":{"value":true,"time":14001},"sample":{"value":true,"time":14801},"claim":{"value":true,"time":27525},"park":{"value":true,"time":31701}},"teleop":{"cycles":[{"start":45.8,"end":52.1,"length":6.3,"type":"lander"},{"start":47,"end":52.5,"length":5.5,"type":"lander"},{"start":56.5,"end":61.5,"length":5,"type":"lander"},{"start":57.5,"end":62.7,"length":5.2,"type":"drop"},{"start":66.3,"end":72.8,"length":6.5,"type":"lander"},{"start":67.5,"end":73.4,"length":5.9,"type":"lander"},{"start":75.6,"end":81.7,"length":6.1,"type":"lander"},{"start":76.7,"end":82.3,"length":5.6,"type":"lander"},{"start":86.2,"end":90.1,"length":3.9,"type":"lander"},{"start":86.8,"end":90.7,"length":3.9,"type":"lander"},{"start":94.4,"end":97.8,"length":3.4,"type":"lander"},{"start":95.1,"end":98.3,"length":3.2,"type":"lander"},{"start":103.8,"end":107.9,"length":4.1,"type":"lander"},{"start":106.1,"end":108.4,"length":2.3,"type":"lander"},{"start":112.3,"end":115.5,"length":3.2,"type":"lander"},{"start":113,"end":115.9,"length":2.9,"type":"lander"},{"start":119,"end":124.5,"length":5.5,"type":"lander"},{"start":121.6,"end":124.9,"length":3.3,"type":"lander"},{"start":128.1,"end":132.6,"length":4.5,"type":"lander"},{"start":129.1,"end":133,"length":3.9,"type":"lander"},{"start":136.6,"end":142.4,"length":5.8,"type":"lander"},{"start":138.1,"end":143.4,"length":5.3,"type":"drop"},{"start":146.3,"end":149.9,"length":3.6,"type":"lander"},{"start":147.1,"end":150.4,"length":3.3,"type":"lander"}],"count":{"depot":0,"lander":22,"drop":2}},"post":{"park":"hang","ratings":{"balls":3,"block":3,"pick":3}},"match":{"times":{"length":163301,"auto":33901},"score":{"auto":80,"tele":110,"end":50,"total":240}}}
+
+average cycle = 4.44

@@ -11,3 +11,7 @@ function setTab(name){
 
     document.body.scrollTop = 0;
 }
+
+// $(window).bind('beforeunload', function(){
+//   return 'Are you sure you want to leave?';
+// });

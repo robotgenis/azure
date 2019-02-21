@@ -15,7 +15,7 @@ $(document).ready(function() {
 function loginSubmit(){
     var username = document.getElementById("loginUsername").value;
     var teamnum = document.getElementById("loginTeam").value;
-    return loginSubmitUser(username, teamnum)
+    return loginSubmitUser(username, teamnum);
 }
 
 function loginSubmitUser(username, teamnum){
@@ -51,6 +51,9 @@ function loginSubmitUser(username, teamnum){
         var element = document.getElementById("menuPit");
         //element.classList.add("disabled");
         element.disabled = true;
+
+        matchLoad();
+        loadDashboard();
 
         setTab('menu');
     }
