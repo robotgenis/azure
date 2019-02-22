@@ -286,12 +286,15 @@ function drawChart() {
     data.addRows(arr);
     for(i = 0; i < arr.length; i++){
         var s = (arr[i][3] - 1) * 100 / 1 + 155;
+        if(arr[i][2] == "drop") s = 0;
         data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
         var s = Math.abs(Math.round(arr[i][4] * 255 / 30));
+        if(arr[i][2] == "drop") s = 255;
         data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
 
         if(arr[i][5] != null){
             var s = Math.round(arr[i][5] * 255 / 30);
+            if(arr[i][2] == "drop") s = 255;
             data.setProperty(i, 5, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
         }
     }
