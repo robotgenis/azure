@@ -314,4 +314,34 @@ function drawChart() {
     };
     var chart = new google.visualization.ColumnChart(document.getElementById("dashChartMinerals"));
     chart.draw(view, options);
+
+
+    var allTeams = [];
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Team');
+    data.addColumn('string', '');
+        
+
+    data.addRows(allTeams);
+    for(i = 0; i < allTeams.length; i++){
+
+
+
+        
+        var s = (arr[i][3] - 1) * 100 / 1 + 155;
+        data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
+        var s = Math.abs(Math.round(arr[i][4] * 255 / 30));
+        data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
+
+        if(arr[i][5] != null){
+            var s = Math.round(arr[i][5] * 255 / 30);
+            data.setProperty(i, 5, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
+        }
+    }
+    
+    var table = new google.visualization.Table(document.getElementById('dashChartAll'));
+
+    table.draw(data, {allowHtml: true, showRowNumber: true, width: '100%', height: '100%'});
+    
 }
