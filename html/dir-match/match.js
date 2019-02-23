@@ -400,7 +400,7 @@ function matchSubmit(){
     endScore += (matchData.post.park == "park") ? 10 : (matchData.post.park == "parkcomplete") ? 25 : (matchData.post.park == "hang") ? 50 : 0;
     
     matchData.match = {times:{length:matchTime,auto:matchAutoTime},score:{auto:autoScore,tele:teleScore,end:endScore,total:autoScore + teleScore + endScore}};
-    saveData(matchData);
+    
 
     document.getElementById("matchOutputPredicted").innerText = String(matchData.scouter.prediction);
     document.getElementById("matchOutputCalculated").innerText = String(matchData.match.score.total);
@@ -413,7 +413,7 @@ function matchSubmit(){
     var score = Math.round(3 + points);
     document.getElementById("matchOutputScouting").innerText = String(score);
     
-    saveData({type: "score", score: score, scouter: {username: loginUsername, teamnum: loginTeam}});
+    
 
     if(Number(matchNumber) == 0){
         var pass = true; 
@@ -440,6 +440,10 @@ function matchSubmit(){
 
         setTab("match-7");
     }else{
+        saveData({type: "score", score: score, scouter: {username: loginUsername, teamnum: loginTeam}});
+        
+        saveData(matchData);
+
         setTab("match-6");
     }
 }

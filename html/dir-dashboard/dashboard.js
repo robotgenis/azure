@@ -1,3 +1,5 @@
+
+
 var dashMatchesHTML = null;
 var dashData = null;
 var dashSel = null;
@@ -133,23 +135,57 @@ function dashSelectTeam(teamnum){
         mat += dashSel[i].number;
     }
 
+    drawChart();
+}
+
+function drawChart() {
     //info
 
     document.getElementById('dashNumMatches').innerText = String(dashSel.length);
 
     document.getElementById('dashMatchesScouted').innerText = mat;
 
+    //Scores
+    var totalScore = 0;
+    var highestScore = 0;
+    for(c in dashSel){
+        totalScore += dashSel[c].match.score.total;
+        if(dashSel[c].match.score.total > highestScore){
+            highestScore = dashSel[c].match.score.total;
+        }
+    }
+
+    document.getElementById('dashAverageScore').innerText = (totalScore / dashSel.length).toFixed(2); 
+    document.getElementById('dashMaxScore').innerText = highestScore.toFixed(0);
+
+    var theoryMaxScore = 0;    
+
     //auto
     var land = 0;
     var sample = 0;
     var claim = 0
     var park = 0;
+    var maxAutoPoints = 0;
     for(i in dashSel){
         land += (dashSel[i].auto.land.value) ? 1 : 0;
         sample += (dashSel[i].auto.sample.value) ? 1 : 0;
         claim += (dashSel[i].auto.claim.value) ? 1 : 0;
         park += (dashSel[i].auto.park.value) ? 1 : 0;
+        var points = 0;
+        points += (dashSel[i].auto.land.value) ? 30 : 0;
+        points += (dashSel[i].auto.sample.value) ? 25 : 0;
+        points += (dashSel[i].auto.claim.value) ? 15 : 0;
+        points += (dashSel[i].auto.park.value) ? 10 : 0;
+        if(points > maxAutoPoints){
+            maxAutoPoints = points;
+        }
     }
+
+    var autoPoints = (land * 30) + (sample  * 25) + (claim * 15) + (park  * 10);
+    autoPoints = autoPoints / dashSel.length;
+    document.getElementById('dashAutoPoints').innerText = autoPoints.toFixed(2);
+    document.getElementById('dashAutoPointsMax').innerText = maxAutoPoints.toFixed(0);
+    theoryMaxScore += maxAutoPoints;
 
     land = (dashSel.length > 0) ? (land / dashSel.length * 100).toFixed(0) + "%" : NaN;
     sample = (dashSel.length > 0) ? (sample / dashSel.length * 100).toFixed(0) + "%" : NaN;
@@ -161,15 +197,14 @@ function dashSelectTeam(teamnum){
     document.getElementById('dashClaimPer').innerText = claim;
     document.getElementById('dashParkPer').innerText = park;
 
+
+
     //teleOp
 
-    drawChart();
-}
-
-function drawChart() {
     //cycles
     var arr = [];
     var averageCycles = [["Round", {type: 'string', role: 'tooltip'} , "Cycle Time", { role: "style" } ]];
+    var bestCycleAverage = 120;
 
     for(i = 0; i < dashSel.length; i++){
         var cycleCount = 1;
@@ -193,7 +228,7 @@ function drawChart() {
                 }
             }
             cycleCount++;
-
+            
             cycleCountPlace++;
             totalMinerals += arr[arr.length - 1][3];
             totalLengthPlace += arr[arr.length - 1][4];
@@ -204,6 +239,10 @@ function drawChart() {
         }
         arr[arr.length] = [String(dashSel[i].number), 'Average', ,totalMinerals/cycleCountPlace, totalLengthPlace/cycleCountPlace, totalLengthPick/cycleCountPick];
         averageCycles[averageCycles.length] = [String(dashSel[i].number), 'Match' + String(dashSel[i].number), totalLengthPick/cycleCountPick, "#FF0000"];
+
+        if(bestCycleAverage > totalLengthPick/cycleCountPick){
+            bestCycleAverage = totalLengthPick/cycleCountPick;
+        }
     }
 
     var cycleCountPlace = 0;
@@ -229,7 +268,13 @@ function drawChart() {
     for(i = len - 1; i >= 0; i--){
         arr[i + 1] = arr[i];
     }
-    arr[0] = ['All Match', 'Average', ,totalMinerals/cycleCountPlace, totalLengthPlace/cycleCountPlace, totalLengthPick/cycleCountPick]
+    arr[0] = ['All Match', 'Average', ,totalMinerals/cycleCountPlace, totalLengthPlace/cycleCountPlace, totalLengthPick/cycleCountPick];
+
+    document.getElementById('dashAverageCycleTime').innerText = (totalLengthPick/cycleCountPick).toFixed(2);
+    document.getElementById('dashBestAverageCycleTime').innerText = bestCycleAverage.toFixed(2);
+
+    document.getElementById('dashTheoryMineralsScore').innerText = (100/(totalLengthPick/cycleCountPick) * 2).toFixed(0);
+    document.getElementById('dashTheoryMaxMineralsScore').innerText = (100/bestCycleAverage * 2).toFixed(0);
 
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Match');
@@ -243,12 +288,15 @@ function drawChart() {
     data.addRows(arr);
     for(i = 0; i < arr.length; i++){
         var s = (arr[i][3] - 1) * 100 / 1 + 155;
+        if(arr[i][2] == "drop") s = 0;
         data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
         var s = Math.abs(Math.round(arr[i][4] * 255 / 30));
+        if(arr[i][2] == "drop") s = 255;
         data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
 
         if(arr[i][5] != null){
             var s = Math.round(arr[i][5] * 255 / 30);
+            if(arr[i][2] == "drop") s = 255;
             data.setProperty(i, 5, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
         }
     }
@@ -284,11 +332,26 @@ function drawChart() {
     chart.draw(view, options);
 
     var minerals = [["Round", {type: 'string', role: 'tooltip'} , "Mineral Count", { role: "style" } ]];
+    var mineralsScored = 0;
+    var matchCount = 0;
+    var maxMineralsScored = 0;
 
     for(i in dashSel){
         minerals[minerals.length] = [String(dashSel[i].number), 'Match' + String(dashSel[i].number), dashSel[i].teleop.count.lander, "#00FF00"];
+        mineralsScored += dashSel[i].teleop.count.lander;
+        matchCount++;
+        if(dashSel[i].teleop.count.lander > maxMineralsScored){
+            maxMineralsScored = dashSel[i].teleop.count.lander;
+        }
     }
 
+    document.getElementById('dashMineralsAverage').innerText = (matchCount > 0) ? (mineralsScored/matchCount).toFixed(2) : "NaN";
+    document.getElementById('dashMineralsAveragePoints').innerText = (matchCount > 0) ? (mineralsScored/matchCount * 5).toFixed(2) : "NaN";
+
+    document.getElementById('dashMaxMineralsAverage').innerText = (maxMineralsScored).toFixed(0);
+    document.getElementById('dashMaxMineralsAveragePoints').innerText = (maxMineralsScored * 5).toFixed(0);
+
+    theoryMaxScore += maxMineralsScored * 5;
 
     var data = google.visualization.arrayToDataTable(minerals);
     var view = new google.visualization.DataView(data);
@@ -304,7 +367,7 @@ function drawChart() {
                 title: 'Number of Minerals',
                 viewWindow: {
                     min: 0,
-                    max: 30
+                    max: 40
                 }
             }   
         },
@@ -316,32 +379,136 @@ function drawChart() {
     chart.draw(view, options);
 
 
+    //end game
+
+    var hang = [["Round" , "Hang", { role: "style" } ]];
+    var count = 0;
+    var maxPoints = 0;
+    var totalPoints = 0;
+
+    for(c in dashSel){
+        hang[hang.length] = [String(dashSel[i].number), (dashSel[i].post.park == 'hang') ? 3 : (dashSel[i].post.park == 'park') ? 2 : (dashSel[i].post.park == 'parkcomplete') ? 1 : 0, "#00FF00"];
+        count++;
+        var add = (dashSel[i].post.park == 'hang') ? 50 : (dashSel[i].post.park == 'park') ? 25 : (dashSel[i].post.park == 'parkcomplete') ? 10 : 0;
+        totalPoints += add;
+        if(add > maxPoints){
+            maxPoints = add;
+        }
+    }
+
+    document.getElementById('dashEndPoints').innerText = (count > 0) ? String(totalPoints/count) : "NaN";
+    document.getElementById('dashEndPointsMax').innerText = String(maxPoints);
+    theoryMaxScore += maxPoints;
+
+    var data = google.visualization.arrayToDataTable(hang);
+    var view = new google.visualization.DataView(data);
+
+    var options = {
+        title: "End Game Position, 3=hang, 2=parkcompelte, 1=park",
+        width: "95%",
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+        vAxes: {
+            0: {
+                title: 'Park Position',
+                viewWindow: {
+                    min: 0,
+                    max: 3
+                }
+            }   
+        },
+        hAxes: {
+            0: {title: 'Round Number'},
+        }
+    };
+
+    var chart = new google.visualization.ColumnChart(document.getElementById("dashChartHang"));
+    chart.draw(view, options);
+
+    document.getElementById('dashTheoryMaxScore').innerText = theoryMaxScore.toFixed(0);
+
+    
     var allTeams = [];
+
+    var byTeam = [];
+
+    for(m in dashData){
+        create = true;
+        for(i in byTeam){
+            if(byTeam[i][0].team == dashData[m].team){
+                create = false;
+                byTeam[i][byTeam[i].length] = dashData[m];
+            }
+        }
+        if(create){
+            byTeam[byTeam.length] = [dashData[m]];
+        }
+    }
+
+    for(t in byTeam){
+        var tp = 0;
+        var tpAuto = 0;
+        var tpMinerals = 0;
+        var tpEnd = 0;
+        for(m in byTeam[t]){
+            tp += byTeam[t][m].match.score.total;
+            tpAuto += byTeam[t][m].match.score.auto;
+            tpMinerals += byTeam[t][m].match.score.tele;
+            tpEnd += byTeam[t][m].match.score.end;
+        }
+        var l = byTeam[t].length;
+        allTeams[allTeams.length] = [byTeam[t][0].team, tp/l, tpAuto/l, tpMinerals/l, tpEnd/l];
+    }
+
+
+
+    for(team = 0; team < allTeams.length - 1; team++){
+        for(look = team + 1; look < allTeams.length; look++){
+            if(allTeams[look][1] > allTeams[team][1]){
+                var temp = allTeams[team];
+                allTeams[team] = allTeams[look];
+                allTeams[look] = temp;
+            }
+        }
+    }
 
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Team');
-    data.addColumn('string', '');
+    data.addColumn('number', 'Average Points Scored');
+    data.addColumn('number', 'Average Points Auto');
+    data.addColumn('number', 'Average Points Minerals');
+    data.addColumn('number', 'Average Points End-Game');
+    
         
 
     data.addRows(allTeams);
+
+
     for(i = 0; i < allTeams.length; i++){
 
-
-
-        
-        var s = (arr[i][3] - 1) * 100 / 1 + 155;
+        var s = (allTeams[i][1]) * 255 / 300;
+        data.setProperty(i, 1, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
+        var s = (allTeams[i][2]) * 255 / 80;
+        data.setProperty(i, 2, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
+        var s = (allTeams[i][3]) * 255 / 150;
         data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
-        var s = Math.abs(Math.round(arr[i][4] * 255 / 30));
-        data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
+        var s = (allTeams[i][4]) * 255 / 50;
+        data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
+    
+        
+    //     var s = (arr[i][3] - 1) * 100 / 1 + 155;
+    //     data.setProperty(i, 3, 'style', 'background-color: rgb(' + String(255 - s)  + ',' + String(s) + ',0);');
+    //     var s = Math.abs(Math.round(arr[i][4] * 255 / 30));
+    //     data.setProperty(i, 4, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
 
-        if(arr[i][5] != null){
-            var s = Math.round(arr[i][5] * 255 / 30);
-            data.setProperty(i, 5, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
-        }
+    //     if(arr[i][5] != null){
+    //         var s = Math.round(arr[i][5] * 255 / 30);
+    //         data.setProperty(i, 5, 'style', 'background-color: rgb(' + String(s)  + ',' + String(255 - s) + ',0);');
+    //     }
     }
     
     var table = new google.visualization.Table(document.getElementById('dashChartAll'));
 
     table.draw(data, {allowHtml: true, showRowNumber: true, width: '100%', height: '100%'});
-    
 }
