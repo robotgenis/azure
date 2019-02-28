@@ -55,7 +55,7 @@ function matchLoad(){
     }
     var html = document.getElementById("matchList").innerHTML;
     var outHtml = "";
-    if(loginSecurity < 3){
+    if(login.user.security < 3){
         newMatches = [];
         for(match in matches){
             if(matches[match][0] < 1){
@@ -175,7 +175,9 @@ function matchStart(){
     matchData.type = "match";
     matchData.number = matchNumber;
     matchData.team = matchTeam;
-    matchData.scouter = {'username': loginUsername, 'teamnum': loginTeam, 'prediction': Number(document.getElementById("matchInputPrediction").innerText)};
+    matchData.scouter = login.getScouter();
+    matchData.scouter.prediction = Number(document.getElementById("matchInputPrediction").innerText);
+    //matchData.scouter = {'username': loginUsername, 'teamnum': loginTeam, 'prediction': Number(document.getElementById("matchInputPrediction").innerText)};
     matchData.auto = {
         land:{value:false,time:0.0}, 
         sample:{value:false,time:0.0}, 
@@ -432,7 +434,7 @@ function matchSubmit(){
         if(matchData.post.park != "hang") pass = false;
         
         if(pass){
-            saveData({type: "cert", scouter: {username: loginUsername, teamnum: loginTeam}});
+            saveData({type: "cert", scouter: login.getScouter()});
             document.getElementById('trainingComplete').innerText = 'Completed Successfully';
         }else{
             document.getElementById('trainingComplete').innerText = 'Try again!';
@@ -440,7 +442,7 @@ function matchSubmit(){
 
         setTab("match-7");
     }else{
-        saveData({type: "score", score: score, scouter: {username: loginUsername, teamnum: loginTeam}});
+        saveData({type: "score", score: score, scouter: login.getScouter()});
         
         saveData(matchData);
 

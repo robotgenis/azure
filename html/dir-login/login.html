@@ -5,7 +5,7 @@
 
 <div class="row">
     <div class="col-sm-3"></div>
-    <button type="button" class="col-sm-6 sm btn btn-secondary" style="font-size: 4vw;" onclick="loginSubmitUser('Guest','30000');openDashboard();">View Data/Analysis</button>
+    <button type="button" class="col-sm-6 sm btn btn-secondary" style="font-size: 4vw;" onclick="login.loginSubmitUser('Guest','30000');openDashboard();">View Data/Analysis</button>
     <div class="col-sm-3"></div>
 </div>
 <div class="row" style="height: 5vh"></div>
@@ -15,7 +15,7 @@
     <div class="card mb-4"><!--Login-->
         <h3 class="card-header" style="font-size: 8vh">Login</h3>
         <div class="card-body">
-            <form action="javascript:void(0);" onsubmit="loginSubmit();">
+            <form action="javascript:void(0);" onsubmit="login.loginSubmit();">
                 <fieldset>
                     <div class="form-group">
                         <label for="loginUsername" style="font-size: 6vh">Username</label>
@@ -41,7 +41,7 @@
     <div class="card mb-4"><!--Create Account-->
         <h3 class="card-header" style="font-size: 8vh">Create</h3>
         <div class="card-body">
-            <form action="/accountcreated.html"  onsubmit="loginCreate();">
+            <form action="/accountcreated.html"  onsubmit="login.loginCreate();">
                 <fieldset>
                     <div class="form-group">
                         <label for="loginCreateUsername" style="font-size: 6vh">Username</label>

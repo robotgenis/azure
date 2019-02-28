@@ -1,35 +1,42 @@
-var loginUsers = null;
-var loginUsername = null;
-var loginTeam = null;
-var loginScore = null;
-var loginSecurity = null;
+//NAME=login
+
+//FUNCTIONS
+//loginSubmit()
+//loginSubmitUser(username, teamnum)
+//loginCreate()
+//getScouter()
+
+
+var login = {};
+login.users = null;
+login.user = {username:null,teamnum:null,score:null,security:null};
 
 $(document).ready(function() {
     $.get('sql', { cmd: 'users' }, function(data) {
-        users = JSON.parse(data);
+        login.users = JSON.parse(data);
         //auto login for testing
         //loginSubmitUser("Brandon", 5029);
     });
 });
 
-function loginSubmit(){
+login.loginSubmit = function(){
     var username = document.getElementById("loginUsername").value;
     var teamnum = document.getElementById("loginTeam").value;
     return loginSubmitUser(username, teamnum);
 }
 
-function loginSubmitUser(username, teamnum){
-    var login = false;
-    for(i in users){
-        if(users[i][0] == username && users[i][1] == teamnum){
-            login = true;
-            loginUsername = username;
-            loginTeam = teamnum;
-            loginScore = users[i][2];
-            loginSecurity = users[i][3];
+login.loginSubmitUser = function (username, teamnum){
+    var loginBool = false;
+    for(i in login.users){
+        if(login.users[i][0] == username && login.users[i][1] == teamnum){
+            loginBool = true;
+            login.username = username;
+            login.teamnum = teamnum;
+            login.score = login.users[i][2];
+            login.security = login.users[i][3];
         }
     }
-    if(login == true){
+    if(loginBool == true){
         if(loginSecurity < 2){
             var element = document.getElementById("menuMatch");
             element.classList.add("disabled");
@@ -53,7 +60,7 @@ function loginSubmitUser(username, teamnum){
         element.disabled = true;
 
         matchLoad();
-        loadDashboard();
+        dash.loadDashboard();
 
         setTab('menu');
     }
@@ -62,10 +69,14 @@ function loginSubmitUser(username, teamnum){
     return false;
 }
 
-function loginCreate(){
+login.loginCreate = function(){
     var username = document.getElementById("loginCreateUsername").value;
     username = username.trim();
     var teamnum = String(document.getElementById("loginCreateTeam").value);
-    $.get('createuser', { cmd: username + '-' + teamnum }, function(data) {});
+    $.get('createuser', { cmd: username + '-' + teamnum }, function() {});
     return true;
+}
+
+login.getScouter = function(){
+    return {username: login.user.username, teamnum: login.user.teamnum};
 }

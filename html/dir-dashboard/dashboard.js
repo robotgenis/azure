@@ -1,17 +1,28 @@
+//NAME=dash
+
+//FUNCTIONS
+//openDashboard()
+//dashSetTab(name)
+//loadDashboard()
+//refreshDashboard()
+//dashSelectTeam(teamnum)
+//drawChart()
 
 
-var dashMatchesHTML = null;
-var dashData = null;
-var dashSel = null;
+var dash = {};
 
-function openDashboard(){
-    refreshDashboard();
+dash.matchesHTML = null;
+dash.data = null;
+dash.sel = null;
 
-    dashSetTab('dashTeamTab');
+dash.openDashboard = function(){
+   dash.refreshDashboard();
+
+    dash.dashSetTab('dashTeamTab');
     setTab('dashboard');
 }
 
-function dashSetTab(name){
+dash.dashSetTab = function(name){
     var ele = document.getElementsByClassName('dashtab');
     for(i = 0; i < ele.length; i++){
         ele[i].style.display = "none";
@@ -19,7 +30,7 @@ function dashSetTab(name){
     document.getElementById(name).style.display = "block";
 }
 
-function loadDashboard(){
+dash.loadDashboard = function(){
     var max = teams.length;
     for(i = 0; i < max - 1; i ++){
         for(k = i + 1; k < max; k++){
@@ -42,28 +53,28 @@ function loadDashboard(){
     }
     document.getElementById('dashTeams').innerHTML = outHtml;
 
-    refreshDashboard();
+    dash.refreshDashboard();
 
     google.charts.load("current", {packages:['corechart','table']});
     // google.charts.load('current', {packages:['table']});
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(dash.drawChart);
 
     document.getElementById('dashTeams').value = String(teams[0][0]) + " - " + String(teams[0][1]);
 }
 
-function refreshDashboard(){
+dash.refreshDashboard = function(){
     $.get('get', function(data) {
         var arr = JSON.parse(data);
         for(i in arr){
             arr[i] = JSON.parse(arr[i][0]);
         }
-        dashData = arr;
+        dash.data = arr;
 
-        if(dashMatchesHTML == null){
-            dashMatchesHTML = document.getElementById("dashboardMatches").innerHTML;
+        if(dash.matchesHTML == null){
+            dash.matchesHTML = document.getElementById("dashboardMatches").innerHTML;
         }
 
-        var html = dashMatchesHTML;
+        var html = dash.matchesHTML;
         var outHtml = "";
         for(match in matches){
             add = html;
@@ -73,21 +84,21 @@ function refreshDashboard(){
             add = add.replace(/00003/g, matches[match][3]);
             add = add.replace(/00004/g, matches[match][4]);
             
-            for(i in dashData){
-                if(dashData[i].number == Number(matches[match][0])){
-                    // console.log(dashData[i].team);
+            for(i in dash.data){
+                if(dash.data[i].number == Number(matches[match][0])){
+                    // console.log(dash.data[i].team);
                     // console.log(matches[match][1]);
-                    // console.log(Number(dashData[i].team) == matches[match][1]);
-                    if(Number(dashData[i].team) == matches[match][1]){
+                    // console.log(Number(dash.data[i].team) == matches[match][1]);
+                    if(Number(dash.data[i].team) == matches[match][1]){
                         add = add.replace(/text1/g, 'text-success');
                     }
-                    if(Number(dashData[i].team) == matches[match][2]){
+                    if(Number(dash.data[i].team) == matches[match][2]){
                         add = add.replace(/text2/g, "text-success");
                     }
-                    if(Number(dashData[i].team) == matches[match][3]){
+                    if(Number(dash.data[i].team) == matches[match][3]){
                         add = add.replace(/text3/g, "text-success");
                     }
-                    if(Number(dashData[i].team) == matches[match][4]){
+                    if(Number(dash.data[i].team) == matches[match][4]){
                         add = add.replace(/text4/g, "text-success");
                     }
                 }
@@ -104,58 +115,58 @@ function refreshDashboard(){
 
         $("select").on("change", function(e) {
             var sel = document.getElementById('dashTeams').value;
-            dashSelectTeam(sel.split(' - ')[0]);
+            dash.dashSelectTeam(sel.split(' - ')[0]);
         });
 
         var sel = document.getElementById('dashTeams').value;
-        //dashSelectTeam(sel.split(' - ')[0]);
-        dashSelectTeam('5029');
+        //dash.dashSelectTeam(sel.split(' - ')[0]);
+        dash.dashSelectTeam('5029');
     });
 }
 
-function dashSelectTeam(teamnum){
-    dashSel = [];
-    for(i in dashData){
-        if(dashData[i].team == teamnum){
-            dashSel[dashSel.length] = dashData[i];
+dash.dashSelectTeam = function(teamnum){
+    dash.sel = [];
+    for(i in dash.data){
+        if(dash.data[i].team == teamnum){
+            dash.sel[dash.sel.length] = dash.data[i];
         }
     }
-    for(i = 0; i < dashSel.length - 1; i++){
-        for(s = i + 1; s < dashSel.length; s++){
-            if(dashSel[s].number < dashSel[i].number){
-                var temp = dashSel[s];
-                dashSel[s] = dashSel[i];
-                dashSel[i] = temp;
+    for(i = 0; i < dash.sel.length - 1; i++){
+        for(s = i + 1; s < dash.sel.length; s++){
+            if(dash.sel[s].number < dash.sel[i].number){
+                var temp = dash.sel[s];
+                dash.sel[s] = dash.sel[i];
+                dash.sel[i] = temp;
             }
         }
     }
     mat = "";
-    for(i in dashSel){
+    for(i in dash.sel){
         if(mat != "") mat += " ,";
-        mat += dashSel[i].number;
+        mat += dash.sel[i].number;
     }
 
-    drawChart();
+    dash.drawChart();
 }
 
-function drawChart() {
+dash.drawChart = function() {
     //info
 
-    document.getElementById('dashNumMatches').innerText = String(dashSel.length);
+    document.getElementById('dashNumMatches').innerText = String(dash.sel.length);
 
     document.getElementById('dashMatchesScouted').innerText = mat;
 
     //Scores
     var totalScore = 0;
     var highestScore = 0;
-    for(c in dashSel){
-        totalScore += dashSel[c].match.score.total;
-        if(dashSel[c].match.score.total > highestScore){
-            highestScore = dashSel[c].match.score.total;
+    for(c in dash.sel){
+        totalScore += dash.sel[c].match.score.total;
+        if(dash.sel[c].match.score.total > highestScore){
+            highestScore = dash.sel[c].match.score.total;
         }
     }
 
-    document.getElementById('dashAverageScore').innerText = (totalScore / dashSel.length).toFixed(2); 
+    document.getElementById('dashAverageScore').innerText = (totalScore / dash.sel.length).toFixed(2); 
     document.getElementById('dashMaxScore').innerText = highestScore.toFixed(0);
 
     var theoryMaxScore = 0;    
@@ -166,31 +177,31 @@ function drawChart() {
     var claim = 0
     var park = 0;
     var maxAutoPoints = 0;
-    for(i in dashSel){
-        land += (dashSel[i].auto.land.value) ? 1 : 0;
-        sample += (dashSel[i].auto.sample.value) ? 1 : 0;
-        claim += (dashSel[i].auto.claim.value) ? 1 : 0;
-        park += (dashSel[i].auto.park.value) ? 1 : 0;
+    for(i in dash.sel){
+        land += (dash.sel[i].auto.land.value) ? 1 : 0;
+        sample += (dash.sel[i].auto.sample.value) ? 1 : 0;
+        claim += (dash.sel[i].auto.claim.value) ? 1 : 0;
+        park += (dash.sel[i].auto.park.value) ? 1 : 0;
         var points = 0;
-        points += (dashSel[i].auto.land.value) ? 30 : 0;
-        points += (dashSel[i].auto.sample.value) ? 25 : 0;
-        points += (dashSel[i].auto.claim.value) ? 15 : 0;
-        points += (dashSel[i].auto.park.value) ? 10 : 0;
+        points += (dash.sel[i].auto.land.value) ? 30 : 0;
+        points += (dash.sel[i].auto.sample.value) ? 25 : 0;
+        points += (dash.sel[i].auto.claim.value) ? 15 : 0;
+        points += (dash.sel[i].auto.park.value) ? 10 : 0;
         if(points > maxAutoPoints){
             maxAutoPoints = points;
         }
     }
 
     var autoPoints = (land * 30) + (sample  * 25) + (claim * 15) + (park  * 10);
-    autoPoints = autoPoints / dashSel.length;
+    autoPoints = autoPoints / dash.sel.length;
     document.getElementById('dashAutoPoints').innerText = autoPoints.toFixed(2);
     document.getElementById('dashAutoPointsMax').innerText = maxAutoPoints.toFixed(0);
     theoryMaxScore += maxAutoPoints;
 
-    land = (dashSel.length > 0) ? (land / dashSel.length * 100).toFixed(0) + "%" : NaN;
-    sample = (dashSel.length > 0) ? (sample / dashSel.length * 100).toFixed(0) + "%" : NaN;
-    claim = (dashSel.length > 0) ? (claim / dashSel.length * 100).toFixed(0) + "%" : NaN;
-    park = (dashSel.length > 0) ? (park / dashSel.length * 100).toFixed(0) + "%" : NaN;
+    land = (dash.sel.length > 0) ? (land / dash.sel.length * 100).toFixed(0) + "%" : NaN;
+    sample = (dash.sel.length > 0) ? (sample / dash.sel.length * 100).toFixed(0) + "%" : NaN;
+    claim = (dash.sel.length > 0) ? (claim / dash.sel.length * 100).toFixed(0) + "%" : NaN;
+    park = (dash.sel.length > 0) ? (park / dash.sel.length * 100).toFixed(0) + "%" : NaN;
 
     document.getElementById('dashLandPer').innerText = land;
     document.getElementById('dashSamplePer').innerText = sample;
@@ -206,7 +217,7 @@ function drawChart() {
     var averageCycles = [["Round", {type: 'string', role: 'tooltip'} , "Cycle Time", { role: "style" } ]];
     var bestCycleAverage = 120;
 
-    for(i = 0; i < dashSel.length; i++){
+    for(i = 0; i < dash.sel.length; i++){
         var cycleCount = 1;
 
         var cycleCountPlace = 0;
@@ -214,15 +225,15 @@ function drawChart() {
         var totalMinerals = 0;
         var totalLengthPlace = 0;
         var totalLengthPick = 0;
-        for(c = 0; c < dashSel[i].teleop.cycles.length; c++){
-            cycles = dashSel[i].teleop.cycles;
-            arr[arr.length] = [String(dashSel[i].number), String(cycleCount), cycles[c].type, 1, cycles[c].length, null];
+        for(c = 0; c < dash.sel[i].teleop.cycles.length; c++){
+            cycles = dash.sel[i].teleop.cycles;
+            arr[arr.length] = [String(dash.sel[i].number), String(cycleCount), cycles[c].type, 1, cycles[c].length, null];
             if(c + 1 < cycles.length){
-                arr[arr.length - 1] = [String(dashSel[i].number), String(cycleCount), cycles[c].type, 1, cycles[c].length, cycles[c + 1].start - cycles[c].start];
+                arr[arr.length - 1] = [String(dash.sel[i].number), String(cycleCount), cycles[c].type, 1, cycles[c].length, cycles[c + 1].start - cycles[c].start];
                 if(cycles[c + 1].start < cycles[c].end && cycles[c+1].type == cycles[c].type){
-                    arr[arr.length - 1] = [String(dashSel[i].number), String(cycleCount), cycles[c].type, 2, cycles[c+1].end - cycles[c].start, null];
+                    arr[arr.length - 1] = [String(dash.sel[i].number), String(cycleCount), cycles[c].type, 2, cycles[c+1].end - cycles[c].start, null];
                     if(c + 2 < cycles.length){
-                        arr[arr.length - 1] = [String(dashSel[i].number), String(cycleCount), cycles[c].type, 2, cycles[c+1].end - cycles[c].start, cycles[c + 2].start - cycles[c].start]
+                        arr[arr.length - 1] = [String(dash.sel[i].number), String(cycleCount), cycles[c].type, 2, cycles[c+1].end - cycles[c].start, cycles[c + 2].start - cycles[c].start]
                     }
                     c++;
                 }
@@ -237,8 +248,8 @@ function drawChart() {
                 cycleCountPick++;
             }
         }
-        arr[arr.length] = [String(dashSel[i].number), 'Average', ,totalMinerals/cycleCountPlace, totalLengthPlace/cycleCountPlace, totalLengthPick/cycleCountPick];
-        averageCycles[averageCycles.length] = [String(dashSel[i].number), 'Match' + String(dashSel[i].number), totalLengthPick/cycleCountPick, "#FF0000"];
+        arr[arr.length] = [String(dash.sel[i].number), 'Average', ,totalMinerals/cycleCountPlace, totalLengthPlace/cycleCountPlace, totalLengthPick/cycleCountPick];
+        averageCycles[averageCycles.length] = [String(dash.sel[i].number), 'Match' + String(dash.sel[i].number), totalLengthPick/cycleCountPick, "#FF0000"];
 
         if(bestCycleAverage > totalLengthPick/cycleCountPick){
             bestCycleAverage = totalLengthPick/cycleCountPick;
@@ -336,12 +347,12 @@ function drawChart() {
     var matchCount = 0;
     var maxMineralsScored = 0;
 
-    for(i in dashSel){
-        minerals[minerals.length] = [String(dashSel[i].number), 'Match' + String(dashSel[i].number), dashSel[i].teleop.count.lander, "#00FF00"];
-        mineralsScored += dashSel[i].teleop.count.lander;
+    for(i in dash.sel){
+        minerals[minerals.length] = [String(dash.sel[i].number), 'Match' + String(dash.sel[i].number), dash.sel[i].teleop.count.lander, "#00FF00"];
+        mineralsScored += dash.sel[i].teleop.count.lander;
         matchCount++;
-        if(dashSel[i].teleop.count.lander > maxMineralsScored){
-            maxMineralsScored = dashSel[i].teleop.count.lander;
+        if(dash.sel[i].teleop.count.lander > maxMineralsScored){
+            maxMineralsScored = dash.sel[i].teleop.count.lander;
         }
     }
 
@@ -386,10 +397,10 @@ function drawChart() {
     var maxPoints = 0;
     var totalPoints = 0;
 
-    for(c in dashSel){
-        hang[hang.length] = [String(dashSel[i].number), (dashSel[i].post.park == 'hang') ? 3 : (dashSel[i].post.park == 'park') ? 2 : (dashSel[i].post.park == 'parkcomplete') ? 1 : 0, "#00FF00"];
+    for(c in dash.sel){
+        hang[hang.length] = [String(dash.sel[i].number), (dash.sel[i].post.park == 'hang') ? 3 : (dash.sel[i].post.park == 'park') ? 2 : (dash.sel[i].post.park == 'parkcomplete') ? 1 : 0, "#00FF00"];
         count++;
-        var add = (dashSel[i].post.park == 'hang') ? 50 : (dashSel[i].post.park == 'park') ? 25 : (dashSel[i].post.park == 'parkcomplete') ? 10 : 0;
+        var add = (dash.sel[i].post.park == 'hang') ? 50 : (dash.sel[i].post.park == 'park') ? 25 : (dash.sel[i].post.park == 'parkcomplete') ? 10 : 0;
         totalPoints += add;
         if(add > maxPoints){
             maxPoints = add;
@@ -433,16 +444,16 @@ function drawChart() {
 
     var byTeam = [];
 
-    for(m in dashData){
+    for(m in dash.data){
         create = true;
         for(i in byTeam){
-            if(byTeam[i][0].team == dashData[m].team){
+            if(byTeam[i][0].team == dash.data[m].team){
                 create = false;
-                byTeam[i][byTeam[i].length] = dashData[m];
+                byTeam[i][byTeam[i].length] = dash.data[m];
             }
         }
         if(create){
-            byTeam[byTeam.length] = [dashData[m]];
+            byTeam[byTeam.length] = [dash.data[m]];
         }
     }
 
