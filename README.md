@@ -87,7 +87,9 @@ dashboard
 ### Access levels numbers
 1 guest
 2 not confirmed account
-5 confirmed account
+3 temp access account
+4 auto confirmed account
+5 manually confirmed account
 10 admin
 
 ### Match JSON Format
@@ -99,6 +101,19 @@ dashboard
         teleop:{count:{depot:0,lander:0,drop:0},cycles:[{start:00.0,end:00.0,length:00.0,type:'depot'},{start:00.0,end:00.0,length:00.0,type:'lander'}]}
         post:{park:'hang',ratings:{blocks:0,balls:0,pick:0}}
         match:{times:{length:0.0,auto:0.0},score:{auto:0,tele:0,end:0,total:0}}
+
+
+### New Match JSON Format
+        type: "match"
+        match: {number: 99, teamnum: 1001, Color:"red/blue"}
+        scouter: {username: Brandon, teamnum: 5029, prediction: 50}
+        auto:{position:"crater/depot",land:{value:false,time:00.0}, sample:{value:false,time:00.0}, claim:{value:false,time:00.0}, park:{value:false,time:00.0}}
+        cyclesUngrouped[{pick:00.0,place:00.0,length:00.0,type:'lander/drop'}]
+        cyclesGrouped[{pick:[00.0],place:[00.0],length:00.0,type:'lander/drop']
+        minerals:{count:{lander:0,drop:0}}
+        post:{park:'hang/park/parkcomplete',path:{},ratings:{defender:false,defended:false}}
+        time:{length:0.0,auto:0.0}
+        score:{auto:0,tele:0,end:0,total:0}}
 
 ### Score JSON Format
         type: "score"
