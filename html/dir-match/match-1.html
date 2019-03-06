@@ -6,7 +6,7 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-4">
             <h1 style="font-size: 2vh; text-align: center;">round</h1>
-            <h1 id="matchNumber-1" style="font-size: 4vh; text-align: center;"></h1>
+            <h1 id="match-1-number" style="font-size: 4vh; text-align: center;"></h1>
         </div>
     </div>
 </div>
@@ -17,25 +17,27 @@
     <div style="display: none; height: 100%; width:100%"><img src="field3.png" style='height: 100%; width: 100%; object-fit: contain'></img></div>
     <div style="display: none; height: 100%; width:100%"><img src="field4.png" style='height: 100%; width: 100%; object-fit: contain'></img></div>
 </div>
-<div id="matchTeams" class="container-fluid" style="height: 100%">
+<div id="match-teams-source" class="container-fluid" style="height: 100%; display: none;">
     <div class="row">
-        <button type="button" class="col-sm-6 btn btn-primary" style="height: 20vh; font-size: 8vh; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="matchSelectTeam('00003');">
+        <button type="button" class="col-sm-6 btn btn-primary" style="height: 20vh; font-size: 8vh; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="match.selectTeam('00003');">
             <h1 style="font-size: 8vh;">00003</h1>
             <h1 style="font-size: 3vh;">name3</h1>
         </button>
-        <button type="button" class="col-sm-6 btn btn-danger" style="height: 20vh; font-size: 8vh; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="matchSelectTeam('00001');">
+        <button type="button" class="col-sm-6 btn btn-danger" style="height: 20vh; font-size: 8vh; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.selectTeam('00001');">
             <h1 style="font-size: 8vh;">00001</h1>
             <h1 style="font-size: 3vh;">name1</h1>
         </button>
     </div>
     <div class="row">
-        <button type="button" class="col-sm-6 btn btn-primary" style="height: 20vh; font-size: 8vh; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="matchSelectTeam('00004');">
+        <button type="button" class="col-sm-6 btn btn-primary" style="height: 20vh; font-size: 8vh; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.selectTeam('00004');">
             <h1 style="font-size: 8vh;">00004</h1>
             <h1 style="font-size: 3vh;">name4</h1>
         </button>
-        <button type="button" class="col-sm-6 btn btn-danger" style="height: 20vh; font-size: 8vh; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="matchSelectTeam('00002');">
+        <button type="button" class="col-sm-6 btn btn-danger" style="height: 20vh; font-size: 8vh; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.selectTeam('00002');">
             <h1 style="font-size: 8vh;">00002</h1>
             <h1 style="font-size: 3vh;">name2</h1>
         </button>
     </div>
+</div>
+<div id="match-teams" class="container-fluid" style="height: 100%">
 </div>

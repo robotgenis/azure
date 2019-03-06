@@ -6,15 +6,17 @@
     </div>
 </div>
 <div class="scrollbar scrollbar-success" style="overflow:scroll; width: 100vw;height:92 vh;">
-    <table id="matchList" class="table table-hover">
-        <tr class="table" onclick="matchSelectMatch(99);">
-            <th scope="row"><button type="button" class="btn btn-primary" style="width: 100%"><h1 style="font-size: 40vw">99</h1></button></th>
+    <table id="match-list-source" class="table table-hover" style="display: none;">
+        <tr class="table" onclick="match.selectMatch(99);">
+            <th scope="row"><button type="button" class="btn btn-dark" style="width: 100%"><h1 style="font-size: 40vw">99</h1></button></th>
             <td>
-                <h2 style="font-size: 10vw">00001</h2>
-                <h2 style="font-size: 10vw">00002</h2>
+                <h2 style="font-size: 10vw;">00001</h2>
+                <h2 style="font-size: 10vw;">00002</h2>
                 <h2 style="font-size: 10vw">00003</h2>
                 <h2 style="font-size: 10vw">00004</h2>
             </td>
         </tr>
+    </table>
+    <table id="match-list" class="table table-hover">
     </table>
 </div>

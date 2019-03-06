@@ -1,12 +1,17 @@
-// //NAME=match
+//NAME=match
 
-// //FUNCTIONS
-// //
+//FUNCTIONS
+//getTeamName(number)
+//getMatch(matchNumber)
+//loadMatches()
+//selectMatch(matchNumber)
 
 var teams = null; //public
 
 var match = {};
 match.matches = null;
+match.matchNumber = null;
+match.current = null;
 
 // match.matchNumber = null;
 // var matchTeam = null;
@@ -21,117 +26,107 @@ match.matches = null;
 // var matchTeamsHTML = null;
 // var matchStartHang = null;
 
-$(document).ready(function() {
-    $.get(' sql', { cmd: 'matches' }, function(data) {
-        match.matches = JSON.parse(data);
-        $.get(' sql', { cmd: 'teams' }, function(data) {
-            teams = JSON.parse(data);
-        });
-    });
-});
 
-// function getTeamName(number){
-//     out = null;
-//     for(i = 0; i < match.teams.length; i++){
-//         if(match.teams[i][0] == number){
-//             out = match.teams[i][1]
-//         }
-//     }
-//     return out;
-// }
+match.getTeamName = function(number){
+    out = null;
+    for(i = 0; i < teams.length; i++){
+        if(teams[i][0] == number){
+            out = teams[i][1]
+        }
+    }
+    return out;
+}
 
-// function getMatch(matchNumber){
-//     ret = null;
-//     for(match in match.matches){
-//         if(match.matches[match][0] == matchNumber){
-//             ret = match.matches[match];
-//         }
-//     }
-//     return ret;
-// }
+match.getMatch = function(matchNumber){
+    ret = null;
+    for(i in match.matches){
+        if(match.matches[i][0] == matchNumber){
+            ret = match.matches[i];
+        }
+    }
+    return ret;
+}
 
-// function matchLoad(){
-//     var max = match.matches.length;
-//     for(i = 0; i < max - 1; i ++){
-//         for(k = i + 1; k < max; k++){
-//             if(match.matches[i][0] > match.matches[k][0]){
-//                 var temp = match.matches[i];
-//                 match.matches[i] = match.matches[k];
-//                 match.matches[k] = temp;
-//             }
-//         }
-//     }
-//     var html = document.getElementById("matchList").innerHTML;
-//     var outHtml = "";
-//     if(login.user.security < 3){
-//         newMatches = [];
-//         for(match in match.matches){
-//             if(match.matches[match][0] < 1){
-//                 newMatches[newMatches.length] = match.matches[match];
-//             }
-//         }
-//         match.matches = newMatches;
-//     }else{
-//         newMatches = [];
-//         for(match in match.matches){
-//             if(match.matches[match][0] != 0){
-//                 newMatches[newMatches.length] = match.matches[match];
-//             }
-//         }
-//         match.matches = newMatches;
-//     }
+match.loadMatches = function(){
+    //sort
+    var max = match.matches.length;
+    for(i = 0; i < max - 1; i ++){
+        for(k = i + 1; k < max; k++){
+            if(match.matches[i][0] > match.matches[k][0]){
+                var temp = match.matches[i];
+                match.matches[i] = match.matches[k];
+                match.matches[k] = temp;
+            }
+        }
+    }
+    //Generate Chart
+    var html = document.getElementById("match-list-source").innerHTML;
+    var outHtml = "";
+    var displayMatches = [];
+    if(login.user.security < 3){
+        for(i in match.matches){
+            if(match.matches[i][0] < 1){
+                displayMatches[displayMatches.length] = match.matches[i];
+            }
+        }
+    }else{
+        for(i in match.matches){
+            if(match.matches[i][0] != 0){
+                displayMatches[displayMatches.length] = match.matches[i];
+            }
+        }
+    }
 
-//     for(match in match.matches){
-//         add = html;
-//         add = add.replace(/99/g, match.matches[match][0]);
-//         add = add.replace(/00001/g, match.matches[match][1]);
-//         add = add.replace(/00002/g, match.matches[match][2]);
-//         add = add.replace(/00003/g, match.matches[match][3]);
-//         add = add.replace(/00004/g, match.matches[match][4]);
-//         outHtml += add;
-//     }
-//     document.getElementById("matchList").innerHTML = outHtml;
-// }
+    for(i in displayMatches){
+        add = html;
+        add = add.replace(/99/g, displayMatches[i][0]);
+        add = add.replace(/00001/g, displayMatches[i][1]);
+        add = add.replace(/00002/g, displayMatches[i][2]);
+        add = add.replace(/00003/g, displayMatches[i][3]);
+        add = add.replace(/00004/g, displayMatches[i][4]);
+        outHtml += add;
+    }
+    document.getElementById("match-list").innerHTML = outHtml;
+}
 
-// function matchSelectMatch(match){
-//     matchNumber = match;
-//     if(matchTeamsHTML == null){
-//         matchTeamsHTML = document.getElementById("matchTeams").innerHTML;
-//     }
+match.selectMatch = function(matchNumber){
+    match.matchNumber = matchNumber;
 
-//     var html = matchTeamsHTML;
+    var html = document.getElementById("match-teams-source").innerHTML;
+    match.current = match.getMatch(match.matchNumber);
 
-//     html = html.replace(/00001/g, getMatch(matchNumber)[1]);
-//     html = html.replace(/name1/g, getTeamName(getMatch(matchNumber)[1]));
-//     html = html.replace(/00002/g, getMatch(matchNumber)[2]);
-//     html = html.replace(/name2/g, getTeamName(getMatch(matchNumber)[2]));
-//     html = html.replace(/00003/g, getMatch(matchNumber)[3]);
-//     html = html.replace(/name3/g, getTeamName(getMatch(matchNumber)[3]));
-//     html = html.replace(/00004/g, getMatch(matchNumber)[4]);
-//     html = html.replace(/name4/g, getTeamName(getMatch(matchNumber)[4]));
+    html = html.replace(/00001/g, match.current[1]);
+    html = html.replace(/name1/g, match.getTeamName(match.current[1]));
+    html = html.replace(/00002/g, match.current[2]);
+    html = html.replace(/name2/g, match.getTeamName(match.current[2]));
+    html = html.replace(/00003/g, match.current[3]);
+    html = html.replace(/name3/g, match.getTeamName(match.current[3]));
+    html = html.replace(/00004/g, match.current[4]);
+    html = html.replace(/name4/g, match.getTeamName(match.current[4]));
 
-//     document.getElementById("matchTeams").innerHTML = html;
+    document.getElementById("match-teams").innerHTML = html;
 
-//     document.getElementById("matchNumber-1").innerHTML = String(matchNumber);
-//     setTab('match-1');
-// }
+    document.getElementById("match-1-number").innerHTML = String(match.matchNumber);
+    document.getElementById("match-2-number").innerHTML = String(match.matchNumber);
+    document.getElementById("match-3-number").innerHTML = String(match.matchNumber);
+    document.getElementById("match-4-number").innerHTML = String(match.matchNumber);
+    document.getElementById("match-5-number").innerHTML = String(match.matchNumber);
+
+    setTab('match-1');
+}
 
 // function matchSelectTeam(team){
 //     matchTeam = team;
 
-//     document.getElementById("matchNumber-2").innerHTML = String(matchNumber);
 //     document.getElementById("matchTeamName-2").innerHTML = getTeamName(matchTeam);
 //     document.getElementById("matchTeamNumber-2").innerHTML = String(matchTeam);
 
-//     document.getElementById("matchNumber-3").innerHTML = String(matchNumber);
 //     document.getElementById("matchTeamName-3").innerHTML = getTeamName(matchTeam);
 //     document.getElementById("matchTeamNumber-3").innerHTML = String(matchTeam);
 
-//     document.getElementById("matchNumber-4").innerHTML = String(matchNumber);
 //     document.getElementById("matchTeamName-4").innerHTML = getTeamName(matchTeam);
 //     document.getElementById("matchTeamNumber-4").innerHTML = String(matchTeam);
 
-//     document.getElementById("matchNumber-5").innerHTML = String(matchNumber);
 //     document.getElementById("matchTeamName-5").innerHTML = getTeamName(matchTeam);
 //     document.getElementById("matchTeamNumber-5").innerHTML = String(matchTeam);
 

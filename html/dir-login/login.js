@@ -12,12 +12,18 @@ login.users = null;
 login.user = {username:null,teamnum:null,score:null,security:null};
 
 $(document).ready(function() {
-    $.get('sql', { cmd: 'users' }, function(data) {
-        login.users = JSON.parse(data);
-        //auto login for testing
-        //loginSubmitUser("Brandon", 5029);
-        
+    $.get(' sql', { cmd: 'matches' }, function(data) {
+        match.matches = JSON.parse(data);
+        $.get(' sql', { cmd: 'teams' }, function(data) {
+            teams = JSON.parse(data);
+            $.get('sql', { cmd: 'users' }, function(data) {
+                login.users = JSON.parse(data);
+                //auto login for testing
+                //login.loginSubmitUser("Brandon", 5029);
+            });
+        });
     });
+    
 });
 
 login.loginSubmit = function(){
@@ -31,10 +37,10 @@ login.loginSubmitUser = function (username, teamnum){
     for(i in login.users){
         if(login.users[i][0] == username && login.users[i][1] == teamnum){
             loginBool = true;
-            login.username = username;
-            login.teamnum = teamnum;
-            login.score = login.users[i][2];
-            login.security = login.users[i][3];
+            login.user.username = username;
+            login.user.teamnum = teamnum;
+            login.user.score = login.users[i][2];
+            login.user.security = login.users[i][3];
         }
     }
     if(loginBool == true){
@@ -60,13 +66,16 @@ login.loginSubmitUser = function (username, teamnum){
         //element.classList.add("disabled");
         element.disabled = true;
 
-        //matchLoad();
-        dash.loadDashboard();
+        match.loadMatches();
+        //dash.loadDashboard();
 
         setTab('menu');
+
+        document.getElementById("loginUsername").value = "";
+        document.getElementById("loginTeam").value = "";
+    }else{
+        alert("Incorrect username or password");
     }
-    document.getElementById("loginUsername").value = "";
-    document.getElementById("loginTeam").value = "";
     return false;
 }
 
