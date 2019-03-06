@@ -16,13 +16,14 @@ $(document).ready(function() {
         login.users = JSON.parse(data);
         //auto login for testing
         //loginSubmitUser("Brandon", 5029);
+        
     });
 });
 
 login.loginSubmit = function(){
     var username = document.getElementById("loginUsername").value;
     var teamnum = document.getElementById("loginTeam").value;
-    return loginSubmitUser(username, teamnum);
+    return login.loginSubmitUser(username, teamnum);
 }
 
 login.loginSubmitUser = function (username, teamnum){
@@ -37,7 +38,7 @@ login.loginSubmitUser = function (username, teamnum){
         }
     }
     if(loginBool == true){
-        if(loginSecurity < 2){
+        if(login.user.security < 2){
             var element = document.getElementById("menuMatch");
             element.classList.add("disabled");
             element.disabled = true;
@@ -59,7 +60,7 @@ login.loginSubmitUser = function (username, teamnum){
         //element.classList.add("disabled");
         element.disabled = true;
 
-        matchLoad();
+        //matchLoad();
         dash.loadDashboard();
 
         setTab('menu');

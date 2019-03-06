@@ -1,38 +1,46 @@
-var submitTimer = null;
-var cookieName = "POWERSCOUTDATA-STATES";
+//NAME=submit
+
+//FUNCTIONS
+//saveData(arr)
+//submitCheck()
+//submitSend()
+
+var submit = {};
+submit.timer = null;
+submit.cookieName = "POWERSCOUTDATA-STATES";
 
 $(document).ready(function() {
-    submitTimer = setInterval(submitCheck, 3000);
-    if(localStorage.getItem(cookieName) == null){
-        localStorage.setItem(cookieName, JSON.stringify([]));
+    submit.timer = setInterval(submit.submitCheck, 3000);
+    if(localStorage.getItem(submit.cookieName) == null){
+        localStorage.setItem(submit.cookieName, JSON.stringify([]));
     }
 });
 
-function saveData(arr){ 
-    var prev = localStorage.getItem(cookieName);
+submit.saveData = function(arr){ 
+    var prev = localStorage.getItem(submit.cookieName);
     prev = JSON.parse(prev);
     
     prev[prev.length] = arr;
 
-    localStorage.setItem(cookieName, JSON.stringify(prev));
+    localStorage.setItem(submit.cookieName, JSON.stringify(prev));
 }
 
-function submitCheck(){
-    if(JSON.parse(localStorage.getItem(cookieName)).length > 0){
+submit.submitCheck = function(){
+    if(JSON.parse(localStorage.getItem(submit.cookieName)).length > 0){
         $.get( "/check", function( data ) {
             if(data == "SUCCESS!"){
-                submitSend();
+                submit.submitSend();
             }    
         });
     }
 }
 
-function submitSend(){
-    var data = localStorage.getItem(cookieName);
+submit.submitSend = function(){
+    var data = localStorage.getItem(submit.cookieName);
     $.ajax("/submit", {
         data : data,
         contentType : 'application/json',
         type : 'POST'}, function(ret){
         });
-    localStorage.setItem(cookieName, JSON.stringify([]));
+    localStorage.setItem(submit.cookieName, JSON.stringify([]));
 }
