@@ -1,7 +1,7 @@
 <div class="container-fluid bg-light" style="height: 8vh; ">
     <div class="row" style="height: 8vh">
         <div class="col-sm-3">
-            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 3vh;" onclick="matchFinish();">Finish</button>
+            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 3vh;" onclick="match.matchFinish();">Finish</button>
         </div>
         <div class="col-sm-1"></div>
         <div class="col-sm-4">
@@ -16,7 +16,7 @@
 </div>
 <div class="container-fluid" style="height: 100%;">
     <div class="row" style="height: 30vh">
-        <button type="button" class="col-sm-12 btn btn-warning" style="height: 30vh; font-size: 16vw; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="matchMineralClick('pick');">PICK UP</button>
+        <button type="button" class="col-sm-12 btn btn-warning" style="height: 30vh; font-size: 16vw; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('pick');">PICK UP</button>
     </div>
     <div class="row" style="height: 1vh;"></div>
     <div class="row" style="height: 8vh">
@@ -35,10 +35,10 @@
     </div>
     <div class="row" style="height: 1vh;"></div>
     <div class="row" style="height: 35vh; width: 100vw;">
-        <button type="button" class="col-sm-6 btn btn-success" style="height: 35vh; font-size: 8vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="matchMineralClick('scoredepot');">SCORE<br/>DEPOT</button>
-        <button type="button" class="col-sm-6 btn btn-success" style="height: 35vh; font-size: 8vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="matchMineralClick('scorelander');">SCORE<br/>LANDER</button>
+        <button type="button" class="col-sm-6 btn btn-success" style="height: 35vh; font-size: 8vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('scoredepot');">SCORE<br/>DEPOT</button>
+        <button type="button" class="col-sm-6 btn btn-success" style="height: 35vh; font-size: 8vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('scorelander');">SCORE<br/>LANDER</button>
     </div>
     <div class="row" style="height: 17vh">
-        <button type="button" class="col-sm-12 btn btn-danger" style="height: 17vh; font-size:8vw; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="matchMineralClick('drop');">DROP</button>
+        <button type="button" class="col-sm-12 btn btn-danger" style="height: 17vh; font-size:8vw; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('drop');">DROP</button>
     </div>
 </div>

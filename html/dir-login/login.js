@@ -19,7 +19,7 @@ $(document).ready(function() {
             $.get('sql', { cmd: 'users' }, function(data) {
                 login.users = JSON.parse(data);
                 //auto login for testing
-                login.loginSubmitUser("Brandon", 5029);
+                //login.loginSubmitUser("Brandon", 5029);
             });
         });
     });
@@ -67,7 +67,7 @@ login.loginSubmitUser = function (username, teamnum){
         element.disabled = true;
 
         match.loadMatches();
-        //dash.loadDashboard();
+        dash.loadDashboard();
 
         setTab('menu');
 

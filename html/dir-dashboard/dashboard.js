@@ -76,29 +76,29 @@ dash.refreshDashboard = function(){
 
         var html = dash.matchesHTML;
         var outHtml = "";
-        for(match in matches){
+        for(m in match.matches){
             add = html;
-            add = add.replace(/99/g, matches[match][0]);
-            add = add.replace(/00001/g, matches[match][1]);
-            add = add.replace(/00002/g, matches[match][2]);
-            add = add.replace(/00003/g, matches[match][3]);
-            add = add.replace(/00004/g, matches[match][4]);
+            add = add.replace(/99/g, match.matches[m][0]);
+            add = add.replace(/00001/g, match.matches[m][1]);
+            add = add.replace(/00002/g, match.matches[m][2]);
+            add = add.replace(/00003/g, match.matches[m][3]);
+            add = add.replace(/00004/g, match.matches[m][4]);
             
             for(i in dash.data){
-                if(dash.data[i].number == Number(matches[match][0])){
+                if(dash.data[i].number == Number(match.matches[m][0])){
                     // console.log(dash.data[i].team);
                     // console.log(matches[match][1]);
                     // console.log(Number(dash.data[i].team) == matches[match][1]);
-                    if(Number(dash.data[i].team) == matches[match][1]){
+                    if(Number(dash.data[i].team) == match.matches[m][1]){
                         add = add.replace(/text1/g, 'text-success');
                     }
-                    if(Number(dash.data[i].team) == matches[match][2]){
+                    if(Number(dash.data[i].team) == match.matches[m][2]){
                         add = add.replace(/text2/g, "text-success");
                     }
-                    if(Number(dash.data[i].team) == matches[match][3]){
+                    if(Number(dash.data[i].team) == match.matches[m][3]){
                         add = add.replace(/text3/g, "text-success");
                     }
-                    if(Number(dash.data[i].team) == matches[match][4]){
+                    if(Number(dash.data[i].team) == match.matches[m][4]){
                         add = add.replace(/text4/g, "text-success");
                     }
                 }

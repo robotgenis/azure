@@ -10,6 +10,9 @@
 //matchTimerAdd()
 //changePosition()
 //autoInput(id)
+//matchTele()
+//matchMineralClick(action)
+//matchFinish()
 
 var teams = null; //public
 
@@ -24,7 +27,7 @@ match.startHanging = null;
 match.startPosition = {color:null, position:null};
 match.mineral = {count:null,start1:null,start2:null};
 match.mineralCount = null;
-match.timer = {time:null,timer:null,timerStart:null};
+match.timer = {time:null,timer:null,timerStart:null,autoTime:null};
 
 // match.matchNumber = null;
 // var matchTeam = null;
@@ -286,131 +289,131 @@ match.autoInput = function(id){
     }
 }
 
-// function matchTele(){
-//     matchAutoTime = matchTime;
+match.matchTele = function(){
+    match.timer.autoTime = match.timer.time;
 
-//     setTab('match-4');
-// }
+    setTab('match-4');
+}
 
-// function matchMineralClick(action){
-//     if(action == "pick"){
-//         if(matchMineralCount < 2){
-//             matchMineralCount += 1;
-//             if(matchMineralCount == 1){
-//                 document.getElementById("matchMineralTimer1").innerText = "0.0";
-//                 document.getElementById("matchMineralTimer1").style.display = "block";
-//                 document.getElementById("matchMineralTimerPic1").style.display = "block";
+match.matchMineralClick = function(action){
+    if(action == "pick"){
+        if(match.mineralCount < 2){
+            match.mineralCount += 1;
+            if(match.mineralCount == 1){
+                document.getElementById("match-4-mineralTimer1").innerText = "0.0";
+                document.getElementById("match-4-mineralTimer1").style.display = "block";
+                document.getElementById("match-4-mineralTimerPic1").style.display = "block";
                 
-//                 matchMineralStart1 = matchTime;
-//             }else if(matchMineralCount == 2){
-//                 document.getElementById("matchMineralTimer2").innerText = "0.0";
-//                 document.getElementById("matchMineralTimer2").style.display = "block";
-//                 document.getElementById("matchMineralTimerPic2").style.display = "block";
+                match.mineral.start1 = match.timer.time;
+            }else if(match.mineralCount == 2){
+                document.getElementById("match-4-mineralTimer2").innerText = "0.0";
+                document.getElementById("match-4-mineralTimer2").style.display = "block";
+                document.getElementById("match-4-mineralTimerPic1").style.display = "block";
 
-//                 matchMineralStart2 = matchTime;
-//             }
-//         }
-//     }else if(action == "scoredepot"){
-//         if(matchMineralCount > 0){
-//             var start = 0;
-//             var end = 0;
-//             var len = 0;
-//             if(matchMineralCount == 2){
-//                 start = Math.round(matchMineralStart1 / 100) / 10;
-//                 end = Math.round((matchTime) / 100) / 10;
-//                 len = Math.round((end - start) * 10) / 10;
+                match.mineral.start2 = match.timer.time;
+            }
+        }
+    }else if(action == "scoredepot"){
+        if(match.mineralCount > 0){
+            var start = 0;
+            var end = 0;
+            var len = 0;
+            if(match.mineralCount == 2){
+                start = Math.round(match.mineral.start1 / 100) / 10;
+                end = Math.round((match.timer.time) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
 
-//                 matchMineralStart1 = matchMineralStart2;
+                match.mineral.start1 = match.mineral.start2;
 
-//                 document.getElementById("matchMineralTimer2").style.display = "none";
-//                 document.getElementById("matchMineralTimerPic2").style.display = "none";
-//                 var t = (matchTime - matchMineralStart1) / 1000;
-//                 document.getElementById("matchMineralTimer1").innerText = t.toFixed(1);
-//             }else if(matchMineralCount == 1){
-//                 start = Math.round(matchMineralStart1 / 100) / 10;
-//                 end = Math.round((matchTime) / 100) / 10;
-//                 len = Math.round((end - start) * 10) / 10;
+                document.getElementById("match-4-mineralTimer2").style.display = "none";
+                document.getElementById("match-4-mineralTimerPic2").style.display = "none";
+                var t = (match.timer.time - match.mineral.start1) / 1000;
+                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+            }else if(match.mineralCount == 1){
+                start = Math.round(match.mineral.start1 / 100) / 10;
+                end = Math.round((match.timer.time) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
 
-//                 document.getElementById("matchMineralTimer1").style.display = "none";
-//                 document.getElementById("matchMineralTimerPic1").style.display = "none";
-//             }
-//             matchData.teleop.cycles[matchData.teleop.cycles.length] = {start: start,end: end,length: len,type:'depot'};
+                document.getElementById("match-4-mineralTimer1").style.display = "none";
+                document.getElementById("match-4-mineralTimerPic1").style.display = "none";
+            }
+            //match.data.teleop.cycles[match.data.teleop.cycles.length] = {start: start,end: end,length: len,type:'depot'};
             
-//             matchData.teleop.count.depot += 1;
+            //match.data.teleop.count.depot += 1;
 
-//             matchMineralCount -= 1;
-//         }
-//     }else if(action == "scorelander"){
-//         if(matchMineralCount > 0){
-//             var start = 0;
-//             var end = 0;
-//             var len = 0;
-//             if(matchMineralCount == 2){
-//                 start = Math.round(matchMineralStart1 / 100) / 10;
-//                 end = Math.round((matchTime) / 100) / 10;
-//                 len = Math.round((end - start) * 10) / 10;
+            match.mineralCount -= 1;
+        }
+    }else if(action == "scorelander"){
+        if(match.mineralCount > 0){
+            var start = 0;
+            var end = 0;
+            var len = 0;
+            if(match.mineralCount == 2){
+                start = Math.round(match.mineral.start1 / 100) / 10;
+                end = Math.round((match.timer.time) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
 
-//                 matchMineralStart1 = matchMineralStart2;
+                match.mineral.start1 = match.mineral.start2;
 
-//                 document.getElementById("matchMineralTimer2").style.display = "none";
-//                 document.getElementById("matchMineralTimerPic2").style.display = "none";
-//                 var t = (matchTime - matchMineralStart1) / 1000;
-//                 document.getElementById("matchMineralTimer1").innerText = t.toFixed(1);
-//             }else if(matchMineralCount == 1){
-//                 start = Math.round(matchMineralStart1 / 100) / 10;
-//                 end = Math.round((matchTime) / 100) / 10;
-//                 len = Math.round((end - start) * 10) / 10;
+                document.getElementById("match-4-mineralTimer2").style.display = "none";
+                document.getElementById("match-4-mineralTimerPic2").style.display = "none";
+                var t = (match.timer.time - match.mineral.start1) / 1000;
+                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+            }else if(match.mineralCount == 1){
+                start = Math.round(match.mineral.start1 / 100) / 10;
+                end = Math.round((match.timer.time) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
 
-//                 document.getElementById("matchMineralTimer1").style.display = "none";
-//                 document.getElementById("matchMineralTimerPic1").style.display = "none";
-//             }
-//             matchData.teleop.cycles[matchData.teleop.cycles.length] = {start: start,end: end,length: len,type:'lander'};
+                document.getElementById("match-4-mineralTimer1").style.display = "none";
+                document.getElementById("match-4-mineralTimerPic1").style.display = "none";
+            }
+            //match.data.teleop.cycles[match.data.teleop.cycles.length] = {start: start,end: end,length: len,type:'lander'};
             
-//             matchData.teleop.count.lander += 1;
+            //match.data.teleop.count.lander += 1;
 
-//             matchMineralCount -= 1;
-//         }
-//     }else if(action == "drop"){
-//         if(matchMineralCount > 0){
-//             // if(matchMineralCount == 1){
-//             //     document.getElementById("matchMineralTimer1").style.display = "none";
-//             //     document.getElementById("matchMineralTimerPic1").style.display = "none";
-//             // }else if(matchMineralCount == 2){
-//             //     document.getElementById("matchMineralTimer2").style.display = "none";
-//             //     document.getElementById("matchMineralTimerPic2").style.display = "none";
-//             // }
-//             // matchMineralCount -= 1;
+            match.mineralCount -= 1;
+        }
+    }else if(action == "drop"){
+        if(match.mineralCount > 0){
+            // if(matchMineralCount == 1){
+            //     document.getElementById("matchMineralTimer1").style.display = "none";
+            //     document.getElementById("matchMineralTimerPic1").style.display = "none";
+            // }else if(matchMineralCount == 2){
+            //     document.getElementById("matchMineralTimer2").style.display = "none";
+            //     document.getElementById("matchMineralTimerPic2").style.display = "none";
+            // }
+            // matchMineralCount -= 1;
 
-//             var start = 0;
-//             var end = 0;
-//             var len = 0;
-//             if(matchMineralCount == 2){
-//                 start = Math.round(matchMineralStart1 / 100) / 10;
-//                 end = Math.round((matchTime) / 100) / 10;
-//                 len = Math.round((end - start) * 10) / 10;
+            var start = 0;
+            var end = 0;
+            var len = 0;
+            if(match.mineralCount == 2){
+                start = Math.round(matchMineralStart1 / 100) / 10;
+                end = Math.round((match.timer.time) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
 
-//                 matchMineralStart1 = matchMineralStart2;
+                match.mineral.start1 = match.mineral.start2;
 
-//                 document.getElementById("matchMineralTimer2").style.display = "none";
-//                 document.getElementById("matchMineralTimerPic2").style.display = "none";
-//                 var t = (matchTime - matchMineralStart1) / 1000;
-//                 document.getElementById("matchMineralTimer1").innerText = t.toFixed(1);
-//             }else if(matchMineralCount == 1){
-//                 start = Math.round(matchMineralStart1 / 100) / 10;
-//                 end = Math.round((matchTime) / 100) / 10;
-//                 len = Math.round((end - start) * 10) / 10;
+                document.getElementById("match-4-mineralTimer2").style.display = "none";
+                document.getElementById("match-4-mineralTimerPic2").style.display = "none";
+                var t = (match.timer.time - match.mineral.start1) / 1000;
+                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+            }else if(match.mineralCount == 1){
+                start = Math.round(matchMineralStart1 / 100) / 10;
+                end = Math.round((matchTime) / 100) / 10;
+                len = Math.round((end - start) * 10) / 10;
 
-//                 document.getElementById("matchMineralTimer1").style.display = "none";
-//                 document.getElementById("matchMineralTimerPic1").style.display = "none";
-//             }
-//             matchData.teleop.cycles[matchData.teleop.cycles.length] = {start: start,end: end,length: len,type:'drop'};
+                document.getElementById("match-4-mineralTimer1").style.display = "none";
+                document.getElementById("match-4-mineralTimerPic1").style.display = "none";
+            }
+            //match.data.teleop.cycles[match.data.teleop.cycles.length] = {start: start,end: end,length: len,type:'drop'};
             
-//             matchData.teleop.count.drop += 1;
+            //match.data.teleop.count.drop += 1;
 
-//             matchMineralCount -= 1;
-//         }
-//     }
-// }
+            match.mineralCount -= 1;
+        }
+    }
+}
 
 // function matchMineralTimerCount(){
 //     if(document.getElementById("matchMineralTimer1").style.display == "block"){
@@ -420,11 +423,11 @@ match.autoInput = function(id){
 //     }
 // }
 
-// function matchFinish(){
-//     clearTimeout(matchTimer);
+match.matchFinish = function(){
+    clearTimeout(match.timer.timer);
 
-//     setTab('match-5');
-// }
+    setTab('match-5');
+}
 
 // function matchRadioClick(item){
 //     var section = String(item).split('-')[0];
