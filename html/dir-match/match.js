@@ -5,6 +5,11 @@
 //getMatch(matchNumber)
 //loadMatches()
 //selectMatch(matchNumber)
+//selectTeam(team)
+//matchStart()
+//matchTimerAdd()
+//changePosition()
+//autoInput(id)
 
 var teams = null; //public
 
@@ -12,6 +17,14 @@ var match = {};
 match.matches = null;
 match.matchNumber = null;
 match.current = null;
+match.matchTeam = null;
+match.matchTeamName = null;
+match.data = null;
+match.startHanging = null;
+match.startPosition = {color:null, position:null};
+match.mineral = {count:null,start1:null,start2:null};
+match.mineralCount = null;
+match.timer = {time:null,timer:null,timerStart:null};
 
 // match.matchNumber = null;
 // var matchTeam = null;
@@ -115,129 +128,168 @@ match.selectMatch = function(matchNumber){
     setTab('match-1');
 }
 
-// function matchSelectTeam(team){
-//     matchTeam = team;
+match.selectTeam = function(teamNumber){
+    match.matchTeam = teamNumber;
+    match.matchTeamName = match.getTeamName(match.matchTeam)
 
-//     document.getElementById("matchTeamName-2").innerHTML = getTeamName(matchTeam);
-//     document.getElementById("matchTeamNumber-2").innerHTML = String(matchTeam);
+    document.getElementById("match-2-teamName").innerHTML = match.matchTeamName;
+    document.getElementById("match-2-teamNumber").innerHTML = String(match.matchTeam);
+    document.getElementById("match-3-teamName").innerHTML = match.matchTeamName;
+    document.getElementById("match-3-teamNumber").innerHTML = String(match.matchTeam);
+    document.getElementById("match-4-teamName").innerHTML = match.matchTeamName;
+    document.getElementById("match-4-teamNumber").innerHTML = String(match.matchTeam);
+    document.getElementById("match-5-teamName").innerHTML = match.matchTeamName;
+    document.getElementById("match-5-teamNumber").innerHTML = String(match.matchTeam);
 
-//     document.getElementById("matchTeamName-3").innerHTML = getTeamName(matchTeam);
-//     document.getElementById("matchTeamNumber-3").innerHTML = String(matchTeam);
+    document.getElementById("match-2-inputHanging").checked = true;
 
-//     document.getElementById("matchTeamName-4").innerHTML = getTeamName(matchTeam);
-//     document.getElementById("matchTeamNumber-4").innerHTML = String(matchTeam);
+    document.getElementById("match-2-position-1").style.display = "none";
+    document.getElementById("match-2-position-2").style.display = "none";
+    document.getElementById("match-2-position-3").style.display = "none";
+    document.getElementById("match-2-position-4").style.display = "none";
+    
 
-//     document.getElementById("matchTeamName-5").innerHTML = getTeamName(matchTeam);
-//     document.getElementById("matchTeamNumber-5").innerHTML = String(matchTeam);
+    
+    match.startPosition.position = "crater";
+    if(match.current[1] == match.matchTeam || match.current[2] == match.matchTeam){
+        match.startPosition.color = "red";
+        document.getElementById("match-2-position-2").style.display = "block";
+    }else{
+        match.startPosition.color = "blue";
+        document.getElementById("match-2-position-3").style.display = "block";
+    }
 
-//     document.getElementById("matchInputHanging").checked = "";
+    setTab('match-2');
+}
 
-//     setTab('match-2');
-// }
+match.changePosition = function(){
+    
+    if(match.startPosition.color == "red"){
+        if(match.startPosition.position == "crater"){
+            match.startPosition.position = "depot";
+            document.getElementById("match-2-position-1").style.display = "block";
+            document.getElementById("match-2-position-2").style.display = "none";
+        }else{
+            match.startPosition.position = "crater";
+            document.getElementById("match-2-position-1").style.display = "none";
+            document.getElementById("match-2-position-2").style.display = "block";
+        }
+    }else{
+        if(match.startPosition.position == "crater"){
+            match.startPosition.position = "depot";
+            document.getElementById("match-2-position-4").style.display = "block";
+            document.getElementById("match-2-position-3").style.display = "none";
+        }else{
+            match.startPosition.position = "crater";
+            document.getElementById("match-2-position-4").style.display = "none";
+            document.getElementById("match-2-position-3").style.display = "block";
+        }
+    }
+    console.log(match.startPosition.position);
+}
 
-// function matchStart(){
+match.matchStart = function(){
 
-//     document.getElementById("matchInputAutoLand").checked = "";
-//     document.getElementById("matchInputAutoSample").checked = "";
-//     document.getElementById("matchInputAutoClaim").checked = "";
-//     document.getElementById("matchInputAutoPark").checked = "";
+    document.getElementById("match-3-inputAutoLand").checked = "";
+    document.getElementById("match-3-inputAutoSample").checked = "";
+    document.getElementById("match-3-inputAutoClaim").checked = "";
+    document.getElementById("match-3-inputAutoPark").checked = "";
 
-//     document.getElementById("matchMineralTimer1").style.display = "none";
-//     document.getElementById("matchMineralTimerPic1").style.display = "none";
-//     document.getElementById("matchMineralTimer2").style.display = "none";
-//     document.getElementById("matchMineralTimerPic2").style.display = "none";
+    document.getElementById("match-4-mineralTimer1").style.display = "none";
+    document.getElementById("match-4-mineralTimerPic1").style.display = "none";
+    document.getElementById("match-4-mineralTimer2").style.display = "none";
+    document.getElementById("match-4-mineralTimerPic2").style.display = "none";
 
-//     document.getElementById("matchFinishPark-1").classList.remove("active");
-//     document.getElementById("matchFinishPark-2").classList.remove("active");
-//     document.getElementById("matchFinishPark-3").classList.remove("active");
+    document.getElementById("match-5-park-1").classList.remove("active");
+    document.getElementById("match-5-park-2").classList.remove("active");
+    document.getElementById("match-5-park-3").classList.remove("active");
 
-//     document.getElementById("matchRating1-1").classList.remove("active");
-//     document.getElementById("matchRating1-2").classList.remove("active");
-//     document.getElementById("matchRating1-3").classList.remove("active");
-//     document.getElementById("matchRating1-4").classList.remove("active");
+    document.getElementById("match-5-rating1-1").classList.remove("active");
+    document.getElementById("match-5-rating1-2").classList.remove("active");
+    document.getElementById("match-5-rating1-3").classList.remove("active");
+    document.getElementById("match-5-rating1-4").classList.remove("active");
 
-//     document.getElementById("matchRating2-1").classList.remove("active");
-//     document.getElementById("matchRating2-2").classList.remove("active");
-//     document.getElementById("matchRating2-3").classList.remove("active");
-//     document.getElementById("matchRating2-4").classList.remove("active");
+    document.getElementById("match-5-rating2-1").classList.remove("active");
+    document.getElementById("match-5-rating2-2").classList.remove("active");
+    document.getElementById("match-5-rating2-3").classList.remove("active");
+    document.getElementById("match-5-rating2-4").classList.remove("active");
 
-//     document.getElementById("matchRating3-1").classList.remove("active");
-//     document.getElementById("matchRating3-2").classList.remove("active");
-//     document.getElementById("matchRating3-3").classList.remove("active");
-//     document.getElementById("matchRating3-4").classList.remove("active");
+    document.getElementById("match-5-rating3-1").classList.remove("active");
+    document.getElementById("match-5-rating3-2").classList.remove("active");
+    document.getElementById("match-5-rating3-3").classList.remove("active");
+    document.getElementById("match-5-rating3-4").classList.remove("active");
 
-//     document
+    match.startHang = document.getElementById("match-2-inputHanging").checked;
 
-//     matchMineralCount = 0;
+    match.mineral.count = 0;
 
-//     matchTime = 0.0;
-//     matchTimerStart = Date.now();
-//     matchTimer = setInterval(matchTimerAdd, 100);
+    match.timer.time = 0.0;
+    match.timer.timerStart = Date.now();
+    match.timer.timer = setInterval(match.matchTimerAdd, 100);
 
-//     matchData = {};
-//     matchData.type = "match";
-//     matchData.number = matchNumber;
-//     matchData.team = matchTeam;
-//     matchData.scouter = login.getScouter();
-//     matchData.scouter.prediction = Number(document.getElementById("matchInputPrediction").innerText);
-//     //matchData.scouter = {'username': loginUsername, 'teamnum': loginTeam, 'prediction': Number(document.getElementById("matchInputPrediction").innerText)};
-//     matchData.auto = {
-//         land:{value:false,time:0.0}, 
-//         sample:{value:false,time:0.0}, 
-//         claim:{value:false,time:0.0}, 
-//         park:{value:false,time:0.0}
-//     };
-//     matchData.teleop = {};
-//     matchData.teleop.cycles = [];
-//     matchData.teleop.count = {depot:0,lander:0,drop:0};
+    match.data = {};
+    match.data.type = "match";
+    match.data.match = {number: match.matchNumber, teamnum: match.matchTeam, color: match.startPosition.color};
+    match.data.scouter = login.getScouter();//matchData.scouter = {'username': loginUsername, 'teamnum': loginTeam, 'prediction': Number(document.getElementById("matchInputPrediction").innerText)};
+    match.data.scouter.prediction = Number(document.getElementById("match-2-inputPrediction").innerText);
+    match.data.auto = {
+        position: match.startPosition.position,
+        hanging: match.startHanging,
+        land:{value:false,time:0.0}, 
+        sample:{value:false,time:0.0}, 
+        claim:{value:false,time:0.0}, 
+        park:{value:false,time:0.0}
+    };
+    match.data.cyclesUngrouped = [];
+    match.data.cyclesGrouped = [];
+    match.data.minerals = {count: {lander:0,drop:0}};
+    match.data.time = {length:0.0,auto:0.0};
 
-//     matchStartHang = document.getElementById("matchInputHanging").checked;
+    setTab('match-3');
+}
 
-//     setTab('match-3');
-// }
+match.matchTimerAdd = function(){
+    match.timer.time = Date.now() - match.timer.timerStart; // milliseconds elapsed since start
 
-// function matchAutoInput(id){
-//     var value = document.getElementById(id).checked;
-//     var time = matchTime;
-//     if(value == false){
-//         time = 0.0;
-//     }
-//     if(id == "matchInputAutoLand" && matchStartHang == false){
-//         document.getElementById(id).checked = false;
-//         id = "";
-//     }
-//     if(id == "matchInputAutoLand"){
-//         matchData.auto.land.value = value;
-//         matchData.auto.land.time = time;
-//     }else if(id == "matchInputAutoSample"){
-//         matchData.auto.sample.value = value;
-//         matchData.auto.sample.time = time;
-//     }else if(id == "matchInputAutoClaim"){
-//         matchData.auto.claim.value = value;
-//         matchData.auto.claim.time = time;
-//     }else if(id == "matchInputAutoPark"){
-//         matchData.auto.park.value = value;
-//         matchData.auto.park.time = time;
-//     }
-// }
+    if(match.mineralCount >= 1){
+        var t = (match.timer.time - match.mineral.start1) / 1000;
+        document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+    }
+    if(match.mineralCount >= 2){
+        var t = (match.timer.time - match.mineral.start2) / 1000;
+        document.getElementById("match-4-mineralTimer2").innerText = t.toFixed(1);
+    }
+}
+
+match.autoInput = function(id){
+    var value = document.getElementById(id).checked;
+    var time = match.timer.time;
+    if(value == false){
+        time = 0.0;
+    }
+    if(id == "match-3-inputAutoLand" && match.startHanging == false){
+        document.getElementById(id).checked = false;
+        id = "";
+    }
+    if(id == "match-3-inputAutoLand"){
+        match.data.auto.land.value = value;
+        match.data.auto.land.time = time;
+    }else if(id == "match-3-inputAutoSample"){
+        match.data.auto.sample.value = value;
+        match.data.auto.sample.time = time;
+    }else if(id == "match-3-inputAutoClaim"){
+        match.data.auto.claim.value = value;
+        match.data.auto.claim.time = time;
+    }else if(id == "match-3-inputAutoPark"){
+        match.data.auto.park.value = value;
+        match.data.auto.park.time = time;
+    }
+}
 
 // function matchTele(){
 //     matchAutoTime = matchTime;
 
 //     setTab('match-4');
-// }
-
-// function matchTimerAdd(){
-//     matchTime = Date.now() - matchTimerStart; // milliseconds elapsed since start
-
-//     if(matchMineralCount >= 1){
-//         var t = (matchTime - matchMineralStart1) / 1000;
-//         document.getElementById("matchMineralTimer1").innerText = t.toFixed(1);
-//     }
-//     if(matchMineralCount >= 2){
-//         var t = (matchTime - matchMineralStart2) / 1000;
-//         document.getElementById("matchMineralTimer2").innerText = t.toFixed(1);
-//     }
 // }
 
 // function matchMineralClick(action){

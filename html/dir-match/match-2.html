@@ -9,10 +9,16 @@
             <h1 id="match-2-number" style="font-size: 4vh; text-align: center;"></h1>
         </div>
         <div class="col-sm-4">
-            <h1 id="matchTeamName-2" style="font-size: 2vh; text-align: right;"></h1>
-            <h1 id="matchTeamNumber-2" style="font-size: 4vh; text-align: right;"></h1>
+            <h1 id="match-2-teamName" style="font-size: 2vh; text-align: right;"></h1>
+            <h1 id="match-2-teamNumber" style="font-size: 4vh; text-align: right;"></h1>
         </div>
     </div>
+</div>
+<div class="container-fluid" style="height: 50vh; width: 100vw;" onclick="match.changePosition();">
+    <div id="match-2-position-1" style="display: none; height: 100%; width:100%"><img src="field1.png" style='height: 100%; width: 100%; object-fit: contain'></img></div>
+    <div id="match-2-position-2" style="display: none; height: 100%; width:100%"><img src="field2.png" style='height: 100%; width: 100%; object-fit: contain'></img></div>
+    <div id="match-2-position-3" style="display: none; height: 100%; width:100%"><img src="field3.png" style='height: 100%; width: 100%; object-fit: contain'></img></div>
+    <div id="match-2-position-4" style="display: none; height: 100%; width:100%"><img src="field4.png" style='height: 100%; width: 100%; object-fit: contain'></img></div>
 </div>
 <div class="container-fluid">
     <div class="row" style="height: 5vh;"></div>
@@ -23,7 +29,7 @@
         </div>
         <div style="text-align: right;">
             <label class="checkboxcontainer">
-                <input id="matchInputHanging" type="checkbox" checked="checked">
+                <input id="match-2-inputHanging" type="checkbox" checked="checked">
                 <span class="checkmark"></span>
             </label>
         </div>
@@ -34,17 +40,17 @@
     </div>
     <div class="row" styel="height: 20vh">
         <div class="col-sm-4">
-            <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('matchInputPrediction').innerText; temp = Number(temp); temp -= 5; if(temp < 0) temp = 0; document.getElementById('matchInputPrediction').innerText = String(temp);">-5</button>
+            <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('match-2-inputPrediction').innerText; temp = Number(temp); temp -= 5; if(temp < 0) temp = 0; document.getElementById('match-2-inputPrediction').innerText = String(temp);">-5</button>
         </div>
         
         <div class="col-sm-4">
-            <h1 id="matchInputPrediction" style="font-size: 16vw; height: 100%; text-align: center;">50</h1>
+            <h1 id="match-2-inputPrediction" style="font-size: 16vw; height: 100%; text-align: center;">50</h1>
         </div>
         <div class="col-sm-4">
-            <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('matchInputPrediction').innerText; temp = Number(temp); temp += 5; if(temp > 999) temp = 995; document.getElementById('matchInputPrediction').innerText = String(temp);">+5</button>
+            <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('match-2-inputPrediction').innerText; temp = Number(temp); temp += 5; if(temp > 999) temp = 995; document.getElementById('match-2-inputPrediction').innerText = String(temp);">+5</button>
         </div>
     </div>
     <div class="row" style="height: 5vh;"></div>
     <h1 style="font-size: 5vw; height: 100%; text-align: center;">Only click the start button when the match starts!</h1>
-    <button type="button" class="btn btn-success" style="height: 100%; width: 100%; font-size: 30vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="matchStart();">Start</button>
+    <button type="button" class="btn btn-success" style="height: 100%; width: 100%; font-size: 30vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.matchStart();">Start</button>
 </div>
