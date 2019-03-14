@@ -13,6 +13,9 @@
 //matchTele()
 //matchMineralClick(action)
 //matchFinish()
+//matchRadioClick(item)
+//matchSubmit()
+//matchNextMatch
 
 var teams = null; //public
 
@@ -388,7 +391,7 @@ match.matchMineralClick = function(action){
             var end = 0;
             var len = 0;
             if(match.mineralCount == 2){
-                start = Math.round(matchMineralStart1 / 100) / 10;
+                start = Math.round(match.mineral.start1 / 100) / 10;
                 end = Math.round((match.timer.time) / 100) / 10;
                 len = Math.round((end - start) * 10) / 10;
 
@@ -399,8 +402,8 @@ match.matchMineralClick = function(action){
                 var t = (match.timer.time - match.mineral.start1) / 1000;
                 document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
             }else if(match.mineralCount == 1){
-                start = Math.round(matchMineralStart1 / 100) / 10;
-                end = Math.round((matchTime) / 100) / 10;
+                start = Math.round(match.mineral.start1 / 100) / 10;
+                end = Math.round((match.timer.time) / 100) / 10;
                 len = Math.round((end - start) * 10) / 10;
 
                 document.getElementById("match-4-mineralTimer1").style.display = "none";
@@ -429,20 +432,20 @@ match.matchFinish = function(){
     setTab('match-5');
 }
 
-// function matchRadioClick(item){
-//     var section = String(item).split('-')[0];
-//     count = 4;
-//     if(section == "matchFinishPark"){
-//         count = 3;
-//     }
-//     for(i = 1; i <= count; i++){
-//         if(section + '-' + String(i) != item || section != "matchFinishPark"){
-//             document.getElementById(section + '-' + String(i)).classList.remove("active");
-//         }
-//     }
-// }
+match.matchRadioClick = function(item){
+    var section = String(item).split('-')[2];
+    count = 4;
+    if(section == "park"){
+        count = 3;
+    }
+    for(i = 1; i <= count; i++){
+        if("match-5-" + section + '-' + String(i) != item || section != "park"){
+            document.getElementById("match-5-" + section + '-' + String(i)).classList.remove("active");
+        }
+    }
+}
 
-// function matchSubmit(){
+match.matchSubmit = function(){
 //     var park = (document.getElementById("matchFinishPark-1").classList.contains("active")) ? "park" : (document.getElementById("matchFinishPark-2").classList.contains("active")) ? "parkcomplete" : (document.getElementById("matchFinishPark-3").classList.contains("active")) ? "hang" : ""; 
 //     var balls = (document.getElementById("matchRating1-1").classList.contains("active")) ? 1 : (document.getElementById("matchRating1-2").classList.contains("active")) ? 2 : (document.getElementById("matchRating1-3").classList.contains("active")) ? 3 : (document.getElementById("matchRating1-4").classList.contains("active")) ? 4 :  0;
 //     var blocks = (document.getElementById("matchRating2-1").classList.contains("active")) ? 1 : (document.getElementById("matchRating2-2").classList.contains("active")) ? 2 : (document.getElementById("matchRating2-3").classList.contains("active")) ? 3 : (document.getElementById("matchRating2-4").classList.contains("active")) ? 4 :  0;
@@ -500,14 +503,14 @@ match.matchFinish = function(){
 
 //         setTab("match-7");
 //     }else{
-//         saveData({type: "score", score: score, scouter: login.getScouter()});
+        // saveData({type: "score", score: score, scouter: login.getScouter()});
         
-//         saveData(matchData);
+        // saveData(matchData);
 
-//         setTab("match-6");
+        setTab("match-6");
 //     }
-// }
+}
 
-// function matchNextMatch(){
-//     matchSelectMatch(matchNumber + 1);
-// }
+match.matchNextMatch = function(){
+    match.selectMatch(match.matchNumber + 1);
+}
