@@ -27,8 +27,8 @@ $(document).ready(function() {
 });
 
 login.loginSubmit = function(){
-    var username = document.getElementById("loginUsername").value;
-    var teamnum = document.getElementById("loginTeam").value;
+    var username = document.getElementById("login-username").value;
+    var teamnum = document.getElementById("login-team").value;
     return login.loginSubmitUser(username, teamnum);
 }
 
@@ -44,35 +44,65 @@ login.loginSubmitUser = function (username, teamnum){
         }
     }
     if(loginBool == true){
-        if(login.user.security < 2){
-            var element = document.getElementById("menuMatch");
-            element.classList.add("disabled");
-            element.disabled = true;
-            var element = document.getElementById("menuPit");
-            element.classList.add("disabled");
-            element.disabled = true;
+        if(login.user.security > 1){
+            var element = document.getElementById("menu-scout-section");
+            element.classList.remove("disabled");
+            element.disabled = false;
         }else{
-            var element = document.getElementById("menuMatch");
-            element.classList.remove("disabled");
-            element.disabled = false;
-            var element = document.getElementById("menuPit");
-            element.classList.remove("disabled");
-            element.disabled = false;
+            var element = document.getElementById("menu-scout-section");
+            element.classList.add("disabled");
+            element.disabled = true;
         }
-        var element = document.getElementById("menuTournament");
-        //element.classList.add("disabled");
-        element.disabled = true;
-        var element = document.getElementById("menuPit");
-        //element.classList.add("disabled");
-        element.disabled = true;
+        if(login.user.security > 1){  //CHANGE BACK TO 5
+            var element = document.getElementById("menu-scout-pit");
+            element.classList.remove("disabled");
+            element.disabled = false;
+        }else{
+            var element = document.getElementById("menu-scout-pit");
+            element.classList.add("disabled");
+            element.disabled = true;
+        }
+        if(login.user.security > 1){ //CHANGE BACK TO 7
+            var element = document.getElementById("menu-scout-match");
+            element.classList.remove("disabled");
+            element.disabled = false;
+        }else{
+            var element = document.getElementById("menu-scout-match");
+            element.classList.add("disabled");
+            element.disabled = true;
+        }
+        if(login.user.security > 80){
+            var element = document.getElementById("menu-settings");
+            element.classList.remove("disabled");
+            element.disabled = false;
+        }else{
+            var element = document.getElementById("menu-settings");
+            element.classList.add("disabled");
+            element.disabled = true;
+        }
+        // var element = document.getElementById("menu-info");
+        // //element.classList.add("disabled");
+        // element.disabled = true;
+        // var element = document.getElementById("menu-scout-pit");
+        // //element.classList.add("disabled");
+        // element.disabled = true;
+        // var element = document.getElementById("menu-scout-practice");
+        // //element.classList.add("disabled");
+        // element.disabled = true;
+        // var element = document.getElementById("menu-scout-training");
+        // //element.classList.add("disabled");
+        // element.disabled = true;
+        // var element = document.getElementById("menu-scout-settings");
+        // //element.classList.add("disabled");
+        // element.disabled = true;
 
         match.loadMatches();
         dash.loadDashboard();
 
         setTab('menu');
 
-        document.getElementById("loginUsername").value = "";
-        document.getElementById("loginTeam").value = "";
+        document.getElementById("login-username").value = "";
+        document.getElementById("login-team").value = "";
     }else{
         alert("Incorrect username or password");
     }
@@ -80,9 +110,9 @@ login.loginSubmitUser = function (username, teamnum){
 }
 
 login.loginCreate = function(){
-    var username = document.getElementById("loginCreateUsername").value;
+    var username = document.getElementById("login-create-username").value;
     username = username.trim();
-    var teamnum = String(document.getElementById("loginCreateTeam").value);
+    var teamnum = String(document.getElementById("login-create-team").value);
     $.get('createuser', { cmd: username + '-' + teamnum }, function() {});
     return true;
 }

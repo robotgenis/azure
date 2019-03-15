@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 20vh">
-    <a class="navbar-brand" style="font-size: 8vh; color: white;">PowerScouters</a> 
+    <a class="navbar-brand" style="font-size: 8vh; color: white;" onclick="return false;">PowerScouters</a> 
 </nav>   
 <div class="row" style="height: 5vh"></div>
 
 <div class="row">
     <div class="col-sm-3"></div>
-    <button type="button" class="col-sm-6 sm btn btn-secondary" style="font-size: 4vw;" onclick="login.loginSubmitUser('Guest','30000');openDashboard();">View Data/Analysis</button>
+    <button type="button" class="col-sm-6 sm btn btn-secondary" style="font-size: 4vw;" onclick="login.loginSubmitUser('Guest','30000');">View Data/Analysis</button>
     <div class="col-sm-3"></div>
 </div>
 <div class="row" style="height: 5vh"></div>
@@ -18,12 +18,12 @@
             <form action="javascript:void(0);" onsubmit="login.loginSubmit();">
                 <fieldset>
                     <div class="form-group">
-                        <label for="loginUsername" style="font-size: 6vh">Username</label>
-                        <input type="text" class="form-control" id="loginUsername" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
+                        <label for="login-username" style="font-size: 6vh">Username</label>
+                        <input type="text" class="form-control" id="login-username" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
                     </div>
                     <div class="form-group">
-                        <label for="loginTeam" style="font-size: 6vh">Team number</label>
-                        <input type="number" class="form-control" id="loginTeam" min="1" max="30000" style="font-size: 4vh">
+                        <label for="login-team" style="font-size: 6vh">Team number</label>
+                        <input type="number" class="form-control" id="login-team" min="1" max="30000" style="font-size: 4vh">
                     </div>
                 </fieldset>
                 <fieldset>
@@ -44,12 +44,12 @@
             <form action="/accountcreated.html"  onsubmit="login.loginCreate();">
                 <fieldset>
                     <div class="form-group">
-                        <label for="loginCreateUsername" style="font-size: 6vh">Username</label>
-                        <input type="text" class="form-control" id="loginCreateUsername" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
+                        <label for="login-create-username" style="font-size: 6vh">Username</label>
+                        <input type="text" class="form-control" id="login-create-username" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
                     </div>
                     <div class="form-group">
-                        <label for="loginCreateTeam" style="font-size: 6vh">Team number</label>
-                        <input type="number" class="form-control" id="loginCreateTeam" min="1" max="30000" style="font-size: 4vh">
+                        <label for="login-create-team" style="font-size: 6vh">Team number</label>
+                        <input type="number" class="form-control" id="login-create-team" min="1" max="30000" style="font-size: 4vh">
                     </div>
                 </fieldset>
                 <fieldset>
