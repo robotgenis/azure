@@ -1,69 +1,85 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 20vh">
     <a class="navbar-brand" style="font-size: 8vh; color: white;" onclick="return false;">PowerScouters</a> 
 </nav>   
-<div class="row" style="height: 5vh"></div>
-
 <div class="row">
-    <div class="col-sm-3"></div>
-    <button type="button" class="col-sm-6 sm btn btn-secondary" style="font-size: 4vw;" onclick="login.loginSubmitUser('Guest','30000');">View Data/Analysis</button>
-    <div class="col-sm-3"></div>
-</div>
-<div class="row" style="height: 5vh"></div>
-<div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-10">
-    <div class="card mb-4"><!--Login-->
-        <h3 class="card-header" style="font-size: 8vh">Login</h3>
-        <div class="card-body">
-            <form action="javascript:void(0);" onsubmit="login.loginSubmit();">
-                <fieldset>
-                    <div class="form-group">
-                        <label for="login-username" style="font-size: 6vh">Username</label>
-                        <input type="text" class="form-control" id="login-username" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
+    <div class="col-lg-4">
+        <div class="row" style="height: 5vh"></div>
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <button type="button" class="col-sm-10 sm btn btn-warning" style="font-size: 4vh;" onclick="login.loginSubmitUser('Guest','30000');">View Data/Analysis</button>
+            <div class="col-sm-1"></div>
+        </div>
+        <div class="row" style="height: 5vh"></div>
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                <div class="card mb-4"><!--Login-->
+                    <h3 class="card-header" style="font-size: 8vh">Login</h3>
+                    <div class="card-body">
+                        <form action="javascript:void(0);" onsubmit="login.loginSubmit();">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="login-username" style="font-size: 6vh">Username</label>
+                                    <input type="text" class="form-control" id="login-username" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
+                                </div>
+                                <div class="form-group">
+                                    <label for="login-team" style="font-size: 6vh">Team number</label>
+                                    <input type="number" class="form-control" id="login-team" min="1" max="30000" style="font-size: 4vh">
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <button type="submit" class="btn btn-primary" style="font-size: 4vh">Login</button>
+                            </fieldset>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="login-team" style="font-size: 6vh">Team number</label>
-                        <input type="number" class="form-control" id="login-team" min="1" max="30000" style="font-size: 4vh">
+                </div>
+                </div>
+            </div>
+            <div class="row" style="height: 10vh"></div>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                <div class="card mb-4"><!--Create Account-->
+                    <h3 class="card-header" style="font-size: 8vh">Create</h3>
+                    <div class="card-body">
+                        <form action="/accountcreated.html"  onsubmit="login.loginCreate();">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="login-create-username" style="font-size: 6vh">Username</label>
+                                    <input type="text" class="form-control" id="login-create-username" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
+                                </div>
+                                <div class="form-group">
+                                    <label for="login-create-team" style="font-size: 6vh">Team number</label>
+                                    <input type="number" class="form-control" id="login-create-team" min="1" max="30000" style="font-size: 4vh">
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <button type="submit" class="btn btn-primary" style="font-size: 4vh">Create</button>
+                            </fieldset>
+                        </form>
                     </div>
-                </fieldset>
-                <fieldset>
-                    <button type="submit" class="btn btn-primary" style="font-size: 4vh">Login</button>
-                </fieldset>
-            </form>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-</div>
-<div class="row" style="height: 10vh"></div>
-<div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-10">
-    <div class="card mb-4"><!--Create Account-->
-        <h3 class="card-header" style="font-size: 8vh">Create</h3>
-        <div class="card-body">
-            <form action="/accountcreated.html"  onsubmit="login.loginCreate();">
-                <fieldset>
-                    <div class="form-group">
-                        <label for="login-create-username" style="font-size: 6vh">Username</label>
-                        <input type="text" class="form-control" id="login-create-username" aria-describedby="loginUsernameInfo" style="font-size: 4vh">
-                    </div>
-                    <div class="form-group">
-                        <label for="login-create-team" style="font-size: 6vh">Team number</label>
-                        <input type="number" class="form-control" id="login-create-team" min="1" max="30000" style="font-size: 4vh">
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <button type="submit" class="btn btn-primary" style="font-size: 4vh">Create</button>
-                </fieldset>
-            </form>
+    <div class="col-lg-8">
+        <div class="row" style="height: 5vh"></div>
+        <div class="jumbotron col-lg-11">
+            
+            <h1 style="text-align: center; font-size: 10vh;">PowerScouters</h1>
+            <h1 style="text-align: center; font-size: 4vh;">by 5029 PowerStackers</h1>
+            <div class="row" style="height: 5vh"></div>
+            <h5>PowerScouters is an original web app, designed for tracking the in-game performance of FTC Rover Ruckus robots. It's freely accessible to anyone! To access an analysis of all teams click the link below.</h5>
+            <div class="row" style="height: 5vh"></div>
+            <div class="row">
+                    <div class="col-sm-1"></div>
+                    <button type="button" class="col-sm-10 sm btn btn-warning" style="font-size: 4vh;" onclick="login.loginSubmitUser('Guest','30000');">View Data/Analysis</button>
+                    <div class="col-sm-1"></div>
+                </div>
+            <div class="row" style="height: 5vh"></div>
+            <a href="https://www.youtube.com/watch?v=CAuCxBJaBDs"  target="_blank"><h1 style="text-align: center;">Training Match Link</h1></a>
+            <h5>Before you can scouting real matches you must go through training. You must successfully scout the training match video.The training video can be found above. To start the training log back in and go to 'Scout' then 'training'.</h5>
         </div>
     </div>
-    <a href="https://www.youtube.com/watch?v=CAuCxBJaBDs"  target="_blank"><h1 style="text-align: center;">Training Match Link</h1></a>
-    <h4>Before you can scouting real matches you must go through training.</h4>
-    <h4>You must successfully scout the training match video.</h4>
-    <h4>The training video can be found below and on the login page.</h4>
-    <h4>To start the training log back in and go to the 'Match' option.</h4>
-    </div>
-    
 </div>
 <a href="/"><h1 style="text-align: center;">Refresh</h1></a>

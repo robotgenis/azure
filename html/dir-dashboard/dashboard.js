@@ -16,7 +16,7 @@ dash.data = null;
 dash.sel = null;
 
 dash.openDashboard = function(){
-   dash.refreshDashboard();
+    dash.refreshDashboard();
 
     dash.dashSetTab('dashTeamTab');
     setTab('dashboard');

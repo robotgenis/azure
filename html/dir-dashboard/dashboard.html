@@ -1,15 +1,16 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 10vh">
-    <a class="navbar-brand" style="font-size: 6vh; color: white;">PowerScout</a> 
-</nav>
-
+<div class="container-fluid bg-light">
+    <div class="row" style="">
+        <div class="col-sm-3">
+            <button type="button" class="btn" style="height: 100%; width: 100%;  font-size: 4vh;" onclick="setTab('menu');">Back</button>
+        </div>
+        <div class="col-sm-3">
+            <button class="btn btn-success" style="height: 100%; width: 100%; font-size: 4vh;" onclick="refreshDashboard();">Refresh</button>
+        </div>
+    </div>
+</div>
 <button class="btn btn-primary" onclick="dash.dashSetTab('dashTeamTab');"><h1>Team Analysis</h1></button>
 <button class="btn btn-primary" onclick="dash.dashSetTab('dashAllTeamTab');"><h1>All Team</h1></button>
 <button class="btn btn-primary" onclick="dash.dashSetTab('dashMatchesTab');"><h1>Matches Scouted</h1></button>
-
-<div style="float: right">
-    <button class="btn btn-success" onclick="setTab('menu');"><h1>Main Menu</h1></button>
-    <button class="btn btn-success" onclick="refreshDashboard();"><h1>refresh</h1></button>
-</div>
 <div class="container-fluid">
     <div id="dashMatchesTab" class="jumbotron dashtab bg-primary">
         <div class="row">

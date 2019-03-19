@@ -11,20 +11,6 @@ var login = {};
 login.users = null;
 login.user = {username:null,teamnum:null,score:null,security:null};
 
-$(document).ready(function() {
-    $.get(' sql', { cmd: 'matches' }, function(data) {
-        match.matches = JSON.parse(data);
-        $.get(' sql', { cmd: 'teams' }, function(data) {
-            teams = JSON.parse(data);
-            $.get('sql', { cmd: 'users' }, function(data) {
-                login.users = JSON.parse(data);
-                //auto login for testing
-                //login.loginSubmitUser("Brandon", 5029);
-            });
-        });
-    });
-    
-});
 
 login.loginSubmit = function(){
     var username = document.getElementById("login-username").value;
