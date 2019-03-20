@@ -29,7 +29,6 @@ match.data = null;
 match.startHanging = null;
 match.startPosition = {color:null, position:null};
 match.mineral = {count:null,start1:null,start2:null};
-match.mineralCount = null;
 match.timer = {time:null,timer:null,timerStart:null,autoTime:null};
 
 // match.matchNumber = null;
@@ -257,11 +256,11 @@ match.matchStart = function(){
 match.matchTimerAdd = function(){
     match.timer.time = Date.now() - match.timer.timerStart; // milliseconds elapsed since start
 
-    if(match.mineralCount >= 1){
+    if(match.mineral.count >= 1){
         var t = (match.timer.time - match.mineral.start1) / 1000;
         document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
     }
-    if(match.mineralCount >= 2){
+    if(match.mineral.count >= 2){
         var t = (match.timer.time - match.mineral.start2) / 1000;
         document.getElementById("match-4-mineralTimer2").innerText = t.toFixed(1);
     }
@@ -300,28 +299,28 @@ match.matchTele = function(){
 
 match.matchMineralClick = function(action){
     if(action == "pick"){
-        if(match.mineralCount < 2){
-            match.mineralCount += 1;
-            if(match.mineralCount == 1){
+        if(match.mineral.count < 2){
+            match.mineral.count += 1;
+            if(match.mineral.count == 1){
                 document.getElementById("match-4-mineralTimer1").innerText = "0.0";
                 document.getElementById("match-4-mineralTimer1").style.display = "block";
                 document.getElementById("match-4-mineralTimerPic1").style.display = "block";
                 
                 match.mineral.start1 = match.timer.time;
-            }else if(match.mineralCount == 2){
+            }else if(match.mineral.count == 2){
                 document.getElementById("match-4-mineralTimer2").innerText = "0.0";
                 document.getElementById("match-4-mineralTimer2").style.display = "block";
-                document.getElementById("match-4-mineralTimerPic1").style.display = "block";
+                document.getElementById("match-4-mineralTimerPic2").style.display = "block";
 
                 match.mineral.start2 = match.timer.time;
             }
         }
     }else if(action == "scoredepot"){
-        if(match.mineralCount > 0){
+        if(match.mineral.count > 0){
             var start = 0;
             var end = 0;
             var len = 0;
-            if(match.mineralCount == 2){
+            if(match.mineral.count == 2){
                 start = Math.round(match.mineral.start1 / 100) / 10;
                 end = Math.round((match.timer.time) / 100) / 10;
                 len = Math.round((end - start) * 10) / 10;
@@ -332,7 +331,7 @@ match.matchMineralClick = function(action){
                 document.getElementById("match-4-mineralTimerPic2").style.display = "none";
                 var t = (match.timer.time - match.mineral.start1) / 1000;
                 document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
-            }else if(match.mineralCount == 1){
+            }else if(match.mineral.count == 1){
                 start = Math.round(match.mineral.start1 / 100) / 10;
                 end = Math.round((match.timer.time) / 100) / 10;
                 len = Math.round((end - start) * 10) / 10;
@@ -344,14 +343,14 @@ match.matchMineralClick = function(action){
             
             //match.data.teleop.count.depot += 1;
 
-            match.mineralCount -= 1;
+            match.mineral.count -= 1;
         }
     }else if(action == "scorelander"){
-        if(match.mineralCount > 0){
+        if(match.mineral.count > 0){
             var start = 0;
             var end = 0;
             var len = 0;
-            if(match.mineralCount == 2){
+            if(match.mineral.count == 2){
                 start = Math.round(match.mineral.start1 / 100) / 10;
                 end = Math.round((match.timer.time) / 100) / 10;
                 len = Math.round((end - start) * 10) / 10;
@@ -362,7 +361,7 @@ match.matchMineralClick = function(action){
                 document.getElementById("match-4-mineralTimerPic2").style.display = "none";
                 var t = (match.timer.time - match.mineral.start1) / 1000;
                 document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
-            }else if(match.mineralCount == 1){
+            }else if(match.mineral.count == 1){
                 start = Math.round(match.mineral.start1 / 100) / 10;
                 end = Math.round((match.timer.time) / 100) / 10;
                 len = Math.round((end - start) * 10) / 10;
@@ -374,10 +373,10 @@ match.matchMineralClick = function(action){
             
             //match.data.teleop.count.lander += 1;
 
-            match.mineralCount -= 1;
+            match.mineral.count -= 1;
         }
     }else if(action == "drop"){
-        if(match.mineralCount > 0){
+        if(match.mineral.count > 0){
             // if(matchMineralCount == 1){
             //     document.getElementById("matchMineralTimer1").style.display = "none";
             //     document.getElementById("matchMineralTimerPic1").style.display = "none";
@@ -390,7 +389,7 @@ match.matchMineralClick = function(action){
             var start = 0;
             var end = 0;
             var len = 0;
-            if(match.mineralCount == 2){
+            if(match.mineral.count == 2){
                 start = Math.round(match.mineral.start1 / 100) / 10;
                 end = Math.round((match.timer.time) / 100) / 10;
                 len = Math.round((end - start) * 10) / 10;
@@ -401,7 +400,7 @@ match.matchMineralClick = function(action){
                 document.getElementById("match-4-mineralTimerPic2").style.display = "none";
                 var t = (match.timer.time - match.mineral.start1) / 1000;
                 document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
-            }else if(match.mineralCount == 1){
+            }else if(match.mineral.count == 1){
                 start = Math.round(match.mineral.start1 / 100) / 10;
                 end = Math.round((match.timer.time) / 100) / 10;
                 len = Math.round((end - start) * 10) / 10;
@@ -413,7 +412,7 @@ match.matchMineralClick = function(action){
             
             //match.data.teleop.count.drop += 1;
 
-            match.mineralCount -= 1;
+            match.mineral.count -= 1;
         }
     }
 }

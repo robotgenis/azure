@@ -9,36 +9,60 @@
             <h1 id="match-4-number" style="font-size: 4vh; text-align: center;"></h1>
         </div>
         <div class="col-sm-4">
-            <h1 id="match-4-teamName" style="font-size: 2vh; text-align: right;"></h1>
+            <h1 id="match-4-teamName" style="font-size: 1.5vh; text-align: right;"></h1>
             <h1 id="match-4-teamNumber" style="font-size: 4vh; text-align: right;"></h1>
         </div>
     </div>
 </div>
 <div class="container-fluid" style="height: 100%;">
     <div class="row" style="height: 30vh">
-        <button type="button" class="col-sm-12 btn btn-warning" style="height: 30vh; font-size: 16vw; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('pick');">PICK UP</button>
+        <button type="button" class="col-sm-12 btn btn-primary" style="height: 30vh; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('pick');">
+            <div class="row"><h1 style="width: 100%; font-size: 16vw; text-align: center;">PICK UP</h1></div>
+            <div class="row" style="height: 2vh"></div>
+            <div class="row" style="height: 6vh">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div id="match-4-mineralTimerPic1" class="col-sm-3">
+                            <div style="width: 6vh; height: 6vh; background-color:darkgoldenrod"><div style="width: 6vh;height: 6vh; border-radius:50%; background-color:darkgray ;display: table-cell; vertical-align: middle;"></div></div>
+                        </div>    
+                        <div class="col-sm-9">
+                            <h1 id="match-4-mineralTimer1" style="font-size: 4vh;">00.0</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div id="match-4-mineralTimerPic2" class="col-sm-3">
+                            <div style="width: 6vh; height: 6vh; background-color:darkgoldenrod"><div style="width: 6vh;height: 6vh; border-radius:50%; background-color:darkgray ;display: table-cell; vertical-align: middle;"></div></div>
+                        </div>    
+                        <div class="col-sm-9">
+                            <h1 id="match-4-mineralTimer2" style="font-size: 4vh;">00.0</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div id="" class="col-sm-6">
+                            <div style="width: 6vh; height: 6vh; background-color:darkgoldenrod"><div style="width: 6vh;height: 6vh; border-radius:50%; background-color:darkgray ;display: table-cell; vertical-align: middle;"></div></div>
+                        </div>
+                        <div id="" class="col-sm-6">
+                            <div style="width: 6vh; height: 6vh; background-color:darkgoldenrod"><div style="width: 6vh;height: 6vh; border-radius:50%; background-color:darkgray ;display: table-cell; vertical-align: middle;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </button>
     </div>
     <div class="row" style="height: 1vh;"></div>
-    <div class="row" style="height: 8vh">
-        <div id="match-4-mineralTimerPic1" class="col-sm-2">
-            <div style="width: 8vh; height: 8vh; background-color:darkgoldenrod"><div style="width: 8vh;height: 8vh; border-radius:50%; background-color:darkgray ;display: table-cell; vertical-align: middle;"></div></div>
-        </div>    
-        <div class="col-sm-4">
-            <h1 id="match-4-mineralTimer1" style="font-size: 6vh;">00.0</h1>
-        </div>
-        <div id="match-4-mineralTimerPic2" class="col-sm-2">
-            <div style="width: 8vh; height: 8vh; background-color:darkgoldenrod"><div style="width: 8vh;height: 8vh; border-radius:50%; background-color:darkgray ;display: table-cell; vertical-align: middle;"></div></div>
-        </div>    
-        <div class="col-sm-4">
-            <h1 id="match-4-mineralTimer2" style="font-size: 6vh;">00.0</h1>
-        </div>
+    
+    
+    <div class="row" style="height: 30vh; width: 100vw;">
+        <!--button type="button" class="col-sm-6 btn btn-success" style="height: 35vh; font-size: 8vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('scoredepot');">SCORE<br/>DEPOT</button -->
+        <button type="button" class="col-sm-12 btn btn-success" style="height: 30vh; font-size: 8vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('scorelander');"><h1 style="width: 100%; font-size: 16vw; text-align: center;">SCORE LANDER</h1></button>
     </div>
     <div class="row" style="height: 1vh;"></div>
-    <div class="row" style="height: 35vh; width: 100vw;">
-        <button type="button" class="col-sm-6 btn btn-success" style="height: 35vh; font-size: 8vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('scoredepot');">SCORE<br/>DEPOT</button>
-        <button type="button" class="col-sm-6 btn btn-success" style="height: 35vh; font-size: 8vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('scorelander');">SCORE<br/>LANDER</button>
-    </div>
-    <div class="row" style="height: 17vh">
-        <button type="button" class="col-sm-12 btn btn-danger" style="height: 17vh; font-size:8vw; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('drop');">DROP</button>
+    <div class="row" style="height: 30vh">
+        <button type="button" class="col-sm-3 btn btn-danger" style="height: 30vh; font-size:8vw; border-width: 5px; border-color:rgb(255, 255, 255)" onclick=""><h1 style="width: 100%; font-size: 16vw; text-align: center;">DC</h1>Disconnect</button>
+        <button type="button" class="col-sm-9 btn btn-danger" style="height: 30vh; font-size:4vw; border-width: 5px; border-color:rgb(255, 255, 255)" onclick="match.matchMineralClick('drop');"><h1 style="width: 100%; font-size: 12vw; text-align: center;">DROP</h1></button>
     </div>
 </div>
