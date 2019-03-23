@@ -12,10 +12,12 @@
 //autoInput(id)
 //matchTele()
 //matchMineralClick(action)
+//startDC()
+//endDC()
 //matchFinish()
 //matchRadioClick(item)
 //matchSubmit()
-//matchNextMatch
+//matchNextMatch()
 
 var teams = null; //public
 
@@ -28,10 +30,10 @@ match.matchTeamName = null;
 match.data = null;
 match.startHanging = null;
 match.startPosition = {color:null, position:null};
-match.mineral = {count:null,start1:null,start2:null};
+match.mineral = {count:null,start1:null,start2:null, start:[]};
 match.timer = {time:null,timer:null,timerStart:null,autoTime:null};
 match.scoringPosition = null;
-
+match.dc = {start: null};
 // match.matchNumber = null;
 // var matchTeam = null;
 // var matchTime = null;
@@ -129,6 +131,7 @@ match.selectMatch = function(matchNumber){
     document.getElementById("match-2-number").innerHTML = String(match.matchNumber);
     document.getElementById("match-3-number").innerHTML = String(match.matchNumber);
     document.getElementById("match-4-number").innerHTML = String(match.matchNumber);
+    document.getElementById("match-4-breakdown-number").innerHTML = String(match.matchNumber);
     document.getElementById("match-5-number").innerHTML = String(match.matchNumber);
 
     setTab('match-1');
@@ -144,6 +147,8 @@ match.selectTeam = function(teamNumber){
     document.getElementById("match-3-teamNumber").innerHTML = String(match.matchTeam);
     document.getElementById("match-4-teamName").innerHTML = match.matchTeamName;
     document.getElementById("match-4-teamNumber").innerHTML = String(match.matchTeam);
+    document.getElementById("match-4-breakdown-teamName").innerHTML = match.matchTeamName;
+    document.getElementById("match-4-breakdown-teamNumber").innerHTML = String(match.matchTeam);
     document.getElementById("match-5-teamName").innerHTML = match.matchTeamName;
     document.getElementById("match-5-teamNumber").innerHTML = String(match.matchTeam);
 
@@ -154,7 +159,7 @@ match.selectTeam = function(teamNumber){
     document.getElementById("match-2-position-3").style.display = "none";
     document.getElementById("match-2-position-4").style.display = "none";
     
-
+    document.getElementById("match-3-matchTimer").innerHTMl = "0.0";
     
     match.startPosition.position = "crater";
     if(match.current[1] == match.matchTeam || match.current[2] == match.matchTeam){
@@ -191,7 +196,6 @@ match.changePosition = function(){
             document.getElementById("match-2-position-3").style.display = "block";
         }
     }
-    console.log(match.startPosition.position);
 }
 
 match.changeScoringPosition = function(){
@@ -217,7 +221,6 @@ match.changeScoringPosition = function(){
             document.getElementById("match-5-position-3").style.display = "block";
         }
     }
-    console.log(match.startPosition.position);
 }
 
 match.matchStart = function(){
@@ -231,6 +234,8 @@ match.matchStart = function(){
     document.getElementById("match-4-mineralTimerPic1").style.display = "none";
     document.getElementById("match-4-mineralTimer2").style.display = "none";
     document.getElementById("match-4-mineralTimerPic2").style.display = "none";
+    document.getElementById("match-4-mineralTimerPic3").style.display = "none";
+    document.getElementById("match-4-mineralTimerPic4").style.display = "none";
 
     document.getElementById("match-5-park-1").classList.remove("active");
     document.getElementById("match-5-park-2").classList.remove("active");
@@ -278,6 +283,7 @@ match.matchStart = function(){
     match.data.cyclesUngrouped = [];
     match.data.minerals = {count: {lander:0,drop:0}};
     match.data.time = {length:0.0,auto:0.0};
+    match.data.disconnect = [];
 
     setTab('match-3');
 }
@@ -285,12 +291,17 @@ match.matchStart = function(){
 match.matchTimerAdd = function(){
     match.timer.time = Date.now() - match.timer.timerStart; // milliseconds elapsed since start
 
+    var t = (match.timer.time) / 1000;
+    document.getElementById("match-3-matchTimer").innerText = t.toFixed(1);
+    document.getElementById("match-4-matchTimer").innerText = t.toFixed(1);
+    document.getElementById("match-4-breakdown-matchTimer").innerText = t.toFixed(1);
+
     if(match.mineral.count >= 1){
-        var t = (match.timer.time - match.mineral.start1) / 1000;
+        var t = (match.timer.time - match.mineral.start[0]) / 1000;
         document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
     }
     if(match.mineral.count >= 2){
-        var t = (match.timer.time - match.mineral.start2) / 1000;
+        var t = (match.timer.time - match.mineral.start[1]) / 1000;
         document.getElementById("match-4-mineralTimer2").innerText = t.toFixed(1);
     }
 }
@@ -328,122 +339,111 @@ match.matchTele = function(){
 
 match.matchMineralClick = function(action){
     if(action == "pick"){
-        if(match.mineral.count < 2){
-            match.mineral.count += 1;
-            if(match.mineral.count == 1){
-                document.getElementById("match-4-mineralTimer1").innerText = "0.0";
-                document.getElementById("match-4-mineralTimer1").style.display = "block";
-                document.getElementById("match-4-mineralTimerPic1").style.display = "block";
-                
-                match.mineral.start1 = match.timer.time;
-            }else if(match.mineral.count == 2){
-                document.getElementById("match-4-mineralTimer2").innerText = "0.0";
-                document.getElementById("match-4-mineralTimer2").style.display = "block";
-                document.getElementById("match-4-mineralTimerPic2").style.display = "block";
-
-                match.mineral.start2 = match.timer.time;
-            }
+        match.mineral.count += 1;
+        match.mineral.start[match.mineral.count - 1] = match.timer.time;
+        if(match.mineral.count == 1){
+            document.getElementById("match-4-mineralTimer1").innerText = "0.0";
+            document.getElementById("match-4-mineralTimer1").style.display = "block";
+            document.getElementById("match-4-mineralTimerPic1").style.display = "block";
+        }else if(match.mineral.count == 2){
+            document.getElementById("match-4-mineralTimer2").innerText = "0.0";
+            document.getElementById("match-4-mineralTimer2").style.display = "block";
+            document.getElementById("match-4-mineralTimerPic2").style.display = "block";
+        }else if(match.mineral.count == 3){
+            document.getElementById("match-4-mineralTimerPic3").style.display = "block";
+        }else if(match.mineral.count == 4){
+            document.getElementById("match-4-mineralTimerPic4").style.display = "block";
         }
-    }else if(action == "scoredepot"){
-        // if(match.mineral.count > 0){
-        //     var start = 0;
-        //     var end = 0;
-        //     var len = 0;
-        //     if(match.mineral.count == 2){
-        //         start = Math.round(match.mineral.start1 / 100) / 10;
-        //         end = Math.round((match.timer.time) / 100) / 10;
-        //         len = Math.round((end - start) * 10) / 10;
-
-        //         match.mineral.start1 = match.mineral.start2;
-
-        //         document.getElementById("match-4-mineralTimer2").style.display = "none";
-        //         document.getElementById("match-4-mineralTimerPic2").style.display = "none";
-        //         var t = (match.timer.time - match.mineral.start1) / 1000;
-        //         document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
-        //     }else if(match.mineral.count == 1){
-        //         start = Math.round(match.mineral.start1 / 100) / 10;
-        //         end = Math.round((match.timer.time) / 100) / 10;
-        //         len = Math.round((end - start) * 10) / 10;
-
-        //         document.getElementById("match-4-mineralTimer1").style.display = "none";
-        //         document.getElementById("match-4-mineralTimerPic1").style.display = "none";
-        //     }
-        //     // match.data.cyclesUngrouped[match.data.cyclesUngrouped.length] = {pick: start,place: end,length: len,type:'depot'};
-            
-        //     // match.data.minerals.count.depot += 1;
-
-        //     match.mineral.count -= 1;
-        // }
     }else if(action == "scorelander"){
         if(match.mineral.count > 0){
-            var start = 0;
-            var end = 0;
-            var len = 0;
-            if(match.mineral.count == 2){
-                start = Math.round(match.mineral.start1 / 100) / 10;
-                end = Math.round((match.timer.time) / 100) / 10;
-                len = Math.round((end - start) * 10) / 10;
+            var start = Math.round(match.mineral.start[0] / 100) / 10;
+            var end = Math.round((match.timer.time) / 100) / 10;
+            var len = Math.round((end - start) * 10) / 10;
 
-                match.mineral.start1 = match.mineral.start2;
-
-                document.getElementById("match-4-mineralTimer2").style.display = "none";
-                document.getElementById("match-4-mineralTimerPic2").style.display = "none";
-                var t = (match.timer.time - match.mineral.start1) / 1000;
-                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
-            }else if(match.mineral.count == 1){
-                start = Math.round(match.mineral.start1 / 100) / 10;
-                end = Math.round((match.timer.time) / 100) / 10;
-                len = Math.round((end - start) * 10) / 10;
-
-                document.getElementById("match-4-mineralTimer1").style.display = "none";
-                document.getElementById("match-4-mineralTimerPic1").style.display = "none";
-            }
             match.data.cyclesUngrouped[match.data.cyclesUngrouped.length] = {pick: start,place: end,length: len,type:'lander'};
             
             match.data.minerals.count.lander += 1;
 
+            for(i = 1; i < match.mineral.count; i++){
+                match.mineral.start[i - 1] = match.mineral.start[i];
+            }
+            
             match.mineral.count -= 1;
-        }
-    }else if(action == "drop"){
-        if(match.mineral.count > 0){
-            // if(matchMineralCount == 1){
-            //     document.getElementById("matchMineralTimer1").style.display = "none";
-            //     document.getElementById("matchMineralTimerPic1").style.display = "none";
-            // }else if(matchMineralCount == 2){
-            //     document.getElementById("matchMineralTimer2").style.display = "none";
-            //     document.getElementById("matchMineralTimerPic2").style.display = "none";
-            // }
-            // matchMineralCount -= 1;
 
-            var start = 0;
-            var end = 0;
-            var len = 0;
-            if(match.mineral.count == 2){
-                start = Math.round(match.mineral.start1 / 100) / 10;
-                end = Math.round((match.timer.time) / 100) / 10;
-                len = Math.round((end - start) * 10) / 10;
-
-                match.mineral.start1 = match.mineral.start2;
-
+            if(match.mineral.count == 3){
+                document.getElementById("match-4-mineralTimerPic4").style.display = "none";
+            }else if(match.mineral.count == 2){
+                document.getElementById("match-4-mineralTimerPic3").style.display = "none";
+            }else if(match.mineral.count == 1){
                 document.getElementById("match-4-mineralTimer2").style.display = "none";
                 document.getElementById("match-4-mineralTimerPic2").style.display = "none";
-                var t = (match.timer.time - match.mineral.start1) / 1000;
-                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
-            }else if(match.mineral.count == 1){
-                start = Math.round(match.mineral.start1 / 100) / 10;
-                end = Math.round((match.timer.time) / 100) / 10;
-                len = Math.round((end - start) * 10) / 10;
-
+            }else if(match.mineral.count == 0){
                 document.getElementById("match-4-mineralTimer1").style.display = "none";
                 document.getElementById("match-4-mineralTimerPic1").style.display = "none";
             }
+
+            if(match.mineral.count > 1){
+                var t = (match.timer.time - match.mineral.start[1]) / 1000;
+                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+            }
+            if(match.mineral.count > 1){
+                var t = (match.timer.time - match.mineral.start[0]) / 1000;
+                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+            }
+        }
+    }else if(action == "drop"){
+        if(match.mineral.count > 0){
+            var start = Math.round(match.mineral.start[0] / 100) / 10;
+            var end = Math.round((match.timer.time) / 100) / 10;
+            var len = Math.round((end - start) * 10) / 10;
+
             match.data.cyclesUngrouped[match.data.cyclesUngrouped.length] = {pick: start,place: end,length: len,type:'drop'};
             
             match.data.minerals.count.drop += 1;
 
+            for(i = 1; i < match.mineral.count; i++){
+                match.mineral.start[i - 1] = match.mineral.start[i];
+            } 
+            
             match.mineral.count -= 1;
+
+            if(match.mineral.count == 3){
+                document.getElementById("match-4-mineralTimerPic4").style.display = "none";
+            }else if(match.mineral.count == 2){
+                document.getElementById("match-4-mineralTimerPic3").style.display = "none";
+            }else if(match.mineral.count == 1){
+                document.getElementById("match-4-mineralTimer2").style.display = "none";
+                document.getElementById("match-4-mineralTimerPic2").style.display = "none";
+            }else if(match.mineral.count == 0){
+                document.getElementById("match-4-mineralTimer1").style.display = "none";
+                document.getElementById("match-4-mineralTimerPic1").style.display = "none";
+            }
+
+            if(match.mineral.count > 1){
+                var t = (match.timer.time - match.mineral.start[1]) / 1000;
+                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+            }
+            if(match.mineral.count > 1){
+                var t = (match.timer.time - match.mineral.start[0]) / 1000;
+                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+            }
         }
     }
+}
+
+match.startDC = function(){
+    match.dc.start = match.timer.time;
+
+    setTab('match-4-breakdown');
+}
+
+match.endDC = function(){
+    var start = match.dc.start;
+    var end = match.timer.time;
+    var length =  end - start;
+    match.data.disconnect[match.data.disconnect.length] = {start: start, end: end, length: length};
+
+    setTab('match-4');
 }
 
 // function matchMineralTimerCount(){
@@ -456,6 +456,9 @@ match.matchMineralClick = function(action){
 
 match.matchFinish = function(){
     clearTimeout(match.timer.timer);
+
+    var t = (match.timer.time) / 1000;
+    document.getElementById("match-5-matchTimer").innerText = t.toFixed(1);
 
     setTab('match-5');
 }
@@ -504,38 +507,38 @@ match.matchSubmit = function(){
     document.getElementById("matchOutputScouting").innerText = String(score);
     
     
-
-    if(Number(matchNumber) == 0){
-        var pass = true; 
+    //If training match
+    // if(Number(matchNumber) == 0){
+    //     var pass = true; 
         
-        if(!matchData.auto.land.value || !matchData.auto.sample.value || !matchData.auto.claim.value || !matchData.auto.park.value) pass = false;
-        if(matchData.teleop.count.lander > 25 || matchData.teleop.count.lander < 19) pass = false;
-        var total = 0;
-        var count = 0;
-        for(c in matchData.teleop.cycles){
-	        if(matchData.teleop.cycles[c].type == "lander"){
-		        total += matchData.teleop.cycles[c].length;
-                count++;
-            }
-        }
-        if(total/count < 2.5 || total/count > 7.0) pass = false;
-        if(matchData.post.park != "hang") pass = false;
+    //     if(!matchData.auto.land.value || !matchData.auto.sample.value || !matchData.auto.claim.value || !matchData.auto.park.value) pass = false;
+    //     if(matchData.teleop.count.lander > 25 || matchData.teleop.count.lander < 19) pass = false;
+    //     var total = 0;
+    //     var count = 0;
+    //     for(c in matchData.teleop.cycles){
+	//         if(matchData.teleop.cycles[c].type == "lander"){
+	// 	        total += matchData.teleop.cycles[c].length;
+    //             count++;
+    //         }
+    //     }
+    //     if(total/count < 2.5 || total/count > 7.0) pass = false;
+    //     if(matchData.post.park != "hang") pass = false;
         
-        if(pass){
-            saveData({type: "cert", scouter: login.getScouter()});
-            document.getElementById('trainingComplete').innerText = 'Completed Successfully';
-        }else{
-            document.getElementById('trainingComplete').innerText = 'Try again!';
-        }
+    //     if(pass){
+    //         saveData({type: "cert", scouter: login.getScouter()});
+    //         document.getElementById('trainingComplete').innerText = 'Completed Successfully';
+    //     }else{
+    //         document.getElementById('trainingComplete').innerText = 'Try again!';
+    //     }
 
-        setTab("match-7");
-    }else{
+    //     setTab("match-7");
+    // }else{
         saveData({type: "score", score: score, scouter: login.getScouter()});
         
         saveData(matchData);
 
         setTab("match-6");
-    }
+    //}
 }
 
 match.matchNextMatch = function(){

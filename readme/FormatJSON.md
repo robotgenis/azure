@@ -8,7 +8,8 @@
         minerals:{count:{lander:0,drop:0}},
         post:{park:'hang/park/parkcomplete',path:'crater/depot',ratings:{defender:false,defended:false}},
         time:{length:0.0,auto:0.0},
-        score:{auto:0,tele:0,end:0,total:0}}
+        score:{auto:0,tele:0,end:0,total:0}},
+        disconnect:[{start:00.0,end:00.0,length:00.0}]
     }
 
 # Score JSON Format
