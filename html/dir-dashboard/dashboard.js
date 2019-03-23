@@ -32,6 +32,7 @@ dash.dashSetTab = function(name){
 
 dash.loadDashboard = function(){
     var max = teams.length;
+
     for(i = 0; i < max - 1; i ++){
         for(k = i + 1; k < max; k++){
             if(teams[i][0] > teams[k][0]){

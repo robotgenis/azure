@@ -32,9 +32,10 @@ loader.dataCheck = function(){
                     teams = JSON.parse(data);
                     $.get('sql', { cmd: 'users' }, function(data) {
                         login.users = JSON.parse(data);
-                        //auto login for testing
-                        //login.loginSubmitUser("Brandon", 5029);
-                        dash.refreshDashboard();
+                        
+                        match.loadMatches();
+
+                        
                     });
                 });
             });

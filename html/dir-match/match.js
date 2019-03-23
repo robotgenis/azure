@@ -30,6 +30,7 @@ match.startHanging = null;
 match.startPosition = {color:null, position:null};
 match.mineral = {count:null,start1:null,start2:null};
 match.timer = {time:null,timer:null,timerStart:null,autoTime:null};
+match.scoringPosition = null;
 
 // match.matchNumber = null;
 // var matchTeam = null;
@@ -49,7 +50,7 @@ match.getTeamName = function(number){
     out = null;
     for(i = 0; i < teams.length; i++){
         if(teams[i][0] == number){
-            out = teams[i][1]
+            out = teams[i][1];
         }
     }
     return out;
@@ -193,6 +194,32 @@ match.changePosition = function(){
     console.log(match.startPosition.position);
 }
 
+match.changeScoringPosition = function(){
+    
+    if(match.startPosition.color == "red"){
+        if(match.scoringPosition == "crater"){
+            match.scoringPosition = "depot";
+            document.getElementById("match-5-position-1").style.display = "block";
+            document.getElementById("match-5-position-2").style.display = "none";
+        }else{
+            match.scoringPosition = "crater";
+            document.getElementById("match-5-position-1").style.display = "none";
+            document.getElementById("match-5-position-2").style.display = "block";
+        }
+    }else{
+        if(match.scoringPosition == "crater"){
+            match.scoringPosition = "depot";
+            document.getElementById("match-5-position-4").style.display = "block";
+            document.getElementById("match-5-position-3").style.display = "none";
+        }else{
+            match.scoringPosition = "crater";
+            document.getElementById("match-5-position-4").style.display = "none";
+            document.getElementById("match-5-position-3").style.display = "block";
+        }
+    }
+    console.log(match.startPosition.position);
+}
+
 match.matchStart = function(){
 
     document.getElementById("match-3-inputAutoLand").checked = "";
@@ -212,6 +239,20 @@ match.matchStart = function(){
     document.getElementById("match-5-rating1-1").classList.remove("active");
     document.getElementById("match-5-rating1-2").classList.remove("active");
 
+    document.getElementById("match-5-rating2-1").classList.remove("active");
+    document.getElementById("match-5-rating2-2").classList.remove("active");
+
+    document.getElementById("match-5-position-1").style.display = "none";
+    document.getElementById("match-5-position-2").style.display = "none";
+    document.getElementById("match-5-position-3").style.display = "none";
+    document.getElementById("match-5-position-4").style.display = "none";
+
+    match.scoringPosition = "crater";
+    if(match.current[1] == match.matchTeam || match.current[2] == match.matchTeam){
+        document.getElementById("match-5-position-2").style.display = "block";
+    }else{
+        document.getElementById("match-5-position-3").style.display = "block";
+    }
 
     match.startHang = document.getElementById("match-2-inputHanging").checked;
 
@@ -235,7 +276,6 @@ match.matchStart = function(){
         park:{value:false,time:0.0}
     };
     match.data.cyclesUngrouped = [];
-    match.data.cyclesGrouped = [];
     match.data.minerals = {count: {lander:0,drop:0}};
     match.data.time = {length:0.0,auto:0.0};
 
@@ -305,35 +345,35 @@ match.matchMineralClick = function(action){
             }
         }
     }else if(action == "scoredepot"){
-        if(match.mineral.count > 0){
-            var start = 0;
-            var end = 0;
-            var len = 0;
-            if(match.mineral.count == 2){
-                start = Math.round(match.mineral.start1 / 100) / 10;
-                end = Math.round((match.timer.time) / 100) / 10;
-                len = Math.round((end - start) * 10) / 10;
+        // if(match.mineral.count > 0){
+        //     var start = 0;
+        //     var end = 0;
+        //     var len = 0;
+        //     if(match.mineral.count == 2){
+        //         start = Math.round(match.mineral.start1 / 100) / 10;
+        //         end = Math.round((match.timer.time) / 100) / 10;
+        //         len = Math.round((end - start) * 10) / 10;
 
-                match.mineral.start1 = match.mineral.start2;
+        //         match.mineral.start1 = match.mineral.start2;
 
-                document.getElementById("match-4-mineralTimer2").style.display = "none";
-                document.getElementById("match-4-mineralTimerPic2").style.display = "none";
-                var t = (match.timer.time - match.mineral.start1) / 1000;
-                document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
-            }else if(match.mineral.count == 1){
-                start = Math.round(match.mineral.start1 / 100) / 10;
-                end = Math.round((match.timer.time) / 100) / 10;
-                len = Math.round((end - start) * 10) / 10;
+        //         document.getElementById("match-4-mineralTimer2").style.display = "none";
+        //         document.getElementById("match-4-mineralTimerPic2").style.display = "none";
+        //         var t = (match.timer.time - match.mineral.start1) / 1000;
+        //         document.getElementById("match-4-mineralTimer1").innerText = t.toFixed(1);
+        //     }else if(match.mineral.count == 1){
+        //         start = Math.round(match.mineral.start1 / 100) / 10;
+        //         end = Math.round((match.timer.time) / 100) / 10;
+        //         len = Math.round((end - start) * 10) / 10;
 
-                document.getElementById("match-4-mineralTimer1").style.display = "none";
-                document.getElementById("match-4-mineralTimerPic1").style.display = "none";
-            }
-            // match.data.cyclesUngrouped[match.data.cyclesUngrouped.length] = {pick: start,place: end,length: len,type:'depot'};
+        //         document.getElementById("match-4-mineralTimer1").style.display = "none";
+        //         document.getElementById("match-4-mineralTimerPic1").style.display = "none";
+        //     }
+        //     // match.data.cyclesUngrouped[match.data.cyclesUngrouped.length] = {pick: start,place: end,length: len,type:'depot'};
             
-            // match.data.minerals.count.depot += 1;
+        //     // match.data.minerals.count.depot += 1;
 
-            match.mineral.count -= 1;
-        }
+        //     match.mineral.count -= 1;
+        // }
     }else if(action == "scorelander"){
         if(match.mineral.count > 0){
             var start = 0;
@@ -422,7 +462,7 @@ match.matchFinish = function(){
 
 match.matchRadioClick = function(item){
     var section = String(item).split('-')[2];
-    count = 4;
+    count = 2;
     if(section == "park"){
         count = 3;
     }
@@ -435,10 +475,9 @@ match.matchRadioClick = function(item){
 
 match.matchSubmit = function(){
     var park = (document.getElementById("match-5-park-1").classList.contains("active")) ? "park" : (document.getElementById("match-5-park-2").classList.contains("active")) ? "parkcomplete" : (document.getElementById("match-5-park-3").classList.contains("active")) ? "hang" : ""; 
-    // var balls = (document.getElementById("match-5-rating1-1").classList.contains("active")) ? 1 : (document.getElementById("match-5-rating1-2").classList.contains("active")) ? 2 : (document.getElementById("match-5-rating1-3").classList.contains("active")) ? 3 : (document.getElementById("match-5-rating1-4").classList.contains("active")) ? 4 :  0;
-    // var blocks = (document.getElementById("match-5-rating2-1").classList.contains("active")) ? 1 : (document.getElementById("match-5-rating2-2").classList.contains("active")) ? 2 : (document.getElementById("match-5-rating2-3").classList.contains("active")) ? 3 : (document.getElementById("match-5-rating2-4").classList.contains("active")) ? 4 :  0;
-    // var pick = (document.getElementById("match-5-rating3-1").classList.contains("active")) ? 1 : (document.getElementById("match-5-rating3-2").classList.contains("active")) ? 2 : (document.getElementById("match-5-rating3-3").classList.contains("active")) ? 3 : (document.getElementById("match-5-rating3-4").classList.contains("active")) ? 4 :  0;
-    matchData.post = {park:park};
+    var defended = (document.getElementById("match-5-rating1-1").classList.contains("active")) ? false : (document.getElementById("match-5-rating1-2").classList.contains("active")) ? 2 :  true;
+    var defender = (document.getElementById("match-5-rating2-1").classList.contains("active")) ? false : (document.getElementById("match-5-rating2-2").classList.contains("active")) ? 2 :  true;
+    matchData.post = {park:park,path:match.scoringPosition,ratings:{defender:defender,defended:defended}};
     var autoScore = 0;
     autoScore += (matchData.auto.land.value) ? 30 : 0;
     autoScore += (matchData.auto.sample.value) ? 25 : 0;
@@ -450,8 +489,8 @@ match.matchSubmit = function(){
     var endScore = 0;
     endScore += (matchData.post.park == "park") ? 10 : (matchData.post.park == "parkcomplete") ? 25 : (matchData.post.park == "hang") ? 50 : 0;
     
-    matchData.match = {times:{length:matchTime,auto:matchAutoTime},score:{auto:autoScore,tele:teleScore,end:endScore,total:autoScore + teleScore + endScore}};
-    
+    matchData.time = {length:matchTime,auto:matchAutoTime};
+    matchData.score = {auto:autoScore,tele:teleScore,end:endScore,total:autoScore + teleScore + endScore};
 
     document.getElementById("matchOutputPredicted").innerText = String(matchData.scouter.prediction);
     document.getElementById("matchOutputCalculated").innerText = String(matchData.match.score.total);
