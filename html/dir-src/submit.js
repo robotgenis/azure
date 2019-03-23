@@ -7,7 +7,8 @@
 
 var submit = {};
 submit.timer = null;
-submit.cookieName = "POWERSCOUTDATA-STATES";
+submit.cookieName = "POWERSCOUTDATA-WORLDS";
+submit.backupName = "POWERSCOUTDATA-BACKUP"
 
 $(document).ready(function() {
     submit.timer = setInterval(submit.submitCheck, 3000);
@@ -23,6 +24,14 @@ submit.saveData = function(arr){
     prev[prev.length] = arr;
 
     localStorage.setItem(submit.cookieName, JSON.stringify(prev));
+
+
+    var prev = localStorage.getItem(submit.backupName);
+    prev = JSON.parse(prev);
+    
+    prev[prev.length] = arr;
+
+    localStorage.setItem(submit.backupName, JSON.stringify(prev));
 }
 
 submit.submitCheck = function(){

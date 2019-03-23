@@ -269,7 +269,12 @@ match.matchStart = function(){
 
     match.data = {};
     match.data.type = "match";
-    match.data.match = {number: match.matchNumber, teamnum: match.matchTeam, color: match.startPosition.color};
+    var dateTime = new Date();
+    var date = (dateTime.getMonth() + 1).toFixed(0) + "/" + (dateTime.getDate()).toFixed(0) + "/" + (dateTime.getFullYear()).toFixed(0);
+    var time = (dateTime.getHours()).toFixed(0) + ":" + (dateTime.getMinutes()).toFixed(0) + ":" + (dateTime.getSeconds()).toFixed(0);
+    // console.log(date);
+    // console.log(time);
+    match.data.match = {number: match.matchNumber, teamnum: match.matchTeam, color: match.startPosition.color, date: date, time: time};
     match.data.scouter = login.getScouter();//matchData.scouter = {'username': loginUsername, 'teamnum': loginTeam, 'prediction': Number(document.getElementById("matchInputPrediction").innerText)};
     match.data.scouter.prediction = Number(document.getElementById("match-2-inputPrediction").innerText);
     match.data.auto = {

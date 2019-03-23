@@ -6,6 +6,7 @@
 
 var loader = {};
 loader.timer = null;
+loader.refreshInterval = 60; //seconds
 
 $(document).ready(function() {
     var elements = document.getElementsByClassName('load');
@@ -41,5 +42,5 @@ loader.dataCheck = function(){
             });
         }    
     });
-    loader.timer = setTimeout(loader.dataCheck, 60000);
+    loader.timer = setTimeout(loader.dataCheck, loader.refreshInterval * 1000);
 }
