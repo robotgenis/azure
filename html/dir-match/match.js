@@ -282,6 +282,7 @@ match.matchStart = function(){
         hanging: match.startHanging,
         land:{value:false,time:0.0}, 
         sample:{value:false,time:0.0}, 
+        sample2:{value:false, time:0.0},
         claim:{value:false,time:0.0}, 
         park:{value:false,time:0.0}
     };
@@ -485,24 +486,24 @@ match.matchSubmit = function(){
     var park = (document.getElementById("match-5-park-1").classList.contains("active")) ? "park" : (document.getElementById("match-5-park-2").classList.contains("active")) ? "parkcomplete" : (document.getElementById("match-5-park-3").classList.contains("active")) ? "hang" : ""; 
     var defended = (document.getElementById("match-5-rating1-1").classList.contains("active")) ? false : (document.getElementById("match-5-rating1-2").classList.contains("active")) ? 2 :  true;
     var defender = (document.getElementById("match-5-rating2-1").classList.contains("active")) ? false : (document.getElementById("match-5-rating2-2").classList.contains("active")) ? 2 :  true;
-    matchData.post = {park:park,path:match.scoringPosition,ratings:{defender:defender,defended:defended}};
+    match.data.post = {park:park,path:match.scoringPosition,ratings:{defender:defender,defended:defended}};
     var autoScore = 0;
-    autoScore += (matchData.auto.land.value) ? 30 : 0;
-    autoScore += (matchData.auto.sample.value) ? 25 : 0;
-    autoScore += (matchData.auto.claim.value) ? 15 : 0;
-    autoScore += (matchData.auto.park.value) ? 10 : 0;
+    autoScore += (match.data.auto.land.value) ? 30 : 0;
+    autoScore += (match.data.auto.sample.value) ? 25 : 0;
+    autoScore += (match.data.auto.sample2.value) ? 25 : 0;
+    autoScore += (match.data.auto.claim.value) ? 15 : 0;
+    autoScore += (match.data.auto.park.value) ? 10 : 0;
     var teleScore = 0;
-    teleScore += (matchData.teleop.count.lander) * 5;
-    teleScore += (matchData.teleop.count.depot) * 2;
+    teleScore += (match.data.minerals.count.lander) * 5;
     var endScore = 0;
-    endScore += (matchData.post.park == "park") ? 10 : (matchData.post.park == "parkcomplete") ? 25 : (matchData.post.park == "hang") ? 50 : 0;
+    endScore += (match.data.post.park == "park") ? 10 : (match.data.post.park == "parkcomplete") ? 25 : (match.data.post.park == "hang") ? 50 : 0;
     
-    matchData.time = {length:matchTime,auto:matchAutoTime};
-    matchData.score = {auto:autoScore,tele:teleScore,end:endScore,total:autoScore + teleScore + endScore};
+    match.data.time = {length:match.timer.time,auto:match.timer.autoTime};
+    match.data.score = {auto:autoScore,tele:teleScore,end:endScore,total:autoScore + teleScore + endScore};
 
-    document.getElementById("matchOutputPredicted").innerText = String(matchData.scouter.prediction);
-    document.getElementById("matchOutputCalculated").innerText = String(matchData.match.score.total);
-    var offby = Math.abs(matchData.match.score.total - matchData.scouter.prediction);
+    document.getElementById("matchOutputPredicted").innerText = String(match.data.scouter.prediction);
+    document.getElementById("matchOutputCalculated").innerText = String(match.data.score.total);
+    var offby = Math.abs(match.data.score.total - match.data.scouter.prediction);
     var points = 0;
     if(offby < 50) points = 2;
     if(offby < 25) points = 5;
@@ -538,9 +539,9 @@ match.matchSubmit = function(){
 
     //     setTab("match-7");
     // }else{
-        saveData({type: "score", score: score, scouter: login.getScouter()});
+        submit.saveData({type: "score", score: score, scouter: login.getScouter()});
         
-        saveData(matchData);
+        submit.saveData(match.data);
 
         setTab("match-6");
     //}
