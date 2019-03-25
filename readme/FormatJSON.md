@@ -18,3 +18,16 @@
         score: 3,
         scouter: {username: Brandon, teamnum: 5029}
     }
+
+# Ranking JSON Format
+    {
+        team: 1001,
+        autoPoints:{value:0,rank:1,rank_str:'1st'},
+        autoDeviation:{value:0,rank:1,rank_str:'1st'},
+        telePoints:{value:0,rank:1,rank_str:'1st'},
+        teleDeviation:{value:0,rank:1,rank_str:'1st'},
+        endPoints:{value:0,rank:1,rank_str:'1st'},
+        endDeviation:{value:0,rank:1,rank_str:'1st'},
+        points:{value:0,rank:1,rank_str:'1st'},
+        pointsDeviation:{value:0,rank:1,rank_str:'1st'}
+    }

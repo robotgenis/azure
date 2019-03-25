@@ -83,7 +83,6 @@ login.loginSubmitUser = function (username, teamnum){
         // element.disabled = true;
 
         match.loadMatches();
-        dash.loadDashboard();
 
         setTab('menu');
 

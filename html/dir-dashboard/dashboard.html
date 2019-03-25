@@ -1,4 +1,4 @@
-<div class="container-fluid bg-light">
+<div class="container-fluid bg-light" style="height: 8vh;">
     <div class="row" style="">
         <div class="col-sm-3">
             <button type="button" class="btn" style="height: 100%; width: 100%;  font-size: 4vh;" onclick="setTab('menu');">Back</button>
@@ -9,7 +9,7 @@
     </div>
 </div>
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" style="height: 5vh;">
     <li class="nav-item">
         <a class="nav-link" data-toggle="tab">&lt;-</a>
     </li>
@@ -17,35 +17,56 @@
         <a class="nav-link" data-toggle="tab">-&gt;</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#Teams">Teams</a>
+        <a class="nav-link active" data-toggle="tab" href="#dash-tab-teams" id="dash-tab-teams-bar">Teams</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#Matches">Matches</a>
+        <a class="nav-link" data-toggle="tab" href="#dash-tab-matches" id="dash-tab-matches-bar">Matches</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#All">All Teams</a>
+        <a class="nav-link" data-toggle="tab" href="#dash-tab-all" id="dash-tab-all-bar">All Teams</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#Selections">Selections</a>
+        <a class="nav-link" data-toggle="tab" href="#dash-tab-selections" id="dash-tab-selections-bar">Selections</a>
     </li>
 </ul>
 <div id="myTabContent" class="tab-content">
-    
-    <div class="tab-pane fade active show" id="Teams">
+    <!--TEAMS START HERE 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111-->
+    <div class="tab-pane fade active show" id="dash-tab-teams">
         <div class="row" style="height: 100%;">
             <div class="col-sm-3" style="height: 100%;">
-                <select multiple="" class="form-control" id="exampleSelect1" style="height: 85vh; font-size: 3vh;">
-                    <option>5029 - Powerstackers</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <select id="dash-1-teams-src" multiple="" class="form-control" id="exampleSelect1" style="height: 87vh; font-size: 3vh; display: none;">
+                    <option>00001 - name1</option>
                 </select>
+                <select id="dash-1-teams" multiple="" class="form-control" id="exampleSelect1" style="height: 87vh; font-size: 3vh;" onchange="dash.dashTeamsSelect();">
+                </select>
+            </div>
+            <div id="dash-1-section" class="col-sm-9">
+                <div class="row">
+                    <h1 id="dash-1-team" style="font-size: 6vh"></h1>
+                </div>
+                <div id="dash-1-matches-src" class="row" style="display: none;">
+                    <button class="btn-success" style="width: 10vw; height: 5vh;">Match 99</button>
+                </div>
+                <div id="dash-1-matches" class="row">
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h1 style="font-size: 4vh">Auto</h1>
+                        <div id="dash-1-auto-table"></div>
+                        <p id="dash-1-auto-average" style="font-size: 2vh; width: 100%; text-align: right;"></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <h1 style="font-size: 4vh">TeleOp</h1>
+                    </div>
+                    <div class="col-sm-3">
+                        <h1 style="font-size: 4vh">End Game</h1>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="tab-pane fade" id="Matches">
+    <div class="tab-pane fade" id="dash-tab-matches">
         
     </div>
 </div>

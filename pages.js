@@ -30,7 +30,7 @@ function loadPages(loadComplete){
         };
         exports.pages.sql.src = function(request, response, end) {
             var cmd = request.url.split("?")[1].split("=")[1];
-            var cmds = {"users": exports.sql.users, "matches" : exports.sql.matches, "teams" : exports.sql.teams};
+            var cmds = {"users": exports.sql.users, "matches" : exports.sql.matches, "teams" : exports.sql.teams, "data" : exports.sql.data};
             //console.log(cmds);
             if(cmd in cmds){
                 end(JSON.stringify(cmds[cmd]));
@@ -80,7 +80,6 @@ function loadPages(loadComplete){
             });
         }
         exports.pages.check.src = function(request, response, end) {end("SUCCESS!");};
-        exports.pages.get.src = function(request, response, end){end(JSON.stringify(exports.sql.data));};
         loadComplete();
     });
 }
