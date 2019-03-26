@@ -5,8 +5,9 @@ section?data
 section/subsection?data
 
 data = 
+team
 match
-match,team
 
 # Sections
 teams /  ? teamnumber
+matches /  ? matchnumber

@@ -69,33 +69,26 @@ match.getMatch = function(matchNumber){
 }
 
 match.loadMatches = function(){
-    //sort
-    var max = match.matches.length;
-    for(i = 0; i < max - 1; i ++){
-        for(k = i + 1; k < max; k++){
-            if(match.matches[i][0] > match.matches[k][0]){
-                var temp = match.matches[i];
-                match.matches[i] = match.matches[k];
-                match.matches[k] = temp;
-            }
-        }
-    }
     //Generate Chart
     var html = document.getElementById("match-list-source").innerHTML;
     var outHtml = "";
     var displayMatches = [];
-    if(login.user.security < 3){
-        for(i in match.matches){
-            if(match.matches[i][0] < 1){
-                displayMatches[displayMatches.length] = match.matches[i];
-            }
-        }
-    }else{
-        for(i in match.matches){
-            if(match.matches[i][0] != 0){
-                displayMatches[displayMatches.length] = match.matches[i];
-            }
-        }
+    // if(login.user.security < 3){
+    //     for(i in match.matches){
+    //         if(match.matches[i][0] < 1){
+    //             displayMatches[displayMatches.length] = match.matches[i];
+    //         }
+    //     }
+    // }else{
+    //     for(i in match.matches){
+    //         if(match.matches[i][0] != 0){
+    //             displayMatches[displayMatches.length] = match.matches[i];
+    //         }
+    //     }
+    // }
+
+    for(i in match.matches){
+        displayMatches[displayMatches.length] = match.matches[i];
     }
 
     for(i in displayMatches){

@@ -25,7 +25,8 @@ function loadPages(loadComplete){
         loadFolder('/html/');
         exports.pages.reload.src = function(request, response, end){
             loadPages(function(){
-                end("<a href='/' style='font-size: 5vh;'>Successfully Reloaded, click to contiune</a>");
+                //exports.pages.root.src(request, response, end);
+                end("<a href='/' style='font-size: 5vh;'>Successfully Reloaded, click to contiune</a><script>window.location.href = '/';</script>");
             });
         };
         exports.pages.sql.src = function(request, response, end) {

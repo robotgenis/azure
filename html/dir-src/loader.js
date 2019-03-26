@@ -8,6 +8,8 @@ var loader = {};
 loader.timer = null;
 loader.refreshInterval = 60; //seconds
 
+
+
 $(document).ready(function() {
     var elements = document.getElementsByClassName('load');
     var len = elements.length
@@ -32,6 +34,17 @@ loader.dataCheck = function(){
         if(data == "SUCCESS!"){
             $.get(' sql', { cmd: 'matches' }, function(data) {
                 match.matches = JSON.parse(data);
+
+                var max = match.matches.length;
+                for(i = 0; i < max - 1; i ++){
+                    for(k = i + 1; k < max; k++){
+                        if(match.matches[i][0] > match.matches[k][0]){
+                            var temp = match.matches[i];
+                            match.matches[i] = match.matches[k];
+                            match.matches[k] = temp;
+                        }
+                    }
+                }
                 $.get(' sql', { cmd: 'teams' }, function(data) {
                     teams = JSON.parse(data);
 
@@ -52,6 +65,8 @@ loader.dataCheck = function(){
                         
                         match.loadMatches();
 
+                        info.load();
+
                         $.get('sql', { cmd: 'data' }, function(data) {
                             dash.data.src = JSON.parse(data);
 
@@ -59,6 +74,8 @@ loader.dataCheck = function(){
                                 dash.data.src[i] = JSON.parse(dash.data.src[i]);
                             }
                             
+                            settings.load();
+
                             dash.refreshDash();
                         });
                     });

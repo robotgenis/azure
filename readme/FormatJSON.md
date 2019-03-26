@@ -7,7 +7,7 @@
         cyclesUngrouped: [{pick:00.0,place:00.0,length:00.0,type:'lander/drop'}],
         minerals:{count:{lander:0,drop:0}},
         post:{park:'hang/park/parkcomplete',path:'crater/depot',ratings:{defender:false,defended:false}},
-        time:{length:0.0,auto:0.0},
+        time:{length:160000,auto:30000},
         score:{auto:0,tele:0,end:0,total:0}},
         disconnect:[{start:00.0,end:00.0,length:00.0}]
     }
@@ -26,8 +26,26 @@
         autoDeviation:{value:0,rank:1,rank_str:'1st'},
         telePoints:{value:0,rank:1,rank_str:'1st'},
         teleDeviation:{value:0,rank:1,rank_str:'1st'},
+        cycleTime:{value:0,rank:1,rank_str:'1st'},
+        cycleDeviation:{value:0,rank:1,rank_str:'1st'},
         endPoints:{value:0,rank:1,rank_str:'1st'},
         endDeviation:{value:0,rank:1,rank_str:'1st'},
+        hangTime:{value:0,rank:1,rank_str:'1st'},
+        hangDeviation:{value:0,rank:1,rank_str:'1st'},
         points:{value:0,rank:1,rank_str:'1st'},
         pointsDeviation:{value:0,rank:1,rank_str:'1st'}
+    }
+
+# Grouped Cycles
+    {
+        match: 1,
+        team: 1001,
+        pick:[00.0],
+        place:[00.0],
+        length:[00.0],
+        cycletime:00.0,
+        mineralcount:0,
+        type:['lander/drop']
+        position:"depot/crater",
+        matchtime:{length:160000,auto:30000}
     }

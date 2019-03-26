@@ -1,7 +1,48 @@
 <div class="container-fluid bg-light">
     <div class="row" style="height: 8vh">
         <div class="col-sm-3">
-            <button type="button" class="btn" style="height: 100%; width: 100%; font-size: 4vh;" onclick="setTab('menu');">Back</button>
+            <button type="button" class="btn" style="height: 100%; width: 100%; font-size: 4vh;"
+                onclick="setTab('menu');">Back</button>
         </div>
+        <div class="col-sm-9" style="vertical-align: bottom;">
+            <ul class="nav nav-tabs">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="true"
+                        style="height: 8vh; vertical-align: bottom; font-size: 3vh;">Edit</a>
+                    <div id="test" class="dropdown-menu" x-placement="bottom-start"
+                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 42px, 0px);">
+                        <a class="dropdown-item" data-toggle="tab" href="#settings-tab-device">Device</a>
+                        <a class="dropdown-item" data-toggle="tab" href="#settings-tab-teams">Teams</a>
+                        <a class="dropdown-item" data-toggle="tab" href="#settings-tab-matches">Matches</a>
+                        <a class="dropdown-item" data-toggle="tab" href="#settings-tab-scouting">Scouting</a>
+                        <a class="dropdown-item" data-toggle="tab" href="#settings-tab-data">Data</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="tab-content" style="min-height: 50vh;">
+    <div class="tab-pane fade active show" id="settings-tab-device">
+        <h1 style="font-size: 6vh">Device</h1>
+    </div>
+    <div class="tab-pane fade" id="settings-tab-teams">
+        <div class="jumbotron" style="min-height: 80vh;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 style="font-size: 6vh">Teams</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="settings-tab-matches">
+        <h1 style="font-size: 6vh">Matches</h1>
+    </div>
+    <div class="tab-pane fade" id="settings-tab-scouting">
+        <h1 style="font-size: 6vh">Scouting</h1>
+    </div>
+    <div class="tab-pane fade" id="settings-tab-data">
+        <h1 style="font-size: 6vh">Data</h1>
     </div>
 </div>

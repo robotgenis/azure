@@ -1,7 +1,101 @@
 <div class="container-fluid bg-light">
     <div class="row" style="height: 8vh">
         <div class="col-sm-3">
-            <button type="button" class="btn" style="height: 100%; width: 100%; font-size: 4vh;" onclick="setTab('menu');">Back</button>
+            <button type="button" class="btn" style="height: 100%; width: 100%; font-size: 4vh;"
+                onclick="setTab('menu');">Back</button>
         </div>
+        <div class="col-sm-9" style="vertical-align: bottom;">
+            <ul class="nav nav-tabs" style="height: 8vh;">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#info-tab-teams" id="info-tab-teams-bar"
+                        style="height: 8vh; vertical-align: bottom; font-size: 3vh;">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#info-tab-matches" id="info-tab-matches-bar"
+                        style="height: 8vh; vertical-align: bottom; font-size: 3vh;">Matches</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#info-tab-scouting" id="info-tab-scouting-bar"
+                        style="height: 8vh; vertical-align: bottom; font-size: 3vh;">Scouting</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="tab-content">
+    <div class="tab-pane fade active show" id="info-tab-teams">
+        <table class="table">
+            <thead>
+                <tr class="table">
+                    <th scope="row">
+                        <h3>Number</h3>
+                    </th>
+                    <td>
+                        <h3>Name</h3>
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="info-1-teams-src" style="display: none;">
+                <tr class="table">
+                    <th scope="row">
+                        <h1>00001</h1>
+                    </th>
+                    <td>
+                        <h2 class="text1">name1</h2>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="info-1-teams">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="info-tab-matches">
+        <table class="table">
+            <thead>
+                <tr class="table">
+                    <th scope="row">
+                        <h3>Match</h3>
+                    </th>
+                    <td>
+                        <h3>Red 1</h3>
+                    </td>
+                    <td>
+                        <h3>Red 2</h3>
+                    </td>
+                    <td>
+                        <h3>Blue 1</h3>
+                    </td>
+                    <td>
+                        <h3>Blue 2</h3>
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="info-2-matches-src" style="display: none;">
+                <tr class="table">
+                    <th scope="row">
+                        <h1>99</h1>
+                    </th>
+                    <td>
+                        <h2 class="text1">00001</h2>
+                    </td>
+                    <td>
+                        <h2 class="text2">00002</h2>
+                    </td>
+                    <td>
+                        <h2 class="text3">00003</h2>
+                    </td>
+                    <td>
+                        <h2 class="text4">00004</h2>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="info-2-matches">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="info-tab-scouting">
+
     </div>
 </div>
