@@ -18,15 +18,15 @@ dash.history_index = 0;
 
 
 function ordinal_suffix_of(num) {
-    var j = num % 10,
-        k = num % 100;
-    if (j == 1 && k != 11) {
+    var jj = num % 10,
+        kk = num % 100;
+    if (jj == 1 && kk != 11) {
         return num + "st";
     }
-    if (j == 2 && k != 12) {
+    if (jj == 2 && kk != 12) {
         return num + "nd";
     }
-    if (j == 3 && k != 13) {
+    if (jj == 3 && kk != 13) {
         return num + "rd";
     }
     return num + "th";
@@ -75,7 +75,7 @@ dash.refreshDash = function(){
         if(t != 'team'){
             if(t == "autoDeviation" || t == "teleDeviation" || t == "endDeviation" || t == "pointsDeviation"){
                 var max = dash.data.ranking.length;
-                for(i = 0; i < max - 1; i ++){
+                for(i = 0; i < max; i++){
                     for(k = i + 1; k < max; k++){
                         if(dash.data.ranking[i][t].value > dash.data.ranking[k][t].value){
                             var temp = dash.data.ranking[i];
@@ -84,7 +84,7 @@ dash.refreshDash = function(){
                         }
                     }
                 
-                    dash.data.ranking[i][t].rank = i + 1
+                    dash.data.ranking[i][t].rank = i + 1;
 
                     if(i > 0){
                         if(dash.data.ranking[i][t].value == dash.data.ranking[i - 1][t].value){
@@ -96,7 +96,7 @@ dash.refreshDash = function(){
                 }
             }else{
                 var max = dash.data.ranking.length;
-                for(i = 0; i < max - 1; i ++){
+                for(i = 0; i < max; i++){
                     for(k = i + 1; k < max; k++){
                         if(dash.data.ranking[i][t].value < dash.data.ranking[k][t].value){
                             var temp = dash.data.ranking[i];
@@ -105,7 +105,7 @@ dash.refreshDash = function(){
                         }
                     }
                 
-                    dash.data.ranking[i][t].rank = i + 1
+                    dash.data.ranking[i][t].rank = i + 1;
 
                     if(i > 0){
                         if(dash.data.ranking[i][t].value == dash.data.ranking[i - 1][t].value){
@@ -116,6 +116,7 @@ dash.refreshDash = function(){
                     dash.data.ranking[i][t].rank_str = ordinal_suffix_of(dash.data.ranking[i][t].rank);
                 }
             }
+            console.log(t, dash.data.ranking);
         }
     }
 
@@ -212,6 +213,7 @@ dash.setDash = function(address){
             table.draw(data, {showRowNumber: false, width: '100%', height: '100%', allowHtml: true});
 
             document.getElementById('dash-1-auto-average').innerText = "Average Score  " + (ranking.autoPoints.value).toFixed(1) + " - " + ranking.autoPoints.rank_str;
+            document.getElementById('dash-1-auto-deviation').innerText = "Standard Deviation  " + (ranking.autoDeviation.value).toFixed(1) + " - " + ranking.autoPoints.rank_str;
 
             document.getElementById("dash-1-section").style.display = "block";
         }
@@ -256,6 +258,9 @@ dash.getTeamRanking = function(teamnum){
 }
 
 dash.math.average = function(nums){
+    if(nums.length < 1){
+        return 0;
+    }
     total = 0;
     for(ii in nums){
         total += nums[ii];
@@ -264,11 +269,15 @@ dash.math.average = function(nums){
 }
 
 dash.math.standardDeviation = function(nums){
+    if(nums.length < 2){
+        return 1e+100;
+    }
+
     var varianceTotal = 0
     var mean = dash.math.average(nums);
 
     for(ii in nums){
         varianceTotal += Math.pow(nums[ii] - mean, 2);
     }
-    return varianceTotal/(nums.length - 1);
+    return Math.sqrt(varianceTotal/(nums.length - 1));
 }
