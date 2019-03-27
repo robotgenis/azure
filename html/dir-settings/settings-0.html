@@ -19,30 +19,221 @@
                         <a class="dropdown-item" data-toggle="tab" href="#settings-tab-data">Data</a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <button class="btn" style="font-size: 4vh;" onclick="loader.dataCheck();">Refresh</button>
+                </li>
+
             </ul>
+
         </div>
     </div>
 </div>
 <div class="tab-content" style="min-height: 50vh;">
     <div class="tab-pane fade active show" id="settings-tab-device">
-        <h1 style="font-size: 6vh">Device</h1>
+        <div class="jumbotron" style="min-height: 80vh;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 style="font-size: 6vh">Device</h1>
+                    <div class="row" style="height: 4vh"></div>
+                    <h1 style="font-size: 4vh">Position</h1>
+                    <h6 id="settings-1-position" style="font-size: 2vh"></h6>
+                    <button class="btn-success" style="font-size: 4vh;"
+                        onclick="submit.setSettings('position','all');">All</button>
+                    <button class="btn-success" style="font-size: 4vh;"
+                        onclick="submit.setSettings('position','red1');">Red 1</button>
+                    <button class="btn-success" style="font-size: 4vh;"
+                        onclick="submit.setSettings('position','red2');">Red 2</button>
+                    <button class="btn-success" style="font-size: 4vh;"
+                        onclick="submit.setSettings('position','blue1');">Blue 1</button>
+                    <button class="btn-success" style="font-size: 4vh;"
+                        onclick="submit.setSettings('position','blue2');">Blue 2</button>
+                    <div class="row" style="height: 4vh"></div>
+                    <h1 style="font-size: 4vh">Data</h1>
+                    <button class="btn-success" style="font-size: 4vh;" onclick="">Resend Missing Data</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane fade" id="settings-tab-teams">
         <div class="jumbotron" style="min-height: 80vh;">
             <div class="row">
                 <div class="col-sm-12">
                     <h1 style="font-size: 6vh">Teams</h1>
+
+                    <form action="javascript:void(0);" onsubmit="settings.saveTeam();">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="settings-2-teamnum" style="font-size: 2vh">Team number</label>
+                                <input type="number" class="form-control" id="settings-2-teamnum" min="1" max="30000"
+                                    style="font-size: 2vh">
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-2-teamname" style="font-size: 2vh">Team Name</label>
+                                <input type="text" class="form-control" id="settings-2-teamname" style="font-size: 2vh">
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <button type="submit" class="btn btn-primary" style="font-size: 4vh">save</button>
+                        </fieldset>
+                    </form>
+
+                    <table class="table">
+                        <thead>
+                            <tr class="table">
+                                <th scope="row">
+
+                                </th>
+                                <td>
+                                    <h3>Number</h3>
+                                </td>
+                                <td>
+                                    <h3>Name</h3>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody id="settings-2-teams-src" style="display: none;">
+                            <tr class="table">
+                                <th scope="row">
+                                    <button class="btn-warning" style="height: 8vh; width: 8vh;"
+                                        onclick="document.getElementById('settings-2-teamnum').value = '00001'; document.getElementById('settings-2-teamname').value = 'name1'; window.scrollTo(0, 0);">Edit</button>
+                                </th>
+                                <td>
+                                    <h1>00001</h1>
+                                </td>
+                                <td>
+                                    <h2 class="text1">name1</h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="settings-2-teams">
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
     <div class="tab-pane fade" id="settings-tab-matches">
-        <h1 style="font-size: 6vh">Matches</h1>
+        <div class="jumbotron" style="min-height: 80vh;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 style="font-size: 6vh">Matches</h1>
+
+                    <button class="btn btn-primary" style="font-size: 3vh" onclick="document.getElementById('settings-3-round').value = '';
+                    document.getElementById('settings-3-red1').value = '';
+                    document.getElementById('settings-3-red2').value = '';
+                    document.getElementById('settings-3-blue1').value = '';
+                    document.getElementById('settings-3-blue2').value = '';">Clear</button>
+                    <form action="javascript:void(0);" onsubmit="">
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="settings-3-round" style="font-size: 2vh">Round</label>
+                                    <input type="number" class="form-control" id="settings-3-round" min="-30000" max="30000"
+                                        style="font-size: 2vh">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="settings-3-red1" style="font-size: 2vh">Red 1</label>
+                                    <input type="number" class="form-control" id="settings-3-red1" min="1" max="30000"
+                                        style="font-size: 2vh">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="settings-3-red2" style="font-size: 2vh">Red 2</label>
+                                    <input type="number" class="form-control" id="settings-3-red2" min="1" max="30000"
+                                        style="font-size: 2vh">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="settings-3-blue1" style="font-size: 2vh">Blue 1</label>
+                                    <input type="number" class="form-control" id="settings-3-blue1" min="1" max="30000"
+                                        style="font-size: 2vh">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="settings-3-blue2" style="font-size: 2vh">Blue 2</label>
+                                    <input type="number" class="form-control" id="settings-3-blue2" min="1" max="30000"
+                                        style="font-size: 2vh">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary" style="font-size: 4vh" onclick="settings.saveMatch();">save</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                    <table class="table">
+                        <thead>
+                            <tr class="table">
+                                <th scope="row">
+
+                                </th>
+                                <td>
+                                    <h3>Match</h3>
+                                </td>
+                                <td>
+                                    <h3>Red 1</h3>
+                                </td>
+                                <td>
+                                    <h3>Red 2</h3>
+                                </td>
+                                <td>
+                                    <h3>Blue 1</h3>
+                                </td>
+                                <td>
+                                    <h3>Blue 2</h3>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody id="settings-3-matches-src" style="display: none;">
+                            <tr class="table">
+                                <th scope="row">
+                                    <button class="btn-warning" style="height: 8vh; width: 8vh;"
+                                        onclick="document.getElementById('settings-3-round').value = '99';
+                                        document.getElementById('settings-3-red1').value = '00001';
+                                        document.getElementById('settings-3-red2').value = '00002';
+                                        document.getElementById('settings-3-blue1').value = '00003';
+                                        document.getElementById('settings-3-blue2').value = '00004';
+                                         window.scrollTo(0, 0);">Edit</button>
+                                </th>
+                                <td>
+                                    <h1>99</h1>
+                                </td>
+                                <td>
+                                    <h2 class="text1">00001</h2>
+                                </td>
+                                <td>
+                                    <h2 class="text2">00002</h2>
+                                </td>
+                                <td>
+                                    <h2 class="text3">00003</h2>
+                                </td>
+                                <td>
+                                    <h2 class="text4">00004</h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="settings-3-matches">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane fade" id="settings-tab-scouting">
-        <h1 style="font-size: 6vh">Scouting</h1>
+        <div class="jumbotron" style="min-height: 80vh;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 style="font-size: 6vh">Scouting</h1>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane fade" id="settings-tab-data">
-        <h1 style="font-size: 6vh">Data</h1>
+        <div class="jumbotron" style="min-height: 80vh;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 style="font-size: 6vh">Data</h1>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

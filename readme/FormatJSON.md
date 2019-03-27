@@ -49,3 +49,23 @@
         position:"depot/crater",
         matchtime:{length:160000,auto:30000}
     }
+
+# Cookie Settings
+    {
+        position: "all/red1/red2/blue1/blue2"
+    }
+
+# Settings Change
+    {
+        type: "team",
+        teamnum: 1001,
+        teamname: "Name"
+    }
+    {
+        type: "match",
+        number: 1,
+        red1: 2,
+        red2: 3,
+        blue1: 4,
+        blue2: 5
+    }

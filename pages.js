@@ -6,8 +6,9 @@ function resetPages(){
         'reload' : {'path' : null, 'type' : 'text/html', 'url': '/reload','src':null},
         'sql' : {'path' : null, 'type' : 'text/html', 'url': '/sql','src':null},
         'createuser' : {'path' : null, 'type' : 'text/html', 'url': '/createuser','src':null},
+        'settings' : {'path' : null, 'type' : 'text/html', 'url': '/settings','src':null},
         'submit' : {'path' : null, 'type' : 'text/html', 'url': '/submit','src':null},
-        'get' : {'path' : null, 'type' : 'text/html', 'url': '/get','src':null},
+        //'get' : {'path' : null, 'type' : 'text/html', 'url': '/get','src':null},
         'check' : {'path' : null, 'type' : 'text/html', 'url': '/check','src':null},
     };
 }
@@ -67,17 +68,51 @@ function loadPages(loadComplete){
                     }
                 }
                 exports.sql.connectAndSend(cmd, function(results, connection){
-                    exports.sql.send('SELECT username, team, score, security from dbo.users', connection, function(results, connection){
-                        exports.sql.users = results;
-                        console.log("Users loaded");
-                        exports.sql.send('SELECT data from dbo.matchData', connection, function(results, connection){
-                            exports.sql.data = results;
-                            console.log("Data loaded");
+                    exports.sql.refreshUsers(connection, function(connection){
+                        exports.sql.refreshData(connection, function(connection){
                             connection.close();
                             end("SUCCESS!");
                         });
                     });
+                    // exports.sql.send('SELECT username, team, score, security from dbo.users', connection, function(results, connection){
+                    //     exports.sql.users = results;
+                    //     console.log("Users loaded");
+                    //     exports.sql.send('SELECT data from dbo.matchData', connection, function(results, connection){
+                    //         exports.sql.data = results;
+                    //         console.log("Data loaded");
+                    // connection.close();
+                    // end("SUCCESS!");
+                    //     });
+                    // });
                 });
+            });
+        }
+        exports.pages.settings.src = function(request, response, end){
+            var body = '';
+            request.on('data', function (data) {
+                body += data;
+            });
+            request.on('end', function () {
+                var format = JSON.parse(body);
+                var cmd = "";
+                console.log(format);
+                if(format.type == "team"){
+                    cmd = "IF NOT EXISTS ( SELECT 1 FROM dbo.teams WHERE teamnumber = " + format.teamnum + ") BEGIN INSERT INTO dbo.teams (teamnumber, teamname) VALUES (" + format.teamnum + ", '" + format.teamname +  "') END; ELSE BEGIN UPDATE dbo.teams SET teamname='" + format.teamname + "' WHERE teamnumber=" + format.teamnum + "; END;";
+                    exports.sql.connectAndSend(cmd, function(results, connection){
+                        exports.sql.refreshTeams(connection, function(connection){
+                            connection.close();
+                            
+                        })
+                    });
+                }else if(format.type == "match"){
+                    cmd = "IF NOT EXISTS ( SELECT 1 FROM dbo.matches WHERE number = " + format.number + ") BEGIN INSERT INTO dbo.matches (number, red1, red2, blue1, blue2) VALUES (" + format.number + ", " + format.red1 +  ", " + format.red2 +  ", " + format.blue1 +  ", " + format.blue2 +  ") END; ELSE BEGIN UPDATE dbo.matches SET red1=" + format.red1 + ", red2=" + format.red2 + ", blue1=" + format.blue1 + ", blue2=" + format.blue2 + " WHERE number=" + format.number + "; END;";
+                    exports.sql.connectAndSend(cmd, function(results, connection){
+                        exports.sql.refreshMatches(connection, function(connection){
+                            connection.close();
+                            end("SUCCESS!");
+                        })
+                    });
+                }
             });
         }
         exports.pages.check.src = function(request, response, end) {end("SUCCESS!");};

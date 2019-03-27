@@ -117,6 +117,23 @@ match.selectMatch = function(matchNumber){
     html = html.replace(/name3/g, match.getTeamName(match.current[3]));
     html = html.replace(/00004/g, match.current[4]);
     html = html.replace(/name4/g, match.getTeamName(match.current[4]));
+    if(submit.settings.position == "red1"){
+        html = html.replace(/enabled2/g, "disabled");
+        html = html.replace(/enabled3/g, "disabled");
+        html = html.replace(/enabled4/g, "disabled");
+    }else if(submit.settings.position == "red2"){
+        html = html.replace(/enabled1/g, "disabled");
+        html = html.replace(/enabled3/g, "disabled");
+        html = html.replace(/enabled4/g, "disabled");
+    }else if(submit.settings.position == "blue1"){
+        html = html.replace(/enabled1/g, "disabled");
+        html = html.replace(/enabled2/g, "disabled");
+        html = html.replace(/enabled4/g, "disabled");
+    }else if(submit.settings.position == "blue2"){
+        html = html.replace(/enabled1/g, "disabled");
+        html = html.replace(/enabled2/g, "disabled");
+        html = html.replace(/enabled3/g, "disabled");
+    } 
 
     document.getElementById("match-teams").innerHTML = html;
 

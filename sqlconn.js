@@ -215,7 +215,7 @@ exports.refreshMatches = function(connection, func){
 }
 
 exports.refreshTeams = function(connection, func){
-    exports.send('SELECT teamnumber, teamname, score, security from dbo.teams', connection, function(results, connection){
+    exports.send('SELECT teamnumber, teamname from dbo.teams', connection, function(results, connection){
         exports.teams = results;
         console.log("SQL - Teams loaded");
         func(connection);

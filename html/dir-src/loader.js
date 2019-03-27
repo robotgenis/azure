@@ -12,7 +12,7 @@ loader.refreshInterval = 60; //seconds
 
 $(document).ready(function() {
     var elements = document.getElementsByClassName('load');
-    var len = elements.length
+    var len = elements.length;
     for(i = 0; i < len; i++){
         loader.loadElement(elements[i]);
     }
@@ -31,6 +31,7 @@ loader.loadElement = function(element){
 loader.dataCheck = function(){
     clearTimeout(loader.timer);
     $.get( "/check", function( data ) {
+
         if(data == "SUCCESS!"){
             $.get(' sql', { cmd: 'matches' }, function(data) {
                 match.matches = JSON.parse(data);
@@ -45,6 +46,8 @@ loader.dataCheck = function(){
                         }
                     }
                 }
+
+                submit.loadCookies();
                 $.get(' sql', { cmd: 'teams' }, function(data) {
                     teams = JSON.parse(data);
 
@@ -65,6 +68,7 @@ loader.dataCheck = function(){
                         
                         match.loadMatches();
 
+                        settings.load();
                         info.load();
 
                         $.get('sql', { cmd: 'data' }, function(data) {
