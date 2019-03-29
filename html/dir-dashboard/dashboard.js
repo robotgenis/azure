@@ -179,7 +179,7 @@ dash.refreshDash = function(){
 
 dash.openDash = function(){
     dash.setDash("teams");
-    setTab("dashboard");
+    setTab("dashboard");    
 }
 
 dash.setDash = function(address){
@@ -330,6 +330,7 @@ dash.setDash = function(address){
             var chart = new google.visualization.ColumnChart(document.getElementById("dash-1-tele-chart"));
 
             chart.draw(data, {
+                 allowHtml: true,
                 title: "Minerals Scored",
                 bar: {groupWidth: "95%"},
                 width: '100%', 
@@ -371,13 +372,13 @@ dash.setDash = function(address){
 
             chart.draw(view, {
                 title: "End Game points",
-                width: '100%', 
+                width: '70%', 
                 height: '100%',
                 legend: 'none',
                 chartArea:{
                     left: "5%",
                     top: "5%",
-                    width: '90%',
+                    width: '70%',
                     height: '100%'
                 },
                 bar: {groupWidth: "95%"},
