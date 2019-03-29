@@ -190,8 +190,13 @@ exports.refresh = function(complete){
                 exports.send('SELECT data from dbo.matchData', connection, function(results, connection){
                     exports.data = results;
                     console.log("SQL - Data loaded");
-                    connection.close();
-                    complete();
+                    exports.send('SELECT number, red1, red2, blue1, blue2 from dbo.scouting', connection, function(results, connection){
+                        exports.scouting = results;
+                        console.log("SQL - Scouting loaded");
+                        connection.close();
+                        complete();
+                    });
+                    
                 });
             });
         });
@@ -226,6 +231,14 @@ exports.refreshData = function(connection, func){
     exports.send('SELECT data from dbo.matchData', connection, function(results, connection){
         exports.data = results;
         console.log("SQL - Data loaded");
+        func(connection);
+    });
+}
+
+exports.refreshScouting = function(connection, func){
+    exports.send('SELECT number, red1, red2, blue1, blue2 from dbo.scouting', connection, function(results, connection){
+        exports.scouting = results;
+        console.log("SQL - Scouting loaded");
         func(connection);
     });
 }

@@ -32,7 +32,7 @@ function loadPages(loadComplete){
         };
         exports.pages.sql.src = function(request, response, end) {
             var cmd = request.url.split("?")[1].split("=")[1];
-            var cmds = {"users": exports.sql.users, "matches" : exports.sql.matches, "teams" : exports.sql.teams, "data" : exports.sql.data};
+            var cmds = {"users": exports.sql.users, "matches" : exports.sql.matches, "teams" : exports.sql.teams, "data" : exports.sql.data, "scouting" : exports.sql.scouting};
             //console.log(cmds);
             if(cmd in cmds){
                 end(JSON.stringify(cmds[cmd]));
@@ -101,7 +101,7 @@ function loadPages(loadComplete){
                     exports.sql.connectAndSend(cmd, function(results, connection){
                         exports.sql.refreshTeams(connection, function(connection){
                             connection.close();
-                            
+                            end("SUCCESS!");
                         })
                     });
                 }else if(format.type == "match"){
@@ -112,6 +112,22 @@ function loadPages(loadComplete){
                             end("SUCCESS!");
                         })
                     });
+                }else if(format.type == "scouting"){
+                    /*type: "scouting",
+                    scouter: {name: "Brandon", num: 5029},
+                    position: "red1/red2/blue1/blue2/alt",
+                    matches: {start: 1, end: 30}*/
+                    cmd = "";
+                    for(i = format.matches.start; i <= format.matches.end; i++){
+                        cmd += "IF NOT EXISTS ( SELECT 1 FROM dbo.scouting WHERE number = " + String(i) + ") BEGIN INSERT INTO dbo.scouting (number, " + format.position + ") VALUES (" + String(i) + ", '" + format.scouter + "') END; ELSE BEGIN UPDATE dbo.scouting SET " + format.position + "='" + format.scouter + "' WHERE number=" + String(i) + "; END;";
+                    }
+                    console.log(cmd);
+                    exports.sql.connectAndSend(cmd, function(results, connection){
+                        exports.sql.refreshScouting(connection, function(connection){
+                            connection.close();
+                            end("SUCCESS!");
+                        })
+                    }); 
                 }
             });
         }

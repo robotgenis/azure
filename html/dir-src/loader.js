@@ -11,6 +11,8 @@ loader.refreshInterval = 60; //seconds
 
 
 $(document).ready(function() {
+    submit.loadCookies();
+    
     var elements = document.getElementsByClassName('load');
     var len = elements.length;
     for(i = 0; i < len; i++){
@@ -47,7 +49,7 @@ loader.dataCheck = function(){
                     }
                 }
 
-                submit.loadCookies();
+                
                 $.get(' sql', { cmd: 'teams' }, function(data) {
                     teams = JSON.parse(data);
 
@@ -66,21 +68,27 @@ loader.dataCheck = function(){
                     $.get('sql', { cmd: 'users' }, function(data) {
                         login.users = JSON.parse(data);
                         
-                        match.loadMatches();
-
-                        settings.load();
-                        info.load();
-
-                        $.get('sql', { cmd: 'data' }, function(data) {
-                            dash.data.src = JSON.parse(data);
-
-                            for(i in dash.data.src){
-                                dash.data.src[i] = JSON.parse(dash.data.src[i]);
-                            }
+                        $.get('sql', { cmd: 'scouting' }, function(data) {
+                            match.scouting = JSON.parse(data);
                             
-                            settings.load();
 
-                            dash.refreshDash();
+                            $.get('sql', { cmd: 'data' }, function(data) {
+                                dash.data.src = JSON.parse(data);
+
+                                for(i in dash.data.src){
+                                    dash.data.src[i] = JSON.parse(dash.data.src[i]);
+                                }
+
+                                submit.updateSettings();
+
+                                match.loadMatches();
+
+                                info.load();
+                                
+                                settings.load();
+
+                                dash.refreshDash();
+                            });
                         });
                     });
                 });

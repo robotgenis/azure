@@ -28,7 +28,6 @@ submit.loadCookies = function(){
     }
 
     submit.settings = JSON.parse(localStorage.getItem(submit.settingsName));
-    submit.updateSettings();
 }
 
 submit.setSettings = function(setting, setTo){

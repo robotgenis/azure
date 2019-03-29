@@ -23,6 +23,7 @@ var teams = null; //public
 
 var match = {};
 match.matches = null;
+match.scouting = null; // scouting schedule
 match.matchNumber = null;
 match.current = null;
 match.matchTeam = null;

@@ -69,3 +69,9 @@
         blue1: 4,
         blue2: 5
     }
+    {
+        type: "scouting",
+        scouter: "Brandon-5029",
+        position: "red1/red2/blue1/blue2/alt",
+        matches: {start: 1, end: 30}
+    }
