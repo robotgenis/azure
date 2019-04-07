@@ -463,14 +463,6 @@ match.endDC = function(){
     setTab('match-4');
 }
 
-// function matchMineralTimerCount(){
-//     if(document.getElementById("matchMineralTimer1").style.display == "block"){
-//         var input = document.getElementById("matchMineralTimer1").innerText;
-//         input = Number(input);
-//         document.getElementById("matchMineralTimer1").innerText = (input + .1).toFixed(1);
-//     }
-// }
-
 match.matchFinish = function(){
     clearTimeout(match.timer.timer);
 

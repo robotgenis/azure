@@ -2,7 +2,7 @@ var fs = require('fs');
 
 function resetPages(){
     exports.pages = {
-        'root' : {'path': '/main.html', 'type' : 'text/html', 'url':'/','src': null},
+        'root' : {'path': '/main.html', 'type' : 'text/html', 'url':'/','src': null},//main.html
         'reload' : {'path' : null, 'type' : 'text/html', 'url': '/reload','src':null},
         'sql' : {'path' : null, 'type' : 'text/html', 'url': '/sql','src':null},
         'createuser' : {'path' : null, 'type' : 'text/html', 'url': '/createuser','src':null},
@@ -121,7 +121,7 @@ function loadPages(loadComplete){
                     for(i = format.matches.start; i <= format.matches.end; i++){
                         cmd += "IF NOT EXISTS ( SELECT 1 FROM dbo.scouting WHERE number = " + String(i) + ") BEGIN INSERT INTO dbo.scouting (number, " + format.position + ") VALUES (" + String(i) + ", '" + format.scouter + "') END; ELSE BEGIN UPDATE dbo.scouting SET " + format.position + "='" + format.scouter + "' WHERE number=" + String(i) + "; END;";
                     }
-                    console.log(cmd);
+                    //console.log(cmd);
                     exports.sql.connectAndSend(cmd, function(results, connection){
                         exports.sql.refreshScouting(connection, function(connection){
                             connection.close();

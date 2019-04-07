@@ -1,10 +1,11 @@
 1 = guest
 2 = unauth user
-9 = temp user
-10 - 20 = auth user
+2-8 = unath user in training 
+25 = temp user
+30 = auth user
 100 = admin
 
 >1 = access to scouting menu
->5 = acceess to pit scouting
->7 = access to match scouting
+>10 = acceess to pit scouting
+>20 = access to match scouting
 >80 = access to settings

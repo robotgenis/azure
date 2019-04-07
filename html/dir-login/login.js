@@ -39,7 +39,7 @@ login.loginSubmitUser = function (username, teamnum){
             element.classList.add("disabled");
             element.disabled = true;
         }
-        if(login.user.security > 1){  //CHANGE BACK TO 5
+        if(login.user.security > 10){  //CHANGE BACK TO 10
             var element = document.getElementById("menu-scout-pit");
             element.classList.remove("disabled");
             element.disabled = false;
@@ -48,7 +48,7 @@ login.loginSubmitUser = function (username, teamnum){
             element.classList.add("disabled");
             element.disabled = true;
         }
-        if(login.user.security > 1){ //CHANGE BACK TO 7
+        if(login.user.security > 20){ //CHANGE BACK TO 20
             var element = document.getElementById("menu-scout-match");
             element.classList.remove("disabled");
             element.disabled = false;
@@ -57,7 +57,7 @@ login.loginSubmitUser = function (username, teamnum){
             element.classList.add("disabled");
             element.disabled = true;
         }
-        if(login.user.security > 80){
+        if(login.user.security > 80){ //CHANGE BACK TO 80
             var element = document.getElementById("menu-settings");
             element.classList.remove("disabled");
             element.disabled = false;

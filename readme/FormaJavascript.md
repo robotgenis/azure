@@ -8,15 +8,17 @@
 # Reserved
  - OBJECTS
 login - login.js
-dash - dashboard.js  *remade with new charts
-match - match.js    *to be recoded, more organized
+dash - dashboard.js
+match - match.js
 loader - loader.js
 submit - submit.js
+training - training.js
+practice - practice.js
 
 
  - functions
 setTab(tab)
 
  - variables
-teams - login
+teams - match
 
