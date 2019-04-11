@@ -105,10 +105,19 @@ match.loadMatches = function(){
 }
 
 match.selectMatch = function(matchNumber){
-    match.matchNumber = matchNumber;
+    if(matchNumber == .1){
+        match.matchNumber = "T-1"
+        match.current = ["T-1", 13172, "-", "-", "-"];
+    }else if(matchNumber == .2){
+        match.matchNumber = "T-2"
+        match.current = ["T-1", 14615, "-", "-", "-"];
+    }else{
+        match.matchNumber = matchNumber;
+        match.current = match.getMatch(match.matchNumber);
+    }
+    
 
     var html = document.getElementById("match-teams-source").innerHTML;
-    match.current = match.getMatch(match.matchNumber);
 
     html = html.replace(/00001/g, match.current[1]);
     html = html.replace(/name1/g, match.getTeamName(match.current[1]));
@@ -118,7 +127,11 @@ match.selectMatch = function(matchNumber){
     html = html.replace(/name3/g, match.getTeamName(match.current[3]));
     html = html.replace(/00004/g, match.current[4]);
     html = html.replace(/name4/g, match.getTeamName(match.current[4]));
-    if(submit.settings.position == "red1"){
+    if(match.matchNumber == "T-1" || match.matchNumber == "T-2"){
+        html = html.replace(/enabled2/g, "disabled");
+        html = html.replace(/enabled3/g, "disabled");
+        html = html.replace(/enabled4/g, "disabled");
+    }else if(submit.settings.position == "red1"){
         html = html.replace(/enabled2/g, "disabled");
         html = html.replace(/enabled3/g, "disabled");
         html = html.replace(/enabled4/g, "disabled");
@@ -542,12 +555,49 @@ match.matchSubmit = function(){
 
     //     setTab("match-7");
     // }else{
+    if(match.matchNumber == "T-1"){
+        setTab("training-0");
+    }else if(match.matchNumber == "T-2"){
+        var pass = true;
+        var feedback = "";
+
+        if(match.data.auto.position != "crater"){
+            pass = false;
+            feedback += " - Select the correct starting position. \n"
+        }
+        if(!match.data.auto.land.value || !match.data.auto.sample.value || !match.data.auto.claim.value || !match.data.auto.park.value) {
+            pass = false;
+            feedback += " - Make sure you check the correct boxes in autonomous. \n"
+        }
+        if(match.data.minerals.count.lander > 24 || match.data.minerals.count.lander < 20) {
+            pass = false;
+            feedback += " - Watch carefully when the robot is picking up and scoring minerals. \n"
+        }
+        if(match.data.post.park != "hang") {
+            pass = false;
+            feedback += " - Make sure you select the correct ending position. \n"
+        }
+        if(match.data.post.path != "crater"){
+            pass = false;
+            feedback += " - Select the correct placing position. \n";
+        }
+
+        if(pass){
+            submit.saveData({type: "cert", scouter: login.getScouter()})
+            setTab("training-2");
+        }else{
+            document.getElementById("training-feedback").innerText = feedback;
+            setTab("training-1");
+        }
+    }else{
         submit.saveData({type: "score", score: score, scouter: login.getScouter()});
         
         submit.saveData(match.data);
 
         setTab("match-6");
     //}
+    }
+    
 }
 
 match.matchNextMatch = function(){

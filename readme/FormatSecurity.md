@@ -1,6 +1,7 @@
 1 = guest
 2 = unauth user
-2-8 = unath user in training 
+2-8 = unath user in training
+10 = pit scouting user // not added yet
 25 = temp user
 30 = auth user
 100 = admin

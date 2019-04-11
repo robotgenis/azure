@@ -67,6 +67,7 @@ loader.dataCheck = function(){
 
                     $.get('sql', { cmd: 'users' }, function(data) {
                         login.users = JSON.parse(data);
+                        console.log(login.users);
                         
                         $.get('sql', { cmd: 'scouting' }, function(data) {
                             match.scouting = JSON.parse(data);
