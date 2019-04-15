@@ -2,7 +2,7 @@
     {
         type: "match",
         match: {number: 99, teamnum: 1001, color: "red/blue", date:"1/31/2019", time:"10:15:00"},
-        scouter: {username: Brandon, teamnum: 5029, prediction: 50},
+        scouter: {username: Brandon, teamnum: 5029, prediction: 50, bet:10, earnings: 0},
         auto:{position:"crater/depot",hanging:false,land:{value:false,time:00.0}, sample:{value:false,time:00.0}, sample2:{value:false,time:00.0}, claim:{value:false,time:00.0}, park:{value:false,time:00.0}},
         cyclesUngrouped: [{pick:00.0,place:00.0,length:00.0,type:'lander/drop'}],
         minerals:{count:{lander:0,drop:0}},
@@ -74,4 +74,11 @@
         scouter: "Brandon-5029",
         position: "red1/red2/blue1/blue2/alt",
         matches: {start: 1, end: 30}
+    }
+    {
+        type: "user",
+        name: "Brandon",
+        teamnum: 00001,
+        score: 100,
+        security: 30
     }

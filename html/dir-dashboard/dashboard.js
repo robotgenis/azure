@@ -64,7 +64,11 @@ dash.refreshDash = function(){
             telePoints[telePoints.length] = teamData[k].score.tele;
             endPoints[endPoints.length] = teamData[k].score.end;
             if(teamData[k].post.park == "hang"){
-                hangTime[hangTime.length] = ((teamData[k].time.length) / 1000 - teamData[k].cyclesUngrouped[teamData[k].cyclesUngrouped.length - 1].place);
+                if(teamData[k].cyclesUngrouped.length == 0){
+                    hangTime[hangTime.length] = ((teamData[k].time.length) / 1000 - teamData[k].time.auto);
+                }else{
+                    hangTime[hangTime.length] = ((teamData[k].time.length) / 1000 - teamData[k].cyclesUngrouped[teamData[k].cyclesUngrouped.length - 1].place);
+                }
             }
             points[points.length] = teamData[k].score.total;
         }

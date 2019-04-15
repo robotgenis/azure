@@ -40,21 +40,42 @@
         </div>
     </div>
     <div class="row" style="height: 5vh;"></div>
-    <div class="row" style="height: 10vh">
-        <h1 style="width: 100%; font-size: 10vw; text-align: center;">Score Prediction</h1>
+    <div class="jumbotron">
+        <div class="row">
+            <h1 style="width: 100%; font-size: 10vw; text-align: center;">Score Prediction</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('match-2-inputPrediction').innerText; temp = Number(temp); temp -= 5; if(temp < 0) temp = 0; document.getElementById('match-2-inputPrediction').innerText = String(temp);">-5</button>
+            </div>
+            
+            <div class="col-sm-4">
+                <h1 id="match-2-inputPrediction" style="font-size: 16vw; height: 100%; text-align: center;">100</h1>
+            </div>
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('match-2-inputPrediction').innerText; temp = Number(temp); temp += 5; if(temp > 999) temp = 995; document.getElementById('match-2-inputPrediction').innerText = String(temp);">+5</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <h1 style="width: 100%; font-size: 10vw; text-align: center;">Bet Amount</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('match-2-inputBet').innerText; temp = Number(temp); temp -= 5; if(temp < 0) temp = 0; document.getElementById('match-2-inputBet').innerText = String(temp);">-5</button>
+            </div>
+            <div class="col-sm-4">
+                <h1 id="match-2-inputBet" style="font-size: 16vw; height: 100%; text-align: center;">10</h1>
+            </div>
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('match-2-inputBet').innerText; temp = Number(temp); temp += 5; if(temp > login.user.score) temp = (Math.floor(login.user.score / 5) * 5); document.getElementById('match-2-inputBet').innerText = String(temp);">+5</button>
+            </div>
+        </div>
+        <div class="row" style="">
+            <h1 id="match-2-scouterscore" style="width: 100%; font-size: 6vw; text-align: center;"></h1>
+        </div>
     </div>
-    <div class="row" styel="height: 20vh">
-        <div class="col-sm-4">
-            <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('match-2-inputPrediction').innerText; temp = Number(temp); temp -= 5; if(temp < 0) temp = 0; document.getElementById('match-2-inputPrediction').innerText = String(temp);">-5</button>
-        </div>
-        
-        <div class="col-sm-4">
-            <h1 id="match-2-inputPrediction" style="font-size: 16vw; height: 100%; text-align: center;">50</h1>
-        </div>
-        <div class="col-sm-4">
-            <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('match-2-inputPrediction').innerText; temp = Number(temp); temp += 5; if(temp > 999) temp = 995; document.getElementById('match-2-inputPrediction').innerText = String(temp);">+5</button>
-        </div>
-    </div>
+
     <div class="row" style="height: 5vh;"></div>
     <h1 style="font-size: 5vw; height: 100%; text-align: center;">Only click the start button when the match starts!</h1>
     <button type="button" class="btn btn-success" style="height: 100%; width: 100%; font-size: 30vw; border-width: 5px;border-color:rgb(255, 255, 255)" onclick="match.matchStart();">Start</button>

@@ -5,6 +5,7 @@
 //saveTeam()
 //saveMatch()
 //saveScouting()
+//saveUser()
 
 var settings = {};
 
@@ -64,13 +65,14 @@ settings.load = function(){
 
         outHTML += add;
     }
-
     document.getElementById("settings-4-scouting").innerHTML = outHTML;
     
-    var html = document.getElementById("settings-4-scouter-src").innerHTML;
 
+
+
+
+    var html = document.getElementById("settings-4-scouter-src").innerHTML;
     var outHTML = "";
-    
     add = html;
     add = add.replace(/name1/g, '');
     outHTML += add;
@@ -82,10 +84,27 @@ settings.load = function(){
 
         outHTML += add;
     }
-
-    
-
     document.getElementById("settings-4-scouter").innerHTML = outHTML;
+
+
+
+
+
+    var html = document.getElementById("settings-5-users-src").innerHTML;
+    var outHTML = "";
+
+
+    for(i in login.users){
+        add = html;
+
+        add = add.replace(/name1/g, login.users[i][0]);
+        add = add.replace(/00001/g, login.users[i][1]);
+        add = add.replace(/score1/g, login.users[i][2]);
+        add = add.replace(/security1/g, login.users[i][3]);
+
+        outHTML += add;
+    }
+    document.getElementById("settings-5-users").innerHTML = outHTML;
 
 
     document.getElementById("settings-3-red1").addEventListener("keydown", function(event){
@@ -177,6 +196,27 @@ settings.saveScouting = function(){
         scouter: document.getElementById("settings-4-scouter").value,
         position: document.getElementById("settings-4-position").value,
         matches: {start: Number(mat[0]), end: Number(mat[1])}
+    };
+    $.get( "/check", function( data ) {
+        if(data == "SUCCESS!"){
+            $.ajax("/settings", {
+                data : JSON.stringify(sendData),
+                contentType : 'application/json',
+                type : 'POST'}, function(ret){
+                    console.log("ITS WORKING NOW!!!");
+                });
+            //alert("Saved!");
+        }
+    });
+}
+
+settings.saveUser = function(){
+    var sendData = {
+        type: "user",
+        name: document.getElementById("settings-5-name").value,
+        teamnum: document.getElementById("settings-5-teamnum").value,
+        score: document.getElementById("settings-5-score").value,
+        security: document.getElementById("settings-5-security").value
     };
     $.get( "/check", function( data ) {
         if(data == "SUCCESS!"){

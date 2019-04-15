@@ -22,7 +22,11 @@ practice.start = function(){
 
     setTab("practice-0");
 
+    practice.timer.time = 0;
+    practice.timer.timerStart = Date.now();
+
     practice.timer.timer = setInterval(practice.matchTimerAdd, 100);
+
 
     document.getElementById("practice-0-mineralTimer1").style.display = "none";
     document.getElementById("practice-0-mineralTimerPic1").style.display = "none";
@@ -143,6 +147,64 @@ practice.matchTimerAdd = function(){
 
 practice.finish = function(){
     clearTimeout(practice.timer.timer);
+
+    var roundNumCycles = 0;
+
+    var out = [];
+    for(kk = 0; kk < practice.cycles.length; kk++){
+        var combined = false;
+        if(kk > 0){
+            if(out[out.length - 1].place[0] > practice.cycles[kk].pick){
+                combined = true;
+                var cycleIndex = out[out.length - 1].pick.length
+                out[out.length - 1].pick[cycleIndex] = practice.cycles[kk].pick;
+                out[out.length - 1].place[cycleIndex] = practice.cycles[kk].place;
+                out[out.length - 1].length[cycleIndex] = practice.cycles[kk].length;
+                out[out.length - 1].type[cycleIndex] = practice.cycles[kk].type;
+                out[out.length - 1].mineralcount++;
+                if(roundNumCycles > 1){
+                    out[out.length - 1].cycletime = out[out.length - 1].pick[0] - out[out.length - 2].pick[0];
+                }
+            }
+        }
+        if(!combined){
+            out[out.length] = {
+                pick:[practice.cycles[kk].pick],
+                place:[practice.cycles[kk].place],
+                length:[practice.cycles[kk].length],
+                cycletime: 0.0,
+                mineralcount:1,
+                type: [practice.cycles[kk].type],
+            }
+            if(kk == 0){
+                out[out.length - 1].cycletime = practice.cycles[kk].place;
+            }else{
+                out[out.length - 1].cycletime = practice.cycles[kk].place - out[out.length - 2].place[0];
+            }
+            roundNumCycles++;
+        }
+    }
+
+    cyclestimes = [];
+    var cyclesText = "";
+
+    for(i = 0; i < out.length; i++){
+        cyclestimes[i] = out[i].cycletime;
+        cyclesText += out[i].mineralcount.toFixed(0) + " minerals - " + out[i].cycletime.toFixed(1) + " sec.  ";
+        for(k = 0; k < out[i].type.length; k++){
+            cyclesText += (out[i].type[k] == "lander") ? "L" : "D";
+        } 
+        cyclesText += "\n"
+    }
+
+    var average = dash.math.average(cyclestimes);
+
+    document.getElementById("practice-1-cycletime").innerText = "Cycle Time Average = " + average.toFixed(2);
+    document.getElementById("practice-1-minerals").innerText = "Minerals Scored = " + practice.minerals.lander.toFixed(0);
+    document.getElementById("practice-1-drop").innerText = "Minerals Dropped = " + practice.minerals.drop.toFixed(0);
+
+    document.getElementById("practice-1-cycles").innerText = cyclesText;    
+    
 
     setTab("practice-1");
 }

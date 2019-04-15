@@ -3,6 +3,7 @@
 //FUNCTIONS
 //getTeamName(number)
 //getMatch(matchNumber)
+//getScoutingMatch(matchNumber)
 //loadMatches()
 //selectMatch(matchNumber)
 //selectTeam(team)
@@ -18,6 +19,8 @@
 //matchRadioClick(item)
 //matchSubmit()
 //matchNextMatch()
+//changeScouter()
+//selectChangeScouter(action)
 
 var teams = null; //public
 
@@ -64,6 +67,16 @@ match.getMatch = function(matchNumber){
     for(i in match.matches){
         if(match.matches[i][0] == matchNumber){
             ret = match.matches[i];
+        }
+    }
+    return ret;
+}
+
+match.getScoutingMatch = function(matchNumber){
+    ret = null;
+    for(i in match.scouting){
+        if(match.scouting[i][0] == matchNumber){
+            ret = match.scouting[i];
         }
     }
     return ret;
@@ -157,6 +170,8 @@ match.selectMatch = function(matchNumber){
     document.getElementById("match-4-number").innerHTML = String(match.matchNumber);
     document.getElementById("match-4-breakdown-number").innerHTML = String(match.matchNumber);
     document.getElementById("match-5-number").innerHTML = String(match.matchNumber);
+
+    document.getElementById("match-2-scouterscore").innerText = "Current Scouter Score = " + String(login.user.score);
 
     setTab('match-1');
 }
@@ -301,6 +316,7 @@ match.matchStart = function(){
     match.data.match = {number: match.matchNumber, teamnum: match.matchTeam, color: match.startPosition.color, date: date, time: time};
     match.data.scouter = login.getScouter();//matchData.scouter = {'username': loginUsername, 'teamnum': loginTeam, 'prediction': Number(document.getElementById("matchInputPrediction").innerText)};
     match.data.scouter.prediction = Number(document.getElementById("match-2-inputPrediction").innerText);
+    match.data.scouter.bet = Number(document.getElementById("match-2-inputBet").innerText);
     match.data.auto = {
         position: match.startPosition.position,
         hanging: match.startHanging,
@@ -517,17 +533,22 @@ match.matchSubmit = function(){
     match.data.time = {length:match.timer.time,auto:match.timer.autoTime};
     match.data.score = {auto:autoScore,tele:teleScore,end:endScore,total:autoScore + teleScore + endScore};
 
+
+    
+    var addScore = 0;
+    if(Math.abs(match.data.score.total - match.data.scouter.prediction) <= 35){
+        addScore = match.data.scouter.bet;
+    }else{
+        addScore = -match.data.scouter.bet;
+    }
+    
+
     document.getElementById("matchOutputPredicted").innerText = String(match.data.scouter.prediction);
     document.getElementById("matchOutputCalculated").innerText = String(match.data.score.total);
-    var offby = Math.abs(match.data.score.total - match.data.scouter.prediction);
-    var points = 0;
-    if(offby < 50) points = 2;
-    if(offby < 25) points = 5;
-    if(offby < 15) points = 8;
-    if(offby < 5) points = 10;
-    var score = Math.round(3 + points);
-    document.getElementById("matchOutputScouting").innerText = String(score);
-    
+    document.getElementById("matchOutputScouting").innerText = String(login.user.score) + " " + ((addScore >= 0) ? "+" : "-") + String(Math.abs(addScore));
+
+    login.user.score += addScore;
+    match.data.scouter.earnings = addScore;
     
     //If training match
     // if(Number(matchNumber) == 0){
@@ -590,7 +611,7 @@ match.matchSubmit = function(){
             setTab("training-1");
         }
     }else{
-        submit.saveData({type: "score", score: score, scouter: login.getScouter()});
+        submit.saveData({type: "score", score: addScore, scouter: login.getScouter()});
         
         submit.saveData(match.data);
 
@@ -602,4 +623,26 @@ match.matchSubmit = function(){
 
 match.matchNextMatch = function(){
     match.selectMatch(match.matchNumber + 1);
+}
+
+match.changeScouter = function(){
+    var nextMatch = match.getScoutingMatch(match.matchNumber + 1);
+
+    document.getElementById("match-7-red1").innerText = nextMatch[1];
+    document.getElementById("match-7-red2").innerText = nextMatch[2];
+    document.getElementById("match-7-blue1").innerText = nextMatch[3];
+    document.getElementById("match-7-blue2").innerText = nextMatch[4];
+    document.getElementById("match-7-alt").innerText = nextMatch[5];
+
+    setTab("match-7");
+}
+
+match.selectChangeScouter = function(action){
+    var nextMatch = match.getScoutingMatch(match.matchNumber + 1);
+    if(nextMatch[action] != ""){ 
+        var spl = nextMatch[action].split("-");
+        login.loginSubmitUser(spl[0], spl[1]);
+    }
+
+    match.matchNextMatch();
 }
