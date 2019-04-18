@@ -19,7 +19,7 @@ $(document).ready(function() {
         loader.loadElement(elements[i]);
     }
 
-    google.charts.load('current', {'packages':['corechart', 'line', 'table', 'bar']});
+    google.charts.load('current', {'packages':['corechart', 'line', 'table', 'bar','scatter']});
 
     loader.dataCheck();
 });

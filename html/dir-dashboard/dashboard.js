@@ -22,6 +22,8 @@ dash.data = {src: null, ranking: null, record: null};
 dash.history = [];
 dash.history_index = 0;
 dash.matchteams = null;
+dash.allTable;
+dash.allTablePrevSelection = null;
 
 
 function ordinal_suffix_of(num) {
@@ -144,7 +146,17 @@ dash.refreshDash = function(){
             
         }
     }
+    dash.data.record = {};
+    for(i = 0; i < dash.data.ranking.length; i++){
+        for(t in dash.data.ranking[i]){
+            if(dash.data.ranking[i][t].rank == 1){
+                dash.data.record[t] = dash.data.ranking[i][t];
+                dash.data.record[t].team = dash.data.ranking[i].team;
+            }
+        }
+    }
     //console.log(t, dash.data.ranking);
+    console.log(dash.data.record);
 
     var html = document.getElementById("dash-1-teams-src").innerHTML;
 
@@ -197,6 +209,7 @@ dash.setDash = function(address){
     var section = (subsection != null) ? address.split("/")[0] : address;
 
     console.log(section + "/" + subsection + "?" + item);
+    
 
     if(section == "teams"){
         //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -420,11 +433,11 @@ dash.setDash = function(address){
             document.getElementById('dash-3-match').innerText = "Match " + matchnum;
 
             var scoutingStatus = [false, false, false, false];
+            var scoutingTotal = [0, 0, 0, 0];
 
             for(t = 0; t < 4; t++){
                 var ts = String(t);
                 var teamnum = dash.matchteams[t + 1];
-                document.getElementById('dash-3-' + ts + '-teamnum').innerText = teamnum;
                 document.getElementById('dash-3-' + ts + '-name').innerText = teamnum + " - " + match.getTeamName(teamnum);
 
                 var allTeamData = dash.getTeamData(teamnum);
@@ -437,6 +450,8 @@ dash.setDash = function(address){
                 }
 
                 if(teamData == null){
+                    document.getElementById('dash-3-' + ts + '-teamnum').innerText = teamnum + " -est";
+
                     document.getElementById("dash-3-" + ts + "-status").innerText = "Estimated";
                     
                     var stats = dash.getTeamRanking(teamnum);
@@ -446,7 +461,11 @@ dash.setDash = function(address){
                     document.getElementById("dash-3-" + ts + "-endScore").innerText = stats.endPoints.value.toFixed(1) + "\xB1" + stats.endDeviation.value.toFixed(1) + " points";
                     document.getElementById("dash-3-" + ts + "-score").innerText = stats.points.value.toFixed(1) + "\xB1" + stats.pointsDeviation.value.toFixed(1) + " points";
 
+
+                    scoutingTotal[t] = stats.points.value;
                 }else{
+                    document.getElementById('dash-3-' + ts + '-teamnum').innerText = teamnum;
+
                     document.getElementById("dash-3-" + ts + "-status").innerText = "Calculated";
                     scoutingStatus[t] = true;
 
@@ -454,11 +473,84 @@ dash.setDash = function(address){
                     document.getElementById("dash-3-" + ts + "-teleScore").innerText = teamData.minerals.count.lander.toFixed(0) + " minerals \n" + teamData.score.tele.toFixed(0) + " points";
                     document.getElementById("dash-3-" + ts + "-endScore").innerText = teamData.score.end.toFixed(0) + " points";
                     document.getElementById("dash-3-" + ts + "-score").innerText = teamData.score.total.toFixed(0) + " points";
+
+                    scoutingTotal[t] = teamData.score.total;
                 }
             }
 
+            document.getElementById("dash-3-score-red").innerText = (scoutingTotal[0] + scoutingTotal[1]).toFixed(0);
+
+            document.getElementById("dash-3-score-blue").innerText = (scoutingTotal[2] + scoutingTotal[3]).toFixed(0);
+            
+
             $('#dash-tab-match-bar').trigger('click');
         }
+    }else if(section == "all"){
+        var data = new google.visualization.DataTable();
+        data.addColumn('number','Team');
+        data.addColumn('number', 'Total');
+        data.addColumn('number', 'Auto');
+        data.addColumn('number', 'Tele');
+        data.addColumn('number', 'End Game');
+        data.addColumn('number', 'Consistency');
+    
+        for(i = 0; i < dash.data.ranking.length; i++){
+    
+            data.addRow([{v: dash.data.ranking[i].team, f: String(dash.data.ranking[i].team)}, dash.data.ranking[i].points.value, dash.data.ranking[i].autoPoints.value, dash.data.ranking[i].telePoints.value, dash.data.ranking[i].endPoints.value, dash.data.ranking[i].pointsDeviation.value])
+            data.setProperty(i, 0, 'style', 'text-align: right;');
+            data.setProperty(i, 1, 'style', 'background-color: ' + get_color_format(dash.data.ranking[i].points.value, dash.data.record.points.value, 0) + ';');
+            data.setProperty(i, 2, 'style', 'background-color: ' + get_color_format(dash.data.ranking[i].autoPoints.value, 80, 0) + ';');
+            data.setProperty(i, 3, 'style', 'background-color: ' + get_color_format(dash.data.ranking[i].telePoints.value, dash.data.record.telePoints.value, 0) + ';');
+            data.setProperty(i, 4, 'style', 'background-color: ' + get_color_format(dash.data.ranking[i].endPoints.value, 50, 0) + ';');
+            data.setProperty(i, 5, 'style', 'background-color: ' + get_color_format(dash.data.ranking[i].pointsDeviation.value, 0, dash.data.record.pointsDeviation.value) + ';');
+        };
+        
+        dash.allTable = new google.visualization.Table(document.getElementById('dash-4-table'));
+    
+        dash.allTable.draw(data, {showRowNumber: false, width: '100%', height: '100%', allowHtml: true});
+    
+        google.visualization.events.addListener(dash.allTable, 'select', function(e){
+            console.log(dash.allTable.getSelection());
+            if(dash.allTable.getSelection().length == 0){
+                dash.setDash('teams?' + String(dash.data.ranking[dash.allTablePrevSelection].team));
+                dash.allTablePrevSelection = null;
+            }else{
+                dash.allTablePrevSelection = dash.allTable.getSelection()[0].row;
+            }
+        });
+
+
+
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('number', 'Average Score');
+        data.addColumn('number', 'Team');
+        data.addColumn({type:'string', role:'annotation'});
+
+        for(i = 0; i < dash.data.ranking.length; i++){
+            data.addRow([dash.data.ranking[i].points.value, dash.data.ranking[i].telePoints.value / 5, String(dash.data.ranking[i].team)]);
+        }
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('dash-4-scatter'));
+
+        chart.draw(data, google.charts.Scatter.convertOptions({
+            title: 'Score vs. Minerals',
+            hAxis: {title: 'Average Score', minValue: 0, maxValue: dash.data.record.points.value + 10},
+            vAxis: {title: 'Average Minerals', minValue: 0, maxValue: dash.data.record.telePoints.value / 5 + 2},
+            legend: 'none',
+            width: window.innerWidth, 
+            height: window.innerHeight,
+            // series: {
+            //     0: {targetAxisIndex: 0},
+            //     1: {targetAxisIndex: 1}
+            //   },
+            chartArea: {
+                width: '80%',
+                height: '80%',
+            }
+        }));
+        
+        $('#dash-tab-all-bar').trigger('click');
     }
 }
 
@@ -574,7 +666,7 @@ dash.math.average = function(nums){
 
 dash.math.standardDeviation = function(nums){
     if(nums.length < 2){
-        return 1e+100;
+        return 1e+4;
     }
 
     var varianceTotal = 0
