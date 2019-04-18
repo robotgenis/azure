@@ -199,6 +199,7 @@ dash.setDash = function(address){
     console.log(section + "/" + subsection + "?" + item);
 
     if(section == "teams"){
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
         $('#dash-tab-teams-bar').trigger('click');
 
         if(item == null){
@@ -404,6 +405,7 @@ dash.setDash = function(address){
             document.getElementById("dash-1-section").style.display = "block";
         }
     }else if(section == "matches"){
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
         if(item == null){
             $('#dash-tab-matches-bar').trigger('click');
         }else{
@@ -417,11 +419,42 @@ dash.setDash = function(address){
 
             document.getElementById('dash-3-match').innerText = "Match " + matchnum;
 
+            var scoutingStatus = [false, false, false, false];
+
             for(t = 0; t < 4; t++){
                 var ts = String(t);
                 var teamnum = dash.matchteams[t + 1];
                 document.getElementById('dash-3-' + ts + '-teamnum').innerText = teamnum;
                 document.getElementById('dash-3-' + ts + '-name').innerText = teamnum + " - " + match.getTeamName(teamnum);
+
+                var allTeamData = dash.getTeamData(teamnum);
+                var teamData = null;
+
+                for(i = 0; i < allTeamData.length; i++){
+                    if(allTeamData[i].match.number == matchnum){
+                        teamData = allTeamData[i];
+                    }
+                }
+
+                if(teamData == null){
+                    document.getElementById("dash-3-" + ts + "-status").innerText = "Estimated";
+                    
+                    var stats = dash.getTeamRanking(teamnum);
+
+                    document.getElementById("dash-3-" + ts + "-autoScore").innerText = stats.autoPoints.value.toFixed(1) + "\xB1" + stats.autoDeviation.value.toFixed(1)  + " points";
+                    document.getElementById("dash-3-" + ts + "-teleScore").innerText = (stats.telePoints.value/5).toFixed(1) + "\xB1" + (stats.teleDeviation.value/5).toFixed(1) + " minerals \n" + stats.telePoints.value.toFixed(1) + "\xB1" + stats.teleDeviation.value.toFixed(1) + " points";
+                    document.getElementById("dash-3-" + ts + "-endScore").innerText = stats.endPoints.value.toFixed(1) + "\xB1" + stats.endDeviation.value.toFixed(1) + " points";
+                    document.getElementById("dash-3-" + ts + "-score").innerText = stats.points.value.toFixed(1) + "\xB1" + stats.pointsDeviation.value.toFixed(1) + " points";
+
+                }else{
+                    document.getElementById("dash-3-" + ts + "-status").innerText = "Calculated";
+                    scoutingStatus[t] = true;
+
+                    document.getElementById("dash-3-" + ts + "-autoScore").innerText = teamData.score.auto.toFixed(0) + " points";
+                    document.getElementById("dash-3-" + ts + "-teleScore").innerText = teamData.minerals.count.lander.toFixed(0) + " minerals \n" + teamData.score.tele.toFixed(0) + " points";
+                    document.getElementById("dash-3-" + ts + "-endScore").innerText = teamData.score.end.toFixed(0) + " points";
+                    document.getElementById("dash-3-" + ts + "-score").innerText = teamData.score.total.toFixed(0) + " points";
+                }
             }
 
             $('#dash-tab-match-bar').trigger('click');
