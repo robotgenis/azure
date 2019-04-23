@@ -32,7 +32,7 @@ function loadPages(loadComplete) {
         };
         exports.pages.sql.src = function (request, response, end) {
             var cmd = request.url.split("?")[1].split("=")[1];
-            var cmds = { "users": exports.sql.users, "matches": exports.sql.matches, "teams": exports.sql.teams, "data": exports.sql.data, "scouting": exports.sql.scouting };
+            var cmds = { "users": exports.sql.users, "matches": exports.sql.matches, "teams": exports.sql.teams, "data": exports.sql.data, "scouting": exports.sql.scouting, "pit": exports.sql.pit };
             //console.log(cmds);
             if (cmd in cmds) {
                 end(JSON.stringify(cmds[cmd]));
@@ -65,13 +65,17 @@ function loadPages(loadComplete) {
                     } else if (format[i].type == "cert") {
                         console.log(format);
                         cmd += "UPDATE dbo.users SET security=30 WHERE username='" + format[i].scouter.username + "' AND team=" + format[i].scouter.teamnum + ";";
+                    } else if (format[i].type == "pit"){
+                        cmd += "INSERT INTO dbo.pitScouting (data) VALUES ('" + JSON.stringify(format[i]) + "');";
                     }
                 }
                 exports.sql.connectAndSend(cmd, function (results, connection) {
                     exports.sql.refreshUsers(connection, function (connection) {
                         exports.sql.refreshData(connection, function (connection) {
-                            connection.close();
-                            end("SUCCESS!");
+                            exports.sql.refreshPit(connection, function(connection){
+                                connection.close();
+                                end("SUCCESS!");
+                            });
                         });
                     });
                     // exports.sql.send('SELECT username, team, score, security from dbo.users', connection, function(results, connection){

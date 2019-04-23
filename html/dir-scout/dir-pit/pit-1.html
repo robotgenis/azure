@@ -1,0 +1,173 @@
+<div class="container-fluid bg-light">
+    <div class="row" style="height: 8vh">
+        <div class="col-sm-3">
+            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 4vh;" onclick="setTab('pit-0');">Save</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h1 id="pit-1-team"></h1>
+
+        <div class="row" style="height: 5vh"></div>
+
+        <h1 style="font-size: 12vw;">Auto Position</h3>
+
+            <div class="row" style="height: 20vh">
+                <div class="col-sm-7">
+                    <div class="row" style="height: 5vh;"></div>
+                    <h1 style="font-size: 10vw; height: 100%">Crater side auto</h1>
+                </div>
+                <div class="col-sm-5">
+                    <label class="checkboxcontainer">
+                        <input id="pit-1-park" type="checkbox">
+                        <span class="checkmark"></span>
+                        <span class="xmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row" style="height: 20vh">
+                <div class="col-sm-7">
+                    <div class="row" style="height: 5vh;"></div>
+                    <h1 style="font-size: 10vw; height: 100%">Depot side auto</h1>
+                </div>
+                <div class="col-sm-5">
+                    <label class="checkboxcontainer">
+                        <input id="pit-1-park" type="checkbox">
+                        <span class="checkmark"></span>
+                        <span class="xmark"></span>
+                    </label>
+                </div>
+            </div>
+
+        <h1 style="font-size: 12vw;">Auto</h3>
+
+        <div class="row" style="height: 20vh">
+            <div class="col-sm-7">
+                <div class="row" style="height: 5vh;"></div>
+                <h1 style="font-size: 10vw; height: 100%">Land</h1>
+            </div>
+            <div class="col-sm-5">
+                <label class="checkboxcontainer">
+                    <input id="pit-1-land" type="checkbox">
+                    <span class="checkmark"></span>
+                    <span class="xmark"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="height: 20vh">
+            <div class="col-sm-7">
+                <div class="row" style="height: 5vh;"></div>
+                <h1 style="font-size: 10vw; height: 100%">Sample</h1>
+            </div>
+            <div class="col-sm-5">
+                <label class="checkboxcontainer">
+                    <input id="pit-1-sample" type="checkbox">
+                    <span class="checkmark"></span>
+                    <span class="xmark"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="height: 20vh">
+            <div class="col-sm-7">
+                <div class="row" style="height: 5vh;"></div>
+                <h1 style="font-size: 10vw; height: 100%">Claim</h1>
+            </div>
+            <div class="col-sm-5">
+                <label class="checkboxcontainer">
+                    <input id="pit-1-claim" type="checkbox">
+                    <span class="checkmark"></span>
+                    <span class="xmark"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="height: 20vh">
+            <div class="col-sm-7">
+                <div class="row" style="height: 5vh;"></div>
+                <h1 style="font-size: 10vw; height: 100%">Park</h1>
+            </div>
+            <div class="col-sm-5">
+                <label class="checkboxcontainer">
+                    <input id="pit-1-park" type="checkbox">
+                    <span class="checkmark"></span>
+                    <span class="xmark"></span>
+                </label>
+            </div>
+        </div>
+
+
+        
+        <div class="row">
+            <h1 style="width: 100%; font-size: 10vw; text-align: center;">Minerals Scored in Autonomous</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('pit-1-autoMinerals').innerText; temp = Number(temp); temp -= 1; if(temp < 0) temp = 0; document.getElementById('pit-1-autoMinerals').innerText = String(temp);">-1</button>
+            </div>
+            
+            <div class="col-sm-4">
+                <h1 id="pit-1-autoMinerals" style="font-size: 16vw; height: 100%; text-align: center;">0</h1>
+            </div>
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('pit-1-autoMinerals').innerText; temp = Number(temp); temp += 1; if(temp > 20) temp = 20; document.getElementById('pit-1-autoMinerals').innerText = String(temp);">+1</button>
+            </div>
+        </div>
+        <div class="row" style="height: 5vh"></div>
+        <div class="jumbotron">
+            
+            <h1 style="font-size: 12vw;">TeleOp</h1>
+            
+
+            <div class="row">
+                <h1 style="width: 100%; font-size: 10vw; text-align: center;">Minerals Scored from crater side</h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('pit-1-craterMinerals').innerText; temp = Number(temp); temp -= 2; if(temp < 0) temp = 0; document.getElementById('pit-1-craterMinerals').innerText = String(temp);">-2</button>
+                </div>
+                
+                <div class="col-sm-4">
+                    <h1 id="pit-1-craterMinerals" style="font-size: 16vw; height: 100%; text-align: center;">0</h1>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('pit-1-craterMinerals').innerText; temp = Number(temp); temp += 2; if(temp > 80) temp = 80; document.getElementById('pit-1-craterMinerals').innerText = String(temp);">+2</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <h1 style="width: 100%; font-size: 10vw; text-align: center;">Minerals Scored from Depot side</h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('pit-1-depotMinerals').innerText; temp = Number(temp); temp -= 2; if(temp < 0) temp = 0; document.getElementById('pit-1-depotMinerals').innerText = String(temp);">-2</button>
+                </div>
+                
+                <div class="col-sm-4">
+                    <h1 id="pit-1-depotMinerals" style="font-size: 16vw; height: 100%; text-align: center;">0</h1>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-warning" style="height: 100%; width: 100%; font-size: 3vh;" onclick="var temp = document.getElementById('pit-1-depotMinerals').innerText; temp = Number(temp); temp += 2; if(temp > 80) temp = 80; document.getElementById('pit-1-depotMinerals').innerText = String(temp);">+2</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="height: 5vh"></div>
+
+        <h1 style="font-size: 12vw;">End Game</h1>
+        <div class="row" style="height: 20vh">
+            <div class="col-sm-7">
+                <div class="row" style="height: 5vh;"></div>
+                <h1 style="font-size: 10vw; height: 100%">Hang</h1>
+            </div>
+            <div class="col-sm-5">
+                <label class="checkboxcontainer">
+                    <input id="pit-1-hang" type="checkbox">
+                    <span class="checkmark"></span>
+                    <span class="xmark"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

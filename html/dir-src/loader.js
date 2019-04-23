@@ -89,6 +89,8 @@ loader.dataCheck = function(){
                                 settings.load();
 
                                 dash.refreshDash();
+
+                                pit.load();
                             });
                         });
                     });

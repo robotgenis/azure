@@ -2,6 +2,7 @@
 
 //FUNCTIONS
 //load()
+//resendData()
 //saveTeam()
 //saveMatch()
 //saveScouting()
@@ -147,6 +148,30 @@ settings.load = function(){
             document.getElementById("settings-3-blue1").value = "";
             document.getElementById("settings-3-blue2").value = "";
             document.getElementById("settings-3-red1").focus();
+        }
+    });
+}
+
+settings.resendData = function(){
+    $.get( "/check", function( data ) {
+        if(data == "SUCCESS!"){
+            $.get('sql', { cmd: 'data' }, function(data) {
+                var allDataPhone = JSON.parse(localStorage.getItem(submit.backupName));
+                var serverData = JSON.parse(data);
+                for(i = 0; i < allDataPhone.length; i++){
+                    var exist = false;
+                    for(k = 0; k < serverData.length; k ++){
+                        //console.log(allDataPhone[i], JSON.parse(serverData[k]));
+                        if(JSON.stringify(allDataPhone[i]) == serverData[k]){
+                            exist = true;
+                        }
+                    }
+                    if(!exist){
+                        submit.saveDataNoBackup(allDataPhone[i]);
+                        console.log("send", allDataPhone[i]);
+                    }
+                }
+            });
         }
     });
 }

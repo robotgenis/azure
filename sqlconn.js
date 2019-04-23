@@ -193,8 +193,12 @@ exports.refresh = function(complete){
                     exports.send('SELECT number, red1, red2, blue1, blue2 from dbo.scouting', connection, function(results, connection){
                         exports.scouting = results;
                         console.log("SQL - Scouting loaded");
-                        connection.close();
-                        complete();
+                        exports.send('SELECT data from dbo.pitScouting', connection, function(results, connection){
+                            exports.pit = results;
+                            console.log("SQL - Pit loaded");
+                            connection.close();
+                            complete();
+                        });
                     });
                     
                 });
@@ -239,6 +243,14 @@ exports.refreshScouting = function(connection, func){
     exports.send('SELECT number, red1, red2, blue1, blue2 from dbo.scouting', connection, function(results, connection){
         exports.scouting = results;
         console.log("SQL - Scouting loaded");
+        func(connection);
+    });
+}
+
+exports.refreshPit = function(connection, func){
+    exports.send('SELECT data from dbo.pitScouting', connection, function(results, connection){
+        exports.pit = results;
+        console.log("SQL - Pit loaded");
         func(connection);
     });
 }

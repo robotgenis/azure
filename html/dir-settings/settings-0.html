@@ -52,7 +52,9 @@
                         onclick="submit.setSettings('position','blue2');">Blue 2</button>
                     <div class="row" style="height: 4vh"></div>
                     <h1 style="font-size: 4vh">Data</h1>
-                    <button class="btn-success" style="font-size: 4vh;" onclick="">Resend Missing Data</button>
+                    <button class="btn-success" style="font-size: 4vh;" onclick="settings.resendData();">Resend Missing Data</button>
+                    <button class="btn-success" style="font-size: 4vh;" onclick="alert(localStorage.getItem(submit.backupName));">Read Backup</button>
+                    <button class="btn-danger" style="font-size: 4vh;" onclick="if(confirm('Are you sure you want to delete backup data?!?')) localStorage.setItem(submit.backupName, JSON.stringify([]));">Clear Backup</button>
                     <div class="row" style="height: 4vh"></div>
                     <h1 style="font-size: 4vh">Refresh</h1>
                     <button class="btn-success" style="font-size: 4vh;" onclick="loader.dataCheck();">Refresh

@@ -156,7 +156,7 @@ dash.refreshDash = function(){
         }
     }
     //console.log(t, dash.data.ranking);
-    console.log(dash.data.record);
+    //console.log(dash.data.record);
 
     var html = document.getElementById("dash-1-teams-src").innerHTML;
 

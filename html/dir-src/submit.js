@@ -4,6 +4,7 @@
 //loadCookies
 //setSettings(setting, value);
 //updateSettings();
+//saveDataNoBackup(arr)
 //saveData(arr)
 //submitCheck()
 //submitSend()
@@ -27,6 +28,8 @@ submit.loadCookies = function(){
         localStorage.setItem(submit.settingsName, JSON.stringify({position: "all"}));
     }
 
+    console.log(JSON.parse(localStorage.getItem(submit.backupName)));
+
     submit.settings = JSON.parse(localStorage.getItem(submit.settingsName));
 }
 
@@ -45,21 +48,26 @@ submit.updateSettings = function(){
     document.getElementById('menu-scout-scoutingPosition').innerText = settingSelections[submit.settings.position];
 }
 
-submit.saveData = function(arr){ 
+submit.saveDataNoBackup = function(arr){
     var prev = localStorage.getItem(submit.cookieName);
     prev = JSON.parse(prev);
     
     prev[prev.length] = arr;
 
     localStorage.setItem(submit.cookieName, JSON.stringify(prev));
+}
 
+submit.saveData = function(arr){ 
+    submit.saveDataNoBackup(arr);
 
-    var prev = localStorage.getItem(submit.backupName);
-    prev = JSON.parse(prev);
-    
-    prev[prev.length] = arr;
+    if(arr.type == "match"){
+        var prev = localStorage.getItem(submit.backupName);
+        prev = JSON.parse(prev);
+        
+        prev[prev.length] = arr;
 
-    localStorage.setItem(submit.backupName, JSON.stringify(prev));
+        localStorage.setItem(submit.backupName, JSON.stringify(prev));
+    }
 }
 
 submit.submitCheck = function(){
