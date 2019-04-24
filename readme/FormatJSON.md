@@ -88,7 +88,7 @@
         type: "pit",
         teamnumteamnum: 1001
         scouter: {username: Brandon, teamnum: 5029},
-        auto:{crater:true,depot:true,land:true,sample:true,claim:true,park:true,cycles:0},
+        auto:{crater:true,depot:true,land:true,sample:true,claim:true,park:true,minerals:0},
         tele:{depot:15,crater:10},
         end:{hang:true},
     }

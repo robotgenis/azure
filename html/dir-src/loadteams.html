@@ -1,0 +1,39 @@
+
+<script src="/jquery.js"></script>
+<script>
+// $( document ).ready(function() {
+//     $.get("http://detroit.worlds.pennfirst.org/", function(data, status){
+//         document.getElementById("showContent").innerHTML = data;
+//         console.log(data);
+//     });
+// });
+
+function submit(){
+    var t = document.getElementById("text").value;
+    
+    var teams = t.split("\ti\n");
+
+    for(i in teams){
+        var teamnum = teams[i].split("\t")[0];
+
+        console.log(teamnum);
+
+        var teamname = teams[i].split("\t")[1];
+
+        console.log(teamname);
+
+        teamname = teamname.replace(/'/g, '');
+        console.log(teamname);
+        
+        var sendData = {type: "team", teamname: teamname, teamnum: teamnum};
+        $.ajax("/settings", {
+            data : JSON.stringify(sendData),
+            contentType : 'application/json',
+            type : 'POST'}, function(ret){
+                console.log("ITS WORKING NOW!!!");
+            });
+    }
+}
+</script>
+<textarea id="text"></textarea>
+<button onclick="submit();">Submit !!!</button>

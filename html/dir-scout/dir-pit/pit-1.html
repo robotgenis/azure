@@ -1,7 +1,10 @@
 <div class="container-fluid bg-light">
     <div class="row" style="height: 8vh">
         <div class="col-sm-3">
-            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 4vh;" onclick="setTab('pit-0');">Save</button>
+            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 4vh;" onclick="pit.save();">Save</button>
+        </div>
+        <div class="col-sm-6">
+            <button type="button" class="btn" style="height: 100%; width: 25vw; font-size: 4vh;" onclick="setTab('pit-0');">Don't Save</button>
         </div>
     </div>
 </div>
@@ -20,7 +23,7 @@
                 </div>
                 <div class="col-sm-5">
                     <label class="checkboxcontainer">
-                        <input id="pit-1-park" type="checkbox">
+                        <input id="pit-1-crater" type="checkbox">
                         <span class="checkmark"></span>
                         <span class="xmark"></span>
                     </label>
@@ -33,7 +36,7 @@
                 </div>
                 <div class="col-sm-5">
                     <label class="checkboxcontainer">
-                        <input id="pit-1-park" type="checkbox">
+                        <input id="pit-1-depot" type="checkbox">
                         <span class="checkmark"></span>
                         <span class="xmark"></span>
                     </label>
