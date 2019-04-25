@@ -537,9 +537,9 @@ match.matchSubmit = function(){
     
     var addScore = 0;
     if(Math.abs(match.data.score.total - match.data.scouter.prediction) <= 40){
-        addScore = match.data.scouter.bet;
+        addScore = 10;
     }else{
-        addScore = -match.data.scouter.bet;
+        addScore = 0;
     }
     
 
